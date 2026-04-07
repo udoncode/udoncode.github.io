@@ -107,7 +107,6 @@ button {
 }
 
 .chip {
-  display: inline-block;
   padding: 0.25rem 0.75rem;
   border: 1px solid #1d4dff;
   border-radius: 999px;
