@@ -1,6 +1,6 @@
 <script setup>
-import HoverPreview from '@/components/HoverPreview.vue'
-import ArchiveList from '@/components/ArchiveList.vue'
+import HoverPreview from '@/components/common/HoverPreview.vue'
+import ArchiveList from '@/components/home/ArchiveList.vue'
 import { ref } from 'vue'
 
 defineProps({

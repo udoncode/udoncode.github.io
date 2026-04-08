@@ -101,14 +101,14 @@ onMounted(() => {
         <!-- 메인 타이틀 -->
         <div class="reveal-overflow block">
           <div
-            class="reveal-text font-hero font-bold text-[14vw] md:text-[9vw] lg:text-[6.5vw] leading-tight tracking-[-0.05em] whitespace-nowrap px-4 py-2 transform translate-y-[110%]"
+            class="reveal-text font-hero font-bold text-[clamp(4.5rem,2.5rem+7vw,7.5rem)] leading-tight tracking-[-0.05em] whitespace-nowrap px-4 py-2 transform translate-y-[110%]"
           >
             아른한 기억
           </div>
         </div>
         <div class="reveal-overflow block -mt-4 md:-mt-6 lg:-mt-8">
           <div
-            class="reveal-text font-hero font-bold text-[18vw] md:text-[13vw] lg:text-[8vw] leading-none tracking-[-0.08em] whitespace-nowrap px-4 py-2 transform translate-y-[110%]"
+            class="reveal-text font-hero font-bold text-[clamp(5rem,1rem+12vw,10rem)] leading-none tracking-[-0.08em] whitespace-nowrap px-4 py-2 transform translate-y-[110%]"
           >
             또렷한 기록
           </div>
@@ -118,14 +118,14 @@ onMounted(() => {
         <div class="reveal-overflow block mt-6 md:mt-10">
           <div class="reveal-text flex flex-col items-center gap-6 transform translate-y-[110%]">
             <p
-              class="max-w-[680px] font-hangang uppercase text-[4vw] md:text-[2.5vw] lg:text-[1.5vw] lg:mt-2 leading-[1.45]"
+              class="max-w-[680px] font-hangang uppercase text-[clamp(1.2rem,0.8rem+1.5vw,2rem)] lg:mt-2 leading-[1.45]"
             >
               생각을 포기하면 그 순간이 바로 시합 종료.
             </p>
 
             <div class="flex gap-6 font-mono text-xs uppercase leading-relaxed text-blue-deep/75">
-              <p>Issue 01</p>
-              <p>Visual Index / {{ year }}</p>
+              <p>Backend Developer</p>
+              <p>based in South Korea</p>
             </div>
           </div>
         </div>

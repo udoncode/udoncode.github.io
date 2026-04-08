@@ -2,6 +2,9 @@
 import LogoImage from '@/svg/LogoImage.vue'
 import gsap from 'gsap'
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { useCursor } from './CustomCursor.vue'
+
+const { setHover, clearHover } = useCursor()
 
 const isMenuOpen = ref(false)
 const menuOverlay = ref(null)
@@ -96,13 +99,20 @@ const closeMenu = () => {
   <nav class="fixed top-0 w-full z-50 border-b border-blue-main bg-bg-soft/90 backdrop-blur-md">
     <div class="flex justify-between items-center p-4 lg:px-8">
       <!-- 로고 -->
-      <a href="/" class="inline-block">
+      <RouterLink to="/" class="inline-block">
         <LogoImage />
-      </a>
+      </RouterLink>
       <div class="flex gap-6 font-mono text-xs uppercase items-center">
-        <a v-for="link in navLinks" :key="link.label" :href="link.href" class="hidden sm:block">
+        <RouterLink
+          v-for="link in navLinks"
+          :key="link.label"
+          :to="link.href"
+          class="hidden sm:block hover:underline"
+          @mouseenter="setHover(link.label)"
+          @mouseleave="clearHover"
+        >
           {{ link.label }}
-        </a>
+        </RouterLink>
         <button class="chip sm:hidden hover:bg-blue-main hover:text-bg-soft" @click="openMenu">
           Menu
         </button>
@@ -128,14 +138,14 @@ const closeMenu = () => {
            :key="link.label"
            class="overflow-hidden inline-block"
       >
-        <a
+        <RouterLink
           :ref="setMobileLinkRef"
-          :href="link.href"
+          :to="link.href"
           class="block font-hangang text-5xl text-bg-soft hover:italic transition-all"
           @click="closeMenu"
         >
           {{ link.label }}
-        </a>
+        </RouterLink>
       </div>
     </nav>
 
