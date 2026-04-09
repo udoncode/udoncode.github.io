@@ -26,7 +26,7 @@ import AnimatedScribble from '@/svg/AnimatedScribble.vue'
           class="relative z-10 mt-auto text-blue-main transition-all duration-500 group-hover:-translate-y-2"
         >
           <h3
-            class="font-hangang text-3xl lg:text-4xl leading-tight font-medium group-hover:italic transition-all duration-500"
+            class="font-namsan text-3xl lg:text-4xl leading-tight font-medium group-hover:italic transition-all duration-500"
           >
             배울 건<br />끝이 없고
           </h3>
@@ -50,7 +50,7 @@ import AnimatedScribble from '@/svg/AnimatedScribble.vue'
           class="relative z-10 mt-auto text-blue-main transition-all duration-500 group-hover:-translate-y-2"
         >
           <h3
-            class="font-hangang text-3xl lg:text-4xl leading-tight font-medium group-hover:italic transition-all duration-500"
+            class="font-namsan text-3xl lg:text-4xl leading-tight font-medium group-hover:italic transition-all duration-500"
           >
             시간은<br />멈추지 않으니
           </h3>
@@ -74,7 +74,7 @@ import AnimatedScribble from '@/svg/AnimatedScribble.vue'
           class="relative z-10 mt-auto text-blue-main transition-all duration-500 group-hover:-translate-y-2"
         >
           <h3
-            class="font-hangang text-3xl lg:text-4xl leading-tight font-medium group-hover:italic transition-all duration-500"
+            class="font-namsan text-3xl lg:text-4xl leading-tight font-medium group-hover:italic transition-all duration-500"
           >
             부지런히<br />뭐라도 끄적이자.
           </h3>

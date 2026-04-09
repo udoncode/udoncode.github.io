@@ -106,7 +106,7 @@ onMounted(() => {
             아른한 기억
           </div>
         </div>
-        <div class="reveal-overflow block -mt-4 md:-mt-6 lg:-mt-8">
+        <div class="reveal-overflow block pb-2 -mt-4 md:-mt-6 lg:-mt-8">
           <div
             class="reveal-text font-hero font-bold text-[clamp(4.5rem,1rem+12vw,10rem)] leading-none tracking-[-0.08em] whitespace-nowrap px-4 py-2 transform translate-y-[110%]"
           >
@@ -115,7 +115,7 @@ onMounted(() => {
         </div>
 
         <!-- 서브 텍스트 -->
-        <div class="reveal-overflow block mt-6 md:mt-10">
+        <div class="reveal-overflow block mt-3 md:mt-10">
           <div class="reveal-text flex flex-col items-center gap-6 transform translate-y-[110%]">
             <p
               class="max-w-[680px] font-hangang uppercase text-[clamp(1.2rem,0.8rem+1.5vw,2rem)] lg:mt-2 leading-[1.45]"

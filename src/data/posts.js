@@ -12,13 +12,11 @@ const posts = Object.entries(modules).map(([path, rawContent]) => {
   return {
     slug: data.slug,
     title: data.title,
-    date: data.date.replaceAll('-', '.'),
+    date: data.date,
     category: data.category,
     summary: data.summary,
     path,
   }
 })
-
-posts.sort((a, b) => new Date(b.date.replaceAll('.', '-')) - new Date(a.date.replaceAll('.', '-')))
 
 export { posts }
