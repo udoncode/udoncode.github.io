@@ -1,7 +1,5 @@
 <script setup>
-import HoverPreview from '@/components/common/HoverPreview.vue'
-import ArchiveList from '@/components/home/ArchiveList.vue'
-import { ref } from 'vue'
+import ArchiveIndex from '@/components/home/ArchiveIndex.vue'
 
 defineProps({
   posts: {
@@ -9,25 +7,6 @@ defineProps({
     required: true,
   },
 })
-
-const hoveredPost = ref(null)
-const isPreviewVisible = ref(false)
-const previewX = ref(0)
-const previewY = ref(0)
-
-const handlePostEnter = ({ post, event }) => {
-  hoveredPost.value = post
-  isPreviewVisible.value = true
-  previewX.value = event.clientX + 100
-  previewY.value = event.clientY + 50
-}
-const handlePostLeave = () => {
-  isPreviewVisible.value = false
-}
-const handlePostMove = (event) => {
-  previewX.value = event.clientX + 100
-  previewY.value = event.clientY + 50
-}
 </script>
 
 <template>
@@ -35,13 +14,7 @@ const handlePostMove = (event) => {
     <h2 class="font-namsan font-extrabold text-title mb-12 uppercase border-b-2 border-blue-main pb-4">
       아카이브 인덱스
     </h2>
-    <ArchiveList
-      :posts="posts"
-      @post-enter="handlePostEnter"
-      @post-leave="handlePostLeave"
-      @post-move="handlePostMove"
-    />
-    <HoverPreview :visible="isPreviewVisible" :post="hoveredPost" :x="previewX" :y="previewY" />
+    <ArchiveIndex :posts="posts" />
   </section>
 </template>
 

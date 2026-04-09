@@ -6,12 +6,6 @@ import AnimatedScribble from '@/svg/AnimatedScribble.vue'
 
 <template>
   <section class="mt-32 px-4 lg:px-8 pt-12 border-t border-blue-main">
-    <h2
-      class="font-namsan font-extrabold text-title mb-12 uppercase border-b-2 border-blue-main pb-4 text-blue-main"
-    >
-      마음가짐
-    </h2>
-
     <div
       class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-blue-main border border-blue-main"
     >

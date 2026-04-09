@@ -1,10 +1,11 @@
 <script setup>
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import ArchiveList from '@/components/archive/ArchiveList.vue'
 </script>
 
 <template>
   <DefaultLayout>
-    <h1 class="text-4xl font-bold">Archive</h1>
+    <ArchiveList />
   </DefaultLayout>
 </template>
 

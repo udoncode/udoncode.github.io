@@ -2,6 +2,9 @@
 import { onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useCursor } from './CustomCursor.vue'
+
+const { setHover, clearHover } = useCursor()
 
 // GSAP ScrollTrigger 사용을 위한 등록
 gsap.registerPlugin(ScrollTrigger)
@@ -39,19 +42,12 @@ onMounted(() => {
         </p>
         <div class="flex gap-4 font-mono text-xs uppercase">
           <a
-            href="/public"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hover:underline underline-offset-4 interactive z-10"
-            data-cursor="LINK"
-            >Twitter</a
-          >
-          <a
             href="#"
             target="_blank"
             rel="noopener noreferrer"
             class="hover:underline underline-offset-4 interactive z-10"
-            data-cursor="LINK"
+            @mouseenter="setHover('LINK')"
+            @mouseleave="clearHover"
             >Github</a
           >
           <a
@@ -59,7 +55,8 @@ onMounted(() => {
             target="_blank"
             rel="noopener noreferrer"
             class="hover:underline underline-offset-4 interactive z-10"
-            data-cursor="LINK"
+            @mouseenter="setHover('LINK')"
+            @mouseleave="clearHover"
             >Email</a
           >
         </div>

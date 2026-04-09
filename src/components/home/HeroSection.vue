@@ -101,14 +101,14 @@ onMounted(() => {
         <!-- 메인 타이틀 -->
         <div class="reveal-overflow block">
           <div
-            class="reveal-text font-hero font-bold text-[clamp(4.5rem,2.5rem+7vw,7.5rem)] leading-tight tracking-[-0.05em] whitespace-nowrap px-4 py-2 transform translate-y-[110%]"
+            class="reveal-text font-hero font-bold text-[clamp(4rem,2.5rem+7vw,7.5rem)] leading-tight tracking-[-0.05em] whitespace-nowrap px-4 py-2 transform translate-y-[110%]"
           >
             아른한 기억
           </div>
         </div>
         <div class="reveal-overflow block -mt-4 md:-mt-6 lg:-mt-8">
           <div
-            class="reveal-text font-hero font-bold text-[clamp(5rem,1rem+12vw,10rem)] leading-none tracking-[-0.08em] whitespace-nowrap px-4 py-2 transform translate-y-[110%]"
+            class="reveal-text font-hero font-bold text-[clamp(4.5rem,1rem+12vw,10rem)] leading-none tracking-[-0.08em] whitespace-nowrap px-4 py-2 transform translate-y-[110%]"
           >
             또렷한 기록
           </div>

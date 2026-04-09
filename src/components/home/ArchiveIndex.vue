@@ -1,5 +1,7 @@
 <script setup>
-const emit = defineEmits(['post-enter', 'post-leave', 'post-move'])
+import { useCursor } from '@/components/common/CustomCursor.vue'
+
+const { setHover, clearHover, setPreview, clearPreview } = useCursor()
 
 defineProps({
   posts: {
@@ -7,16 +9,6 @@ defineProps({
     required: true,
   },
 })
-
-const handleEnter = (post, event) => {
-  emit('post-enter', { post, event })
-}
-const handleLeave = () => {
-  emit('post-leave')
-}
-const handleMove = (event) => {
-  emit('post-move', event)
-}
 </script>
 
 <template>
@@ -25,9 +17,8 @@ const handleMove = (event) => {
       v-for="post in posts"
       :key="post.slug"
       class="archive-item group relative border-b border-blue-line py-6 interactive"
-      @mouseenter="handleEnter(post, $event)"
-      @mouseleave="handleLeave"
-      @mousemove="handleMove"
+      @mouseenter="setPreview(post)"
+      @mouseleave="clearPreview"
     >
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h3
@@ -51,6 +42,8 @@ const handleMove = (event) => {
   </ul>
   <div class="mt-8 text-center">
     <button
+      @mouseenter="setHover('LINK')"
+      @mouseleave="clearHover"
       class="font-mono text-xs uppercase border-b border-blue-main text-blue-main pb-1 hover:italic interactive"
     >
       View All Archives

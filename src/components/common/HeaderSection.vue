@@ -73,7 +73,7 @@ const closeMenu = () => {
     onComplete: () => {
       isMenuOpen.value = false
       mobileLinks.value = []
-    }
+    },
   })
 
   closeTl
@@ -84,12 +84,14 @@ const closeMenu = () => {
       stagger: 0.05,
       ease: 'power2.in',
     })
-    .to(menuOverlay.value, {
+    .to(
+      menuOverlay.value,
+      {
         yPercent: -100,
         duration: 0.5,
         ease: 'power4.inOut',
       },
-      '-=0.15'
+      '-=0.15',
     )
 }
 </script>
@@ -99,7 +101,12 @@ const closeMenu = () => {
   <nav class="fixed top-0 w-full z-50 border-b border-blue-main bg-bg-soft/90 backdrop-blur-md">
     <div class="flex justify-between items-center p-4 lg:px-8">
       <!-- 로고 -->
-      <RouterLink to="/" class="inline-block">
+      <RouterLink
+        to="/"
+        class="inline-block"
+        @mouseenter="setHover('HOME')"
+        @mouseleave="clearHover"
+      >
         <LogoImage />
       </RouterLink>
       <div class="flex gap-6 font-mono text-xs uppercase items-center">
@@ -108,7 +115,7 @@ const closeMenu = () => {
           :key="link.label"
           :to="link.href"
           class="hidden sm:block hover:underline"
-          @mouseenter="setHover(link.label)"
+          @mouseenter="setHover('LINK')"
           @mouseleave="clearHover"
         >
           {{ link.label }}
@@ -134,10 +141,7 @@ const closeMenu = () => {
     </button>
 
     <nav class="flex flex-col gap-6 text-center">
-      <div v-for="link in mobileMenuItems"
-           :key="link.label"
-           class="overflow-hidden inline-block"
-      >
+      <div v-for="link in mobileMenuItems" :key="link.label" class="overflow-hidden inline-block">
         <RouterLink
           :ref="setMobileLinkRef"
           :to="link.href"
