@@ -31,7 +31,14 @@ onUnmounted(() => {
 })
 
 const setMobileLinkRef = (el) => {
-  if (el) mobileLinks.value.push(el)
+  if (el) {
+    // 뷰 인스턴스(RouterLink)가 아닌 실제 HTML DOM 요소($el)에 접근
+    const domEl = el.$el || el
+    // 중복 삽입 방지
+    if (!mobileLinks.value.includes(domEl)) {
+      mobileLinks.value.push(domEl)
+    }
+  }
 }
 const openMenu = async () => {
   isMenuOpen.value = true
