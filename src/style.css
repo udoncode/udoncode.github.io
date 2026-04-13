@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-bg-soft: #FCFCFA;
@@ -17,6 +18,7 @@
   --text-title: clamp(2.5rem, 5vw, 5rem);
 }
 
+/* 폰트 설정 */
 @font-face {
   font-family: "Diphylleia";
   src: url("./assets/fonts/Diphylleia-Regular.woff2") format("woff2");
@@ -80,14 +82,87 @@
   font-weight: 100 900;
 }
 
-
+/* Base Styles */
 body {
-  background-color: #fcfcfa;
-  color: #1d4dff;
+  background-color: var(--color-bg-soft);
+  color: var(--color-blue-main);
+  font-family: var(--font-batang);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
+/* =============================================
+   Tailwind Typography (.prose) 테마 덮어쓰기
+   =============================================
+*/
+.prose {
+  /* 글자색, 제목색, 인용구 색상 커스텀 */
+  --tw-prose-body: var(--color-blue-deep);
+  --tw-prose-headings: var(--color-blue-main);
+  --tw-prose-links: var(--color-blue-main);
+  --tw-prose-bold: var(--color-blue-main);
+  --tw-prose-counters: var(--color-blue-main);
+  --tw-prose-bullets: var(--color-blue-main);
+  --tw-prose-hr: var(--color-blue-line);
+  --tw-prose-quotes: var(--color-blue-deep);
+  --tw-prose-quote-borders: var(--color-blue-main);
+  --tw-prose-captions: var(--color-text-mute);
+  --tw-prose-code: var(--color-blue-main);
+  /*--tw-prose-pre-code: var(--color-blue-deep);*/
+  /*--tw-prose-pre-bg: rgba(29, 77, 255, 0.04);*/
+  --tw-prose-th-borders: var(--color-blue-line);
+  --tw-prose-td-borders: var(--color-blue-line);
+}
+
+/* 마크다운 내부 폰트 세부 조정 */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5 {
+  font-family: var(--font-namsan);
+  font-weight: 800;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+}
+
+/* 인라인 코드(pre 태그 내부가 아닌 code)에만 배경색과 패딩 적용 */
+.prose :not(pre) > code {
+  background-color: rgba(29, 77, 255, 0.04);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* 코드 블록(pre 태그 내부의 code)은 이중 배경색 제거 */
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* 플러그인이 코드 블록 앞뒤로 붙이는 기본 벡틱(`) 제거 */
+.prose code::before, .prose code::after {
+  content: none;
+}
+
+/* 이미지 캡션 */
+.prose figcaption,
+.prose p:has(img) em {
+  display: block;
+  text-align: center;
+  font-style: normal;
+  font-size: 0.8rem;
+  color: var(--color-text-mute);
+  letter-spacing: 0.02em;
+}
+
+/* 표 헤더 */
+.prose th {
+  font-family: var(--font-namsan);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+
+/* 기타 UI 요소들 */
 .interactive,
 a,
 button {
@@ -99,24 +174,26 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-  background: #fcfcfa;
+  background: var(--color-bg-soft);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(29, 77, 255, 0.2);
+  background: var(--color-blue-line);
 }
 
 .chip {
   padding: 0.25rem 0.75rem;
-  border: 1px solid #1d4dff;
+  border: 1px solid var(--color-blue-main);
   border-radius: 999px;
-  font-family: "JetBrains Mono", "CloudSansCode", monospace;
+  font-family: var(--font-mono);
   font-size: 0.75rem;
   text-transform: uppercase;
   transition: all 0.3s ease;
 }
 
-/*.chip:hover {*/
-/*  background-color: #1d4dff;*/
-/*  color: #fcfcfa;*/
-/*}*/
+/*
+.chip:hover {
+  background-color: var(--color-blue-main);
+  color: var(--color-bg-soft);
+}
+*/

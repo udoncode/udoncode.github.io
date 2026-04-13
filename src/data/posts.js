@@ -7,7 +7,7 @@ const modules = import.meta.glob('../posts/**/*.md', {
 })
 
 const posts = Object.entries(modules).map(([path, rawContent]) => {
-  const { data } = matter(rawContent)
+  const { data, content } = matter(rawContent)
 
   return {
     slug: data.slug,
@@ -15,6 +15,7 @@ const posts = Object.entries(modules).map(([path, rawContent]) => {
     date: data.date,
     category: data.category,
     summary: data.summary,
+    content,
     path,
   }
 })
