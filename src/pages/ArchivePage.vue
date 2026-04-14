@@ -1,12 +1,9 @@
 <script setup>
-import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import ArchiveList from '@/components/archive/ArchiveList.vue'
 </script>
 
 <template>
-  <DefaultLayout>
-    <ArchiveList />
-  </DefaultLayout>
+  <ArchiveList />
 </template>
 
 <style scoped></style>

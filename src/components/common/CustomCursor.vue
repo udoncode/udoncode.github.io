@@ -45,10 +45,25 @@ export const useCursor = () => {
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import gsap from 'gsap'
+import { useRoute } from 'vue-router'
 
 // DOM 요소 접근 ref
 const cursorRef = ref(null)
 const previewRef = ref(null)
+
+// 라우트 객체 가져오기
+const route = useRoute()
+
+// 경로가 변경될 때마다 커서 상태 초기화
+watch(
+  () => route.path,
+  () => {
+    globalCursorState.showPreview = false
+    globalCursorState.isHovered = false
+    globalCursorState.label = ''
+    globalCursorState.post = null
+  },
+)
 
 // gsap quickTo 함수
 let cursorX, cursorY, previewX, previewY

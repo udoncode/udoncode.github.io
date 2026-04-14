@@ -6,13 +6,9 @@ import CustomCursor from '@/components/common/CustomCursor.vue'
 
 <template>
   <CustomCursor />
-  <div class="min-h-screen flex flex-col">
+  <div class="min-h-dvh flex flex-col">
     <HeaderSection />
-    <main class="flex-grow w-full">
-      <slot />
-    </main>
+    <slot />
     <FooterSection />
   </div>
 </template>
-
-<style scoped></style>
