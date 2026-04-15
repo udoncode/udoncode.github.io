@@ -108,8 +108,8 @@ body {
   --tw-prose-quote-borders: var(--color-blue-main);
   --tw-prose-captions: var(--color-text-mute);
   --tw-prose-code: var(--color-blue-main);
-  /*--tw-prose-pre-code: var(--color-blue-deep);*/
-  /*--tw-prose-pre-bg: rgba(29, 77, 255, 0.04);*/
+  --tw-prose-pre-code: var(--color-blue-deep);
+  --tw-prose-pre-bg: rgba(29, 77, 255, 0.04);
   --tw-prose-th-borders: var(--color-blue-line);
   --tw-prose-td-borders: var(--color-blue-line);
 }
