@@ -163,6 +163,10 @@ body {
 
 
 /* 기타 UI 요소들 */
+* {
+  cursor: none !important;
+}
+
 .interactive,
 a,
 button {
@@ -179,6 +183,18 @@ button {
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-blue-line);
+}
+
+/* 기본 텍스트 드래그 하이라이트 색상 변경 */
+::selection {
+  background-color: theme('colors.blue.main');
+  color: theme('colors.bg.soft');
+}
+
+/* 파이어폭스 브라우저 호환성을 위한 추가 */
+::-moz-selection {
+  background-color: theme('colors.blue.main');
+  color: theme('colors.bg.soft');
 }
 
 .chip {

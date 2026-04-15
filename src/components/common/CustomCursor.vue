@@ -4,6 +4,7 @@ import { reactive } from 'vue'
 // 전역 커서 상태 관리
 const globalCursorState = reactive({
   isHovered: false,
+  isTextHovered: false,
   label: '',
   showPreview: false,
   post: null,
@@ -22,6 +23,10 @@ export const useCursor = () => {
     globalCursorState.label = ''
   }
 
+  const setTextHover = (state = true) => {
+    globalCursorState.isTextHovered = state
+  }
+
   const setPreview = (post) => {
     globalCursorState.showPreview = true
     globalCursorState.post = post
@@ -36,6 +41,7 @@ export const useCursor = () => {
     state: globalCursorState,
     setHover,
     clearHover,
+    setTextHover,
     setPreview,
     clearPreview,
   }
@@ -60,13 +66,24 @@ watch(
   () => {
     globalCursorState.showPreview = false
     globalCursorState.isHovered = false
+    globalCursorState.isTextHovered = false
     globalCursorState.label = ''
     globalCursorState.post = null
+    lastTarget = null // 타겟 캐시도 초기화
+  },
+)
+
+// 호버 상태가 켜지면 텍스트 드래그 커서는 강제 종료 (우선순위 부여)
+watch(
+  () => globalCursorState.isHovered,
+  (isHovered) => {
+    if (isHovered) globalCursorState.isTextHovered = false
   },
 )
 
 // gsap quickTo 함수
 let cursorX, cursorY, previewX, previewY
+let lastTarget = null // 이전 마우스 타겟 캐싱
 
 // 마우스 추적 핸들러
 const handleMouseMove = (e) => {
@@ -84,6 +101,67 @@ const handleMouseMove = (e) => {
     previewX(e.clientX + 140)
     previewY(e.clientY + 160)
   }
+
+  let target = e.target
+
+  if (target && target !== lastTarget) {
+    lastTarget = target
+
+    // 이미 명시적인 호버(isHovered) 이벤트 발생 중이라면 텍스트 감지 무시
+    if (globalCursorState.isHovered) {
+      globalCursorState.isTextHovered = false
+      return
+    }
+
+    // 1. 상호작용 요소 감지 (이 위에서는 텍스트 커서 금지)
+    const isInteractive = target.closest(
+      'a, button, [role="button"], input[type="button"], input[type="submit"], svg, .select-none',
+    )
+
+    if (isInteractive) {
+      globalCursorState.isTextHovered = false
+    } else {
+      // 2. 텍스트를 포함하는 태그인지 검사
+      const textTags = [
+        'P',
+        'H1',
+        'H2',
+        'H3',
+        'H4',
+        'H5',
+        'H6',
+        'SPAN',
+        'LI',
+        'TD',
+        'TH',
+        'LABEL',
+        'INPUT',
+        'TEXTAREA',
+        'STRONG',
+        'EM',
+        'B',
+        'I',
+      ]
+      const isTextElement = textTags.includes(target.tagName)
+
+      // 자식 노드 중에 직접적인 텍스트가 있는지 확인
+      let hasDirectText = false
+      if (!isTextElement && target.childNodes) {
+        for (let i = 0; i < target.childNodes.length; i++) {
+          const node = target.childNodes[i]
+          if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim().length > 0) {
+            hasDirectText = true
+            break
+          }
+        }
+      }
+
+      // 명시적으로 커서를 텍스트로 지정한 경우
+      const isDataCursorText = target.dataset && target.dataset.cursor === 'text'
+
+      globalCursorState.isTextHovered = isTextElement || hasDirectText || isDataCursorText
+    }
+  }
 }
 
 onMounted(() => {
@@ -96,15 +174,14 @@ onMounted(() => {
     gsap.set(previewRef.value, { opacity: 0, scale: 0.9, xPercent: -50, yPercent: -50 })
 
     // 부드러운 움직임
-    cursorX = gsap.quickTo(cursorRef.value, 'left', { duration: 0.2, ease: 'power3' })
-    cursorY = gsap.quickTo(cursorRef.value, 'top', { duration: 0.2, ease: 'power3' })
+    cursorX = gsap.quickTo(cursorRef.value, 'left', { duration: 0.15, ease: 'power3' })
+    cursorY = gsap.quickTo(cursorRef.value, 'top', { duration: 0.15, ease: 'power3' })
 
     previewX = gsap.quickTo(previewRef.value, 'left', { duration: 0.5, ease: 'power3' })
     previewY = gsap.quickTo(previewRef.value, 'top', { duration: 0.5, ease: 'power3' })
 
-    // 이벤트 등록 + 기본 커서 숨기기
+    // 이벤트 등록
     window.addEventListener('mousemove', handleMouseMove)
-    document.body.style.cursor = 'none'
   }
 })
 
@@ -138,7 +215,6 @@ watch(
 onBeforeUnmount(() => {
   if (!globalCursorState.isTouchDevice) {
     window.removeEventListener('mousemove', handleMouseMove)
-    document.body.style.cursor = 'auto'
   }
 
   if (previewRef.value) gsap.killTweensOf(previewRef.value)
@@ -148,29 +224,43 @@ onBeforeUnmount(() => {
 
 <template>
   <div>
-    <!-- 커스텀 커서 -->
+    <!-- 커스텀 커서 루트 -->
     <div
       ref="cursorRef"
-      class="fixed top-0 left-0 border border-blue-main rounded-full pointer-events-none z-9999 flex items-center justify-center transition-[width,height,background-color,opacity,backdrop-filter] duration-300 ease-out cursor-outline"
-      :class="
+      class="fixed top-0 left-0 pointer-events-none z-[9999] flex items-center justify-center transition-all duration-200 ease-out"
+      :class="[
+        /* 단일 요소가 상황에 따라 모양과 테두리를 바뀜 */
         globalCursorState.isHovered
-          ? 'w-[60px] h-[60px] bg-blue-main/10 backdrop-blur-[2px]'
-          : 'w-6 h-6'
-      "
+          ? 'w-[60px] h-[60px] bg-blue-main/10 backdrop-blur-[2px] border border-blue-main rounded-full shadow-[0_0_0_1px_rgba(252,252,250,0.5),inset_0_0_0_1px_rgba(252,252,250,0.5)]'
+          : globalCursorState.isTextHovered
+            ? 'w-[1.5px] h-[24px] bg-blue-main border-transparent rounded-[1px] shadow-[0_0_0_1px_rgba(252,252,250,0.6)]'
+            : 'w-6 h-6 border border-blue-main rounded-full shadow-[0_0_0_1px_rgba(252,252,250,0.5),inset_0_0_0_1px_rgba(252,252,250,0.5)]',
+      ]"
       :style="{
         display: globalCursorState.isTouchDevice ? 'none' : 'flex',
         opacity: globalCursorState.showPreview ? 0 : 1,
       }"
     >
-      <!-- 정중앙 포인터 (호버 시 글자를 위해 숨김) -->
+      <!-- 정중앙 포인터 점 (텍스트나 호버 상태일 땐 완전히 숨김) -->
       <div
-        class="absolute w-1.5 h-1.5 bg-blue-main rounded-full dot-outline transition-all duration-300"
-        :class="globalCursorState.isHovered ? 'opacity-0 scale-50' : 'opacity-100 scale-100'"
+        class="absolute w-1.5 h-1.5 bg-blue-main rounded-full transition-all duration-200 shadow-[0_0_0_1px_rgba(252,252,250,0.5)]"
+        :class="
+          globalCursorState.isHovered || globalCursorState.isTextHovered
+            ? 'opacity-0 scale-0'
+            : 'opacity-100 scale-100'
+        "
       ></div>
 
       <!-- 호버 시 나타나는 텍스트 라벨 -->
       <span
-        class="absolute font-mono text-[10px] text-blue-main font-bold transition-opacity duration-300 text-outline-white"
+        class="absolute font-mono text-[10px] text-blue-main font-bold transition-opacity duration-200"
+        style="
+          text-shadow:
+            -1px -1px 0 rgba(252, 252, 250, 0.6),
+            1px -1px 0 rgba(252, 252, 250, 0.6),
+            -1px 1px 0 rgba(252, 252, 250, 0.6),
+            1px 1px 0 rgba(252, 252, 250, 0.6);
+        "
         :class="globalCursorState.isHovered ? 'opacity-100' : 'opacity-0'"
       >
         {{ globalCursorState.label }}
@@ -204,25 +294,3 @@ onBeforeUnmount(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-/* 커서 테두리 바깥과 안쪽 그림자 */
-.cursor-outline {
-  box-shadow:
-    0 0 0 1px rgba(252, 252, 250, 0.5),
-    inset 0 0 0 1px rgba(252, 252, 250, 0.5);
-}
-
-/* 중앙 점을 위한 하얀색 아웃라인 */
-.dot-outline {
-  box-shadow: 0 0 0 1px rgba(252, 252, 250, 0.5);
-}
-
-.text-outline-white {
-  text-shadow:
-    -1px -1px 0 rgba(252, 252, 250, 0.6),
-    1px -1px 0 rgba(252, 252, 250, 0.6),
-    -1px 1px 0 rgba(252, 252, 250, 0.6),
-    1px 1px 0 rgba(252, 252, 250, 0.6);
-}
-</style>
