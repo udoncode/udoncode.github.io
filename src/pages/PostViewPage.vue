@@ -17,6 +17,20 @@ const post = computed(() => {
       p.category?.toLowerCase() === route.params.category?.toLowerCase(),
   )
 })
+
+// 예상 읽기 소요 시간 계산
+const readingTime = computed(() => {
+  if (!post.value || !post.value.content) return 0
+
+  // 공백을 기준으로 텍스트를 분라하여 대략적인 단어 수 계산
+  const wordCount = post.value.content.trim().split(/\s+/).length
+
+  // 평균 읽기 속도: 분당 200 단어
+  const wordsPerMinute = 200
+
+  // 소수점 올림 처리하여 최소 1분 단위로 표시
+  return Math.ceil(wordCount / wordsPerMinute)
+})
 </script>
 
 <template>
@@ -40,7 +54,7 @@ const post = computed(() => {
           <div>
             <span class="text-blue-main font-bold">UPDATED:</span> {{ formatDate(post.date) }}
           </div>
-          <div><span class="text-blue-main font-bold">DOC ID:</span> {{ post.slug }}</div>
+          <div><span class="text-blue-main font-bold">READ TIME: </span>{{ readingTime }} min read</div>
         </div>
       </header>
 
