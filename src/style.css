@@ -124,6 +124,11 @@ body {
   line-height: 2.3rem;
 }
 
+.prose b {
+  color: var(--color-blue-main);
+  font-weight: bold;
+}
+
 .prose code {
   font-family: var(--font-mono);
 }
