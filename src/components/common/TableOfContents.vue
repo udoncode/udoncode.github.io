@@ -15,18 +15,35 @@ const initTOC = () => {
   headings.value = []
   const elements = document.querySelectorAll('.prose h1, .prose h2, .prose h3')
 
+  // 중복 ID 카운트 추적용
+  const idMap = {}
+
   // 목차 목록 생성 및 배열 삽입 (id, text, level)
-  elements.forEach((el) => {
-    if (!el.id) {
-      el.id =
-        el.innerText
-          .trim() // 공백 제거
-          .replace(/\s+/g, '-') // 띄어쓰기를 -로 바꾸기
-          .replace(/[^\w-가-힣]/g, '') // 특수문자 제거
-          .toLowerCase() || 'section' // 소문자 변환
+  elements.forEach((el, index) => {
+    // id 생성
+    let newId = el.innerText
+      .trim()
+      .replace(/\s+/g, '-') // 띄어쓰기를 -로 바꾸기
+      .replace(/[^\w가-힣-]/g, '') // 영문, 숫자, 하이픈만 남기고 모두 제거
+      .toLowerCase()
+
+    // 텍스트가 특수문자로만 이루어져 있는 경우 대비
+    if (!newId) newId = `section-${index}`
+
+    // 제목이 같은 요소 처리
+    if (idMap[newId]) {
+      idMap[newId]++ // 카운트 증가
+      newId = `${newId}-${idMap[newId]}`
+    } else {
+      idMap[newId] = 1
     }
+
+    // 실제 DOM 요소의 ID를 새로 만든 고유 ID로 덮어쓰기
+    el.id = newId
+
+    // 목차 목록에 추가
     headings.value.push({
-      id: el.id,
+      id: newId,
       text: el.innerText,
       level: parseInt(el.tagName.replace('H', '')),
     })
