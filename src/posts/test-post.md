@@ -4,7 +4,7 @@ subtitle: ELEMENTS
 date: 2026-11-12
 category: 개발
 sub: 도구
-tags: [git, claude]
+tags: [git, 마크다운]
 ---
 
 ## Paragraph
