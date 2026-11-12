@@ -1,15 +1,16 @@
 // src/posts/**/*.md 의 머리말(metadata)만 빌드 때 정적으로 읽어 글 목록과 카테고리를 만든다.
-// 머리말: title, date(YYYY-MM-DD), category, sub
+// 머리말: title, date(YYYY-MM-DD), category, sub, tags(문자열 배열, 생략 가능)
 // readMin(읽는 시간)은 빌드 때 remark 플러그인(src/lib/markdown/reading-time.ts)이 넣는다.
 // 본문은 가져오지 않으므로 페이지 JS에 포함되지 않는다.
 import { CATEGORY_ORDER } from '#lib/category-order.ts';
 
 export type Post = {
-	slug: string; // src/posts/ 기준 경로에서 .md를 뗀 것 (예: '_sample/sample-01')
+	slug: string; // 파일 이름에서 .md를 뗀 것 (예: 'sample-01'). 폴더는 묶음용일 뿐 주소에 들어가지 않는다.
 	title: string;
 	date: string; // 'YYYY.MM.DD' (목업 표기)
 	category: string;
 	sub: string;
+	tags: string[];
 	readMin: number;
 };
 
@@ -19,7 +20,7 @@ export type Category = {
 	subs: { name: string; count: number }[];
 };
 
-type Meta = Partial<Record<'title' | 'date' | 'category' | 'sub' | 'readMin', unknown>>;
+type Meta = Partial<Record<'title' | 'date' | 'category' | 'sub' | 'tags' | 'readMin', unknown>>;
 
 const files = import.meta.glob('/src/posts/**/*.md', {
 	import: 'metadata',
@@ -30,16 +31,20 @@ const files = import.meta.glob('/src/posts/**/*.md', {
 const toDate = (v: unknown) => String(v).slice(0, 10).replaceAll('-', '.');
 
 function toPost(path: string, meta: Meta | undefined): Post {
-	const slug = path.replace(/^\/src\/posts\//, '').replace(/\.md$/, '');
+	const file = path.replace(/^\/src\//, 'src/');
+	const slug = path.split('/').pop()!.replace(/\.md$/, '');
 	for (const key of ['title', 'date', 'category', 'sub'] as const) {
-		if (!meta?.[key]) throw new Error(`src/posts/${slug}.md: 머리말에 ${key}가 없습니다.`);
+		if (!meta?.[key]) throw new Error(`${file}: 머리말에 ${key}가 없습니다.`);
 	}
+	const tags = meta!.tags ?? [];
+	if (!Array.isArray(tags)) throw new Error(`${file}: tags는 배열이어야 합니다 (예: tags: [svelte, css]).`);
 	return {
 		slug,
 		title: String(meta!.title),
 		date: toDate(meta!.date),
 		category: String(meta!.category),
 		sub: String(meta!.sub),
+		tags: tags.map(String),
 		readMin: Number(meta!.readMin ?? 1)
 	};
 }
@@ -48,6 +53,15 @@ function toPost(path: string, meta: Meta | undefined): Post {
 export const posts: Post[] = Object.entries(files)
 	.map(([path, meta]) => toPost(path, meta))
 	.sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
+
+// slug는 주소(/posts/[slug])가 되므로 폴더가 달라도 파일 이름이 겹치면 안 된다.
+{
+	const seen = new Set<string>();
+	for (const p of posts) {
+		if (seen.has(p.slug)) throw new Error(`src/posts/: 파일 이름 '${p.slug}.md'가 두 번 이상 쓰였습니다.`);
+		seen.add(p.slug);
+	}
+}
 
 /**
  * 글에서 쓰인 카테고리·소분류.

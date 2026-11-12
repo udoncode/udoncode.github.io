@@ -7,21 +7,33 @@
 	const PER = 8;
 	const p2 = (x: number) => String(x).padStart(2, '0');
 
-	// 목업 상태: cat('all' | 카테고리 이름), subs(선택한 소분류들), page, sel(선택한 글 slug)
+	// 목업 상태: cat('all' | 카테고리 이름), subs(선택한 소분류들), tags(선택한 태그들), page
 	let cat = $state<string>('all');
 	let subs = $state<string[]>([]);
+	let tags = $state<string[]>([]);
 	let page = $state(1);
-	let sel = $state<string | null>(null);
 
-	const filtered = $derived(
+	// 필터: 카테고리 AND (선택한 태그 중 하나라도)
+	const inCat = $derived(
 		posts.filter(
 			(p) => cat === 'all' || (p.category === cat && (subs.length === 0 || subs.includes(p.sub)))
 		)
 	);
+	const filtered = $derived(
+		inCat.filter((p) => tags.length === 0 || p.tags.some((t) => tags.includes(t)))
+	);
 	const total = $derived(Math.max(1, Math.ceil(filtered.length / PER)));
 	const cur = $derived(Math.min(page, total));
 	const items = $derived(filtered.slice((cur - 1) * PER, cur * PER));
-	const selected = $derived(items.find((p) => p.slug === sel) ?? items[0] ?? null);
+
+	// 태그 풀: 현재 카테고리 조건에 맞는 글에서 모은다. 글 수가 많은 순, 같으면 이름순.
+	const tagRows = $derived.by(() => {
+		const tc = new Map<string, number>();
+		for (const p of inCat) for (const t of p.tags) tc.set(t, (tc.get(t) ?? 0) + 1);
+		return [...tc]
+			.map(([name, count]) => ({ name, count }))
+			.sort((a, b) => b.count - a.count || (a.name < b.name ? -1 : 1));
+	});
 
 	// 페이지 번호 5칸: 현재 페이지가 가운데 오도록, 끝에서는 밀리지 않게
 	const nums = $derived.by(() => {
@@ -29,25 +41,33 @@
 		return [0, 1, 2, 3, 4].map((k) => start + k);
 	});
 
+	// 카테고리·소분류를 바꾸면 태그 선택과 페이지가 초기화된다 (목업 규칙)
 	const pickCat = (name: string) => {
 		cat = name;
 		subs = [];
+		tags = [];
 		page = 1;
-		sel = null;
 	};
 	const pickAllSubs = () => {
 		subs = [];
+		tags = [];
 		page = 1;
-		sel = null;
 	};
 	const toggleSub = (name: string) => {
 		subs = subs.includes(name) ? subs.filter((x) => x !== name) : [...subs, name];
+		tags = [];
 		page = 1;
-		sel = null;
+	};
+	const toggleTag = (name: string) => {
+		tags = tags.includes(name) ? tags.filter((x) => x !== name) : [...tags, name];
+		page = 1;
+	};
+	const clearTags = () => {
+		tags = [];
+		page = 1;
 	};
 	const go = (n: number) => {
 		page = Math.max(1, Math.min(total, n));
-		sel = null;
 	};
 
 	// 푸터 가운데 칸: PAGE  [■■■□□]  1/3
@@ -126,16 +146,15 @@
 	<section class="list" aria-label="글 목록">
 		<div class="rows">
 			{#each items as p, i (p.slug)}
-				<button
-					type="button"
-					class="row"
-					class:on={p.slug === selected?.slug}
-					onclick={() => (sel = p.slug)}
+				<a class="row" href="/posts/{p.slug}"
 					><span class="no font-vt">{p2((cur - 1) * PER + i + 1)}</span><span class="ti"
 						><span class="tx2">{p.title}</span></span
-					><span class="dt font-vt">{p.date}</span></button
+					><span class="dt font-vt">{p.date}</span></a
 				>
 			{/each}
+			{#if filtered.length === 0}
+				<p class="emp font-vt">&gt; 조건에 맞는 글이 없어요.</p>
+			{/if}
 		</div>
 		<nav class="pager" aria-label="페이지 이동">
 			<button
@@ -164,12 +183,25 @@
 		</nav>
 	</section>
 
-	<section class="info" aria-live="polite">
-		<div class="lbl font-vt">{selected ? `${selected.category} / ${selected.sub}` : ''}</div>
-		<h2 class="ttl font-mulmaru">{selected?.title ?? ''}</h2>
-		<div class="mr font-vt"><span class="ml">DATE</span><span>{selected?.date ?? ''}</span></div>
-		<div class="mr font-vt">
-			<span class="ml">READ</span><span>{selected ? `약 ${selected.readMin}분` : ''}</span>
+	<section class="tagsec" aria-label="태그">
+		<div class="tgh font-vt">
+			<span>TAGS</span><span class="sel">{tags.length ? `${p2(tags.length)} SELECTED` : ''}</span><span
+				class="ln2"
+			></span><button type="button" class="clr font-vt" disabled={tags.length === 0} onclick={clearTags}
+				>CLEAR</button
+			>
+		</div>
+		<div class="tgs">
+			{#each tagRows as t (t.name)}
+				<button
+					type="button"
+					class="tg font-vt"
+					class:on={tags.includes(t.name)}
+					aria-pressed={tags.includes(t.name)}
+					onclick={() => toggleTag(t.name)}
+					><span class="hs">#</span><span>{t.name}</span><span class="tc">{p2(t.count)}</span></button
+				>
+			{/each}
 		</div>
 	</section>
 </div>
@@ -207,7 +239,7 @@
 		display: grid;
 		flex: 1;
 		grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
-		grid-template-areas: 'cats list' 'info list';
+		grid-template-areas: 'cats list' 'tags list';
 		grid-template-rows: auto 1fr;
 		gap: 28px 56px;
 		padding: 20px 0 36px;
@@ -222,8 +254,8 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.info {
-		grid-area: info;
+	.tagsec {
+		grid-area: tags;
 		align-self: end;
 		min-width: 0;
 		border-top: 3px solid var(--color-lcd);
@@ -337,12 +369,11 @@
 		line-height: 1.3;
 		transition: background 0.1s steps(2);
 	}
-	.row:hover {
-		background: rgb(141 195 0 / 0.2);
-	}
-	.row.on {
+	.row:hover,
+	.row:focus-visible {
 		background: var(--color-lcd);
 		color: var(--color-bg);
+		outline: 0;
 	}
 	.no,
 	.dt {
@@ -356,8 +387,10 @@
 	.dt {
 		font-size: 20px;
 	}
-	.row.on .no,
-	.row.on .dt {
+	.row:hover .no,
+	.row:hover .dt,
+	.row:focus-visible .no,
+	.row:focus-visible .dt {
 		opacity: 1;
 	}
 	.ti {
@@ -368,8 +401,9 @@
 		text-overflow: ellipsis;
 		container-type: inline-size;
 	}
-	/* 선택한 글의 긴 제목은 좌우로 흘러가며 끝까지 보여준다 */
-	.row.on .tx2 {
+	/* 마우스를 올리거나 포커스한 글의 긴 제목은 좌우로 흘러가며 끝까지 보여준다 */
+	.row:hover .tx2,
+	.row:focus-visible .tx2 {
 		display: inline-block;
 		animation: mq2 7s linear infinite alternate;
 	}
@@ -405,26 +439,91 @@
 		cursor: default;
 	}
 
-	/* ── 선택한 글 정보 ── */
-	.ttl {
-		margin: 8px 0 14px;
-		font-weight: 400;
-		font-size: clamp(20px, 2vw, 28px);
-		line-height: 1.4;
-		word-break: keep-all;
-		overflow-wrap: anywhere;
-	}
-	.mr {
-		display: flex;
-		gap: 14px;
-		align-items: baseline;
+	.emp {
+		margin: 0;
+		padding: 18px 14px;
+		border-bottom: 1px dashed var(--color-lcd-line);
 		font-size: 26px;
-		line-height: 1.35;
-	}
-	.ml {
-		flex: none;
-		min-width: 3.4em;
 		color: var(--color-lcd-mid);
+	}
+
+	/* ── 태그 ── */
+	.tgh {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin: 0 0 10px;
+		font-size: 22px;
+		letter-spacing: 1px;
+		color: var(--color-lcd-mid);
+	}
+	.tgh .ln2 {
+		flex: 1;
+		border-top: 1px dashed var(--color-lcd-line);
+	}
+	.tgh .sel {
+		color: var(--color-lcd);
+	}
+	.clr {
+		min-height: 36px;
+		padding: 0 10px;
+		background: none;
+		border: 2px solid var(--color-lcd);
+		color: var(--color-lcd);
+		cursor: pointer;
+		font-size: 20px;
+		letter-spacing: 1px;
+		line-height: 1;
+	}
+	.clr:hover:not(:disabled) {
+		background: var(--color-lcd);
+		color: var(--color-bg);
+	}
+	.clr:disabled {
+		opacity: 0.3;
+		cursor: default;
+	}
+	.tgs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		max-height: 206px;
+		overflow: auto;
+		padding: 2px 2px 6px;
+		scrollbar-width: thin;
+		scrollbar-color: var(--color-lcd-line) transparent;
+	}
+	.tg {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		min-height: var(--spacing-tap);
+		box-sizing: border-box;
+		padding: 0 12px;
+		background: none;
+		border: 2px solid var(--color-lcd);
+		color: var(--color-lcd);
+		cursor: pointer;
+		font-size: 26px;
+		line-height: 1;
+		transition: background 0.1s steps(2);
+	}
+	.tg:hover {
+		background: rgb(141 195 0 / 0.2);
+	}
+	.tg.on {
+		background: var(--color-lcd);
+		color: var(--color-bg);
+	}
+	.tg .hs {
+		opacity: 0.6;
+	}
+	.tg.on .hs {
+		opacity: 1;
+	}
+	.tg .tc {
+		font-size: 18px;
+		opacity: 0.7;
 	}
 
 	@keyframes ty {
@@ -482,7 +581,7 @@
 		}
 		.pgrid {
 			grid-template-columns: minmax(0, 1fr);
-			grid-template-areas: 'cats' 'list' 'info';
+			grid-template-areas: 'cats' 'tags' 'list';
 			gap: 20px;
 			padding: 16px 0 28px;
 		}
@@ -540,6 +639,20 @@
 		}
 		.pgb.ar {
 			flex-basis: 56px;
+		}
+		/* 태그는 가로 스크롤 한 줄 */
+		.tagsec {
+			align-self: auto;
+		}
+		.tgs {
+			max-height: none;
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			overflow-y: hidden;
+			padding-bottom: 8px;
+		}
+		.tg {
+			flex: none;
 		}
 	}
 	@media (max-width: 600px) {

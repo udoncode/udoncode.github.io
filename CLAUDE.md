@@ -33,7 +33,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project state
 
-SvelteKit 3 + Svelte 5, TypeScript, Tailwind CSS 4 (typography plugin), mdsvex, adapter-static. The shared layout (tab header + status footer + LCD background) is done. The home page (`src/routes/+page.svelte`, ported from `design/Main.dc.html`) is done. Its dot-dandelion canvas animation lives in `src/lib/dandelion.ts`. The posts list (`src/routes/posts/+page.svelte`, from `design/Posts.dc.html`) is done; there is no post detail page yet (no design), so rows are select-only. `about/+page.svelte` is a TODO placeholder — they exist so prerendering doesn't fail on the header links. Site owner name/copyright year live in `src/lib/site.ts`.
+SvelteKit 3 + Svelte 5, TypeScript, Tailwind CSS 4 (typography plugin), mdsvex, adapter-static. The shared layout (tab header + status footer + LCD background) is done. The home page (`src/routes/+page.svelte`, ported from `design/Main.dc.html`) is done. Its dot-dandelion canvas animation lives in `src/lib/dandelion.ts`. The posts list (`src/routes/posts/+page.svelte`, from `design/Posts.dc.html`) is done. Filtering is category AND (any selected tag). The tag pool comes from posts in the current category. Each row links to `/posts/[slug]`. `src/routes/posts/[slug]/+page.ts` prerenders every slug via `entries()`. `about/+page.svelte` is a TODO placeholder — they exist so prerendering doesn't fail on the header links. Site owner name/copyright year live in `src/lib/site.ts`.
 
 ## Commands
 
@@ -52,7 +52,7 @@ No test runner, linter, or formatter is configured. `.npmrc` sets `engine-strict
 - **Runes mode is forced** for all project files (`compilerOptions.runes`), so use `$props()`, `$state()`, `$derived()`, `{@render children()}` — not legacy `export let` / `<slot>`.
 - **`#lib` alias, not `$lib`.** `package.json` `imports` maps `#lib` → `src/lib/index.js` and `#lib/*` → `src/lib/*`.
 - **Markdown as pages:** mdsvex preprocesses `.svx` and `.md`, and both are registered as Svelte component extensions, so markdown files can be routes (`+page.md`) or imported as components.
-- **Posts data:** posts are `src/posts/**/*.md` with frontmatter `title`, `date` (YYYY-MM-DD), `category`, `sub`. How it fits together:
+- **Posts data:** posts are `src/posts/**/*.md` with frontmatter `title`, `date` (YYYY-MM-DD), `category`, `sub`, and optional `tags` (array). A post's slug is its **file name** without `.md`; folders are only for grouping. Slugs must be unique across folders, and `posts.ts` throws on duplicates. How it fits together:
   - **Reading time:** the mdsvex remark plugin `src/lib/markdown/reading-time.ts` (registered in `vite.config.ts`) runs at build time. It adds `readMin` to each post's frontmatter: non-whitespace chars of text + inline code ÷ 500 chars/min, rounded, min 1.
   - **Post list:** `src/lib/posts.ts` imports only each file's `metadata` via `import.meta.glob(..., { import: 'metadata', eager: true })`, so post bodies stay out of the Posts page JS. Keep it that way: don't glob `?raw`. It throws if a frontmatter key is missing.
   - **Categories:** derived from the posts, never hard-coded. Top-level order comes from `src/lib/category-order.ts`; unlisted categories are appended by name. Subcategories are sorted by post count, then name.

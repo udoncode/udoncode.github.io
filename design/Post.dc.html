@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Post</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=VT323&amp;family=Orbitron:wght@900&amp;family=Noto+Sans+KR:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
+@font-face{font-family:'Galmuri11';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2506-1@1.0/Galmuri11-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Mulmaru';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-4@1.1/Mulmaru.woff2') format('woff2');font-weight:normal;font-display:swap}
+html{scroll-behavior:smooth}
+body{margin:0;background:#0a1206}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px dashed #d6ff5c;outline-offset:3px}
+.pg{position:relative;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;box-sizing:border-box;padding:0 clamp(20px,3.5vw,56px) 0;color:#8dc300;font-family:'Galmuri11','Noto Sans KR',sans-serif;background-color:#0a1206;background-image:radial-gradient(circle,rgba(141,195,0,.2) 1px,transparent 1.5px);background-size:20px 20px}
+.pg:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:40;background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.6));animation:fk 6s steps(1) infinite}
+@keyframes fk{92%{opacity:.8}}
+@keyframes cu{50%{border-color:transparent;opacity:.1}}
+@keyframes tw{50%{opacity:.2}}
+@keyframes fi{0%{opacity:0}25%,100%{opacity:1}}
+/* top progress line (mobile) */
+.tpb{display:none;position:fixed;left:0;top:0;height:5px;width:100%;z-index:45;background:#0a1206}.tpb i{display:block;height:100%;background:#d6ff5c}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+@keyframes sc{50%{background-position:8px 0}}
+.vt{font-family:VT323,'IBM Plex Mono','Galmuri11',monospace}
+.tabs{position:relative;display:flex;align-items:flex-end;gap:clamp(8px,2.5vw,36px);padding-top:28px;border-bottom:3px solid #8dc300;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:36px;line-height:1}
+.tabs:before,.tabs:after{content:"";position:absolute;bottom:0;width:3px;height:20px;background:#8dc300}
+.tabs:before{left:0}.tabs:after{right:0}
+.tabs a{display:flex;align-items:center;min-height:48px;box-sizing:border-box;padding:0 16px;opacity:.65;transition:.1s steps(2)}
+.tabs a:hover{opacity:1;background:#8dc300;color:#0a1206}
+.tabs a.on{opacity:1;border:3px solid #8dc300;border-bottom-color:#0a1206;margin-bottom:-3px;background:#0a1206}
+.sg rect,.bt .z{animation:tw 1.6s steps(2) infinite}
+.sg rect:nth-child(2){animation-delay:.2s}.sg rect:nth-child(3){animation-delay:.4s}.sg rect:nth-child(4){animation-delay:.6s}
+.bt .z{animation:fi 2.4s steps(1) infinite}.bt .z:nth-child(2){animation-delay:.4s}.bt .z:nth-child(3){animation-delay:.8s}
+/* header */
+.hd{padding:28px 0 0}
+.crumb{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:24px;letter-spacing:1px;color:#6f9a00}
+.crumb a:hover{background:#8dc300;color:#0a1206}
+.crumb .ln2{flex:1;border-top:1px dashed #4a6a00}
+.crumb .cur{color:#8dc300}
+.pt{margin:0;font-family:'Mulmaru','Galmuri11',sans-serif;font-weight:400;font-size:clamp(28px,3.6vw,52px);line-height:1.3;color:#d6ff5c;word-break:keep-all;overflow-wrap:anywhere}
+.pt .sub{display:block;margin-top:6px;font-family:'Press Start 2P','Mulmaru','Galmuri11',monospace;font-size:clamp(12px,1.1vw,16px);letter-spacing:1px;color:#6f9a00}
+.bk{display:inline-block;width:.5em;height:.9em;margin-left:.2em;background:#8dc300;vertical-align:-.05em;animation:bk3 2.4s .2s steps(1) forwards}
+@keyframes bk3{0%{opacity:1}16%{opacity:0}33%{opacity:1}50%{opacity:0}66%{opacity:1}83%,100%{opacity:0}}
+.spec{display:grid;grid-template-columns:repeat(4,auto);justify-content:start;margin:26px 0 0;border-top:3px solid #8dc300;border-bottom:3px solid #8dc300}
+.spec>div{padding:12px 28px 12px 0;margin-right:28px;border-right:1px dashed #4a6a00;min-width:0}
+.spec>div:last-child{border-right:0;margin-right:0}
+.ml{display:block;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:22px;letter-spacing:1px;color:#6f9a00}
+.mv{display:block;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:30px;line-height:1.2}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.tg{display:inline-flex;align-items:center;gap:6px;min-height:36px;box-sizing:border-box;padding:0 10px;border:2px solid #8dc300;color:#8dc300;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:24px;line-height:1;transition:background .1s steps(2)}
+.tg:hover{background:#8dc300;color:#0a1206}
+.tg .hs{opacity:.6}.tg:hover .hs{opacity:1}
+/* body grid */
+.pbody{display:grid;grid-template-columns:minmax(220px,3fr) minmax(0,8fr);gap:32px clamp(32px,4.5vw,72px);padding:32px 0 8px;flex:1}
+.side{align-self:start;position:sticky;top:20px;min-width:0;max-height:calc(100vh - 110px);overflow-y:auto;scrollbar-width:none}
+.lbl{display:flex;align-items:center;gap:10px;margin:0 0 8px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:22px;letter-spacing:1px;color:#6f9a00}
+.lbl:after{content:"";flex:1;border-top:1px dashed #4a6a00}
+.toc{display:flex;flex-direction:column}
+.ti2{display:flex;align-items:baseline;gap:12px;min-height:34px;box-sizing:border-box;padding:4px 12px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:24px;line-height:1.2;transition:background .1s steps(2)}
+.ti2:hover{background:rgba(141,195,0,.2)}
+.ti2.on{background:#8dc300;color:#0a1206}
+.ti2 .tn{flex:none;font-size:20px;opacity:.65;width:2ch}
+.ti2.on .tn{opacity:1}
+.ti2.l2{padding-left:30px;font-size:21px;min-height:30px}
+.ti2.l2 .tn{width:auto}
+.rd{display:flex;align-items:center;gap:12px;margin:22px 0 14px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:24px}
+.pb{flex:1;height:14px;border:2px solid #8dc300;padding:2px;box-sizing:content-box}.pb i{display:block;height:100%;background:#8dc300}
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+.sk{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;background:none;border:3px solid #8dc300;color:#8dc300;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:24px;letter-spacing:1px;cursor:pointer;line-height:1}
+.sk:hover{background:#8dc300;color:#0a1206}
+/* article */
+.art{min-width:0;max-width:860px;font-size:18px;line-height:1.95;word-break:keep-all;overflow-wrap:anywhere}
+.art>section{margin:0 0 72px;scroll-margin-top:24px}
+.art p{margin:0 0 20px}
+.art a.ln{border-bottom:2px dashed #8dc300}.art a.ln:hover{background:#8dc300;color:#0a1206}
+.art h1,.art h2,.art h3,.art h4,.art h5,.art h6{margin:0;font-family:'Mulmaru','Galmuri11',sans-serif;font-weight:400;color:#d6ff5c;line-height:1.35;scroll-margin-top:24px}
+.art h1:before,.art h2:before,.art h3:before,.art h4:before,.art h5:before,.art h6:before{font-family:VT323,'IBM Plex Mono',monospace;color:#6f9a00;margin-right:.45em;letter-spacing:0}
+.art h1:before{content:"#"}.art h2:before{content:"##"}.art h3:before{content:"###"}.art h4:before{content:"####"}.art h5:before{content:"#####"}.art h6:before{content:"######"}
+.art h1{font-size:40px}.art h2{font-size:32px}.art h3{font-size:26px}.art h4{font-size:22px}.art h5{font-size:19px}.art h6{font-size:17px}
+.art .sec{padding-bottom:12px;margin-bottom:26px;border-bottom:3px solid #8dc300}
+.art h3.sub3{margin:36px 0 14px}
+.hdemo{display:flex;flex-direction:column;gap:12px}
+/* lists */
+.art ul,.art ol{margin:0 0 20px;padding:0;list-style:none}
+.art li{position:relative;padding:2px 0 2px 38px}
+.art ul>li:before{content:"";position:absolute;left:10px;top:.85em;width:10px;height:10px;background:#8dc300}
+.art ol{counter-reset:o}
+.art ol>li{counter-increment:o}
+.art ol>li:before{content:counter(o,decimal-leading-zero);position:absolute;left:0;top:.2em;font-family:VT323,'IBM Plex Mono',monospace;font-size:24px;color:#6f9a00}
+/* table */
+.tw{overflow-x:auto;border:3px solid #8dc300;margin:0 0 20px;scrollbar-width:thin;scrollbar-color:#4a6a00 transparent}
+.tw table{width:100%;min-width:640px;border-collapse:collapse;font-size:16px;line-height:1.5}
+.tw th{background:#8dc300;color:#0a1206;font-family:VT323,'IBM Plex Mono',monospace;font-weight:400;font-size:24px;letter-spacing:1px;text-align:left;padding:8px 16px;white-space:nowrap}
+.tw td{padding:10px 16px;border-bottom:1px dashed #4a6a00;white-space:nowrap}
+.tw tbody tr:last-child td{border-bottom:0}
+.tw tbody tr:hover td{background:rgba(141,195,0,.18)}
+.tw td:first-child{color:#d6ff5c}
+.hint{display:none;margin:-10px 0 20px;font-family:VT323,'IBM Plex Mono',monospace;font-size:20px;color:#6f9a00}
+/* quote */
+.qt{position:relative;margin:0 0 20px;padding:28px 32px 22px;border:3px solid #8dc300;background:rgba(141,195,0,.07)}
+.qt blockquote{margin:0}
+.qt blockquote p{margin:0;font-family:'Mulmaru','Galmuri11',sans-serif;font-size:22px;line-height:1.7;color:#d6ff5c}
+.qt figcaption{margin-top:12px;text-align:right;font-family:VT323,'IBM Plex Mono',monospace;font-size:26px;color:#6f9a00}
+.qt figcaption:before{content:"— "}
+/* code */
+.code{margin:0 0 24px;border:3px solid #8dc300;background:rgba(141,195,0,.05)}
+.ch{display:flex;align-items:center;gap:12px;padding:0 0 0 14px;min-height:44px;background:#8dc300;color:#0a1206;font-family:VT323,'IBM Plex Mono',monospace;font-size:24px;letter-spacing:1px}
+.ch .fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ch .lang{padding:0 8px;border:2px solid #0a1206;font-size:20px;line-height:1.3}
+.cp{align-self:stretch;min-width:92px;padding:0 14px;background:#0a1206;color:#8dc300;border:0;border-left:3px solid #8dc300;font:inherit;cursor:pointer;line-height:1}
+.cp:hover{background:#d6ff5c;color:#0a1206}
+.pre{margin:0;padding:14px 0;overflow-x:auto;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px;line-height:1.75;white-space:pre;word-break:normal;tab-size:2;counter-reset:ln;scrollbar-width:thin;scrollbar-color:#4a6a00 transparent}
+.pre .l{display:block;padding-right:20px;counter-increment:ln;min-width:max-content}
+.pre .l:before{content:counter(ln);display:inline-block;width:2.4em;margin:0 1.2em 0 0;text-align:right;color:#6f9a00;opacity:.8;user-select:none}
+.pre .k{color:#d6ff5c;font-weight:500}.pre .s{color:#8dc300;background:rgba(141,195,0,.14)}.pre .n{color:#d6ff5c;text-decoration:underline dotted #6f9a00;text-underline-offset:3px}
+.pre .f{color:#d6ff5c}.pre .p{color:#8dc300}.pre .o{color:#6f9a00}.pre .c{color:#6f9a00}
+/* placeholders for images */
+.ph{position:relative;display:block;width:100%;aspect-ratio:16/9;box-sizing:border-box;border:3px solid #8dc300;overflow:hidden;background-color:#0a1206}
+.ph:after{content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(10,18,6,.6) 1px,transparent 1.3px) 0 0/4px 4px;pointer-events:none}
+.pl{position:absolute;left:0;bottom:0;z-index:1;padding:0 8px;background:#0a1206;border:2px solid #8dc300;border-width:2px 2px 0 0;font-family:VT323,'IBM Plex Mono',monospace;font-size:20px;line-height:1.3;color:#8dc300}
+.ph1{background:radial-gradient(circle at 50% 66%,#d6ff5c 0 15%,#8dc300 16% 22%,transparent 23%),linear-gradient(#0a1206 0 62%,#4f7000 62% 65%,#8dc300 65% 69%,#4f7000 69%)}
+.ph2{background:linear-gradient(135deg,transparent 0 46%,#4f7000 46% 100%) 0 100%/50% 55% no-repeat,linear-gradient(225deg,transparent 0 46%,#8dc300 46% 100%) 100% 100%/60% 75% no-repeat,#0a1206}
+.ph3{background:repeating-linear-gradient(90deg,#4f7000 0 14%,transparent 14% 18%,#8dc300 18% 30%,transparent 30% 33%) 0 100%/100% 70%,repeating-linear-gradient(90deg,#0a1206 0 6px,#8dc300 6px 8px) 0 100%/100% 36%,#0a1206;background-repeat:no-repeat}
+.ph4{background:repeating-radial-gradient(circle at 50% 120%,#8dc300 0 6px,#0a1206 6px 18px)}
+.ph5{background:repeating-conic-gradient(#4f7000 0 25%,#0a1206 0 50%) 0 0/48px 48px}
+.ph6{background:radial-gradient(circle at 70% 30%,#d6ff5c 0 7%,transparent 8%),radial-gradient(circle,#8dc300 1px,transparent 1.5px) 0 0/22px 22px,#0a1206}
+.ph7{background:repeating-linear-gradient(0deg,#8dc300 0 4px,#0a1206 4px 12px)}
+.ph8{background:radial-gradient(circle at 50% 50%,#0a1206 0 18%,#8dc300 19% 26%,#0a1206 27% 40%,#4f7000 41% 48%,#0a1206 49%)}
+.ph9{background:linear-gradient(#0a1206 0 40%,#4f7000 40% 42%,#0a1206 42% 56%,#8dc300 56% 58%,#0a1206 58% 78%,#d6ff5c 78% 80%,#0a1206 80%)}
+.ph10{background:repeating-linear-gradient(45deg,#4f7000 0 10px,#0a1206 10px 20px)}
+.fg{margin:0}
+.fg figcaption,.cap{margin-top:8px;font-family:VT323,'IBM Plex Mono',monospace;font-size:22px;line-height:1.3;color:#6f9a00}
+.gi{display:block;width:100%;padding:0;background:none;border:0;color:inherit;cursor:zoom-in}
+.gi .ph{transition:filter .15s steps(3)}
+.gi:hover .ph,.gi:focus-visible .ph{filter:brightness(1.35)}
+.imgs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 20px}
+.gal{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin:0 0 8px}
+.gal .g0{grid-column:span 4}.gal .g1{grid-column:span 2}.gal .g2,.gal .g3{grid-column:span 3}
+.gal .g1 .ph{aspect-ratio:auto;height:100%;min-height:100px}.gal .g1,.gal .g1 .gi{height:100%}
+.gal .g1{display:flex;flex-direction:column}.gal .g1 .gi{flex:1}
+.credit{margin:10px 0 0;font-family:VT323,'IBM Plex Mono',monospace;font-size:22px;color:#6f9a00}
+/* video */
+.vid{position:relative;display:block;width:100%;aspect-ratio:16/9;box-sizing:border-box;border:3px solid #8dc300;background:#0a1206;overflow:hidden}
+.vid .scn{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(141,195,0,.1) 0 2px,transparent 2px 5px),radial-gradient(circle at 50% 50%,rgba(141,195,0,.18),transparent 62%);animation:sc 1.2s steps(6) infinite}
+.vid .play{position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;display:flex;align-items:center;justify-content:center;border:4px solid #8dc300;background:#0a1206}
+.vid .play:after{content:"";margin-left:8px;border-style:solid;border-width:16px 0 16px 26px;border-color:transparent transparent transparent #d6ff5c}
+.vid:hover .play{background:#8dc300}.vid:hover .play:after{border-left-color:#0a1206}
+.vid .vb{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;padding:0 12px;min-height:40px;border-top:3px solid #8dc300;background:#0a1206;font-family:VT323,'IBM Plex Mono',monospace;font-size:22px}
+.vid .vb .bar{flex:1;height:10px;border:2px solid #8dc300;padding:1px;box-sizing:content-box}.vid .vb .bar i{display:block;width:34%;height:100%;background:#8dc300}
+.vid .tagv{position:absolute;left:0;top:0;padding:0 10px;background:#8dc300;color:#0a1206;font-family:VT323,'IBM Plex Mono',monospace;font-size:22px;line-height:1.4}
+/* extras */
+.art code{padding:1px 7px;border:2px solid #4a6a00;background:rgba(141,195,0,.1);font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:.82em;line-height:1.2;color:#d6ff5c}
+.art kbd{display:inline-block;min-width:1.6em;padding:0 8px;border:2px solid #8dc300;border-bottom-width:5px;font-family:VT323,'IBM Plex Mono',monospace;font-size:22px;line-height:1.2;text-align:center;color:#8dc300}
+.art mark{background:#8dc300;color:#0a1206;padding:0 4px}
+.art sup a{font-family:VT323,'IBM Plex Mono',monospace;font-size:20px;color:#d6ff5c;padding:0 3px}
+.art hr{margin:34px 0;border:0;height:12px;background:radial-gradient(circle,#8dc300 3px,transparent 3.5px) center/22px 12px repeat-x}
+.co{position:relative;margin:0 0 20px;padding:26px 22px 14px;border:3px dashed #8dc300}
+.co .cl{position:absolute;left:-3px;top:-3px;padding:0 10px;background:#8dc300;color:#0a1206;font-family:VT323,'IBM Plex Mono',monospace;font-size:22px;letter-spacing:1px;line-height:1.5}
+.co p:last-child{margin-bottom:0}
+.co.warn{border-color:#c9302a}.co.warn .cl{background:#c9302a;color:#fff4ec}
+.tl2{margin:0 0 20px;padding:0;list-style:none}
+.art .tl2>li{padding:2px 0 2px 42px}.art .tl2>li:before{content:"";position:absolute;left:8px;top:.6em;width:18px;height:18px;border:3px solid #8dc300;box-sizing:border-box;background:none}
+.art .tl2>li.dn:before{background:#8dc300;box-shadow:inset 0 0 0 3px #0a1206}
+.art .tl2>li.dn span{opacity:.6;text-decoration:line-through}
+.art details{margin:0 0 20px;border:3px solid #8dc300}
+.art summary{display:flex;align-items:center;gap:12px;min-height:48px;padding:0 16px;cursor:pointer;list-style:none;font-family:'Mulmaru','Galmuri11',sans-serif;font-size:18px;color:#d6ff5c}
+.art summary::-webkit-details-marker{display:none}
+.art summary:before{content:"\25B6";font-size:14px}
+.art details[open] summary:before{content:"\25BC"}
+.art summary:hover{background:#8dc300;color:#0a1206}
+.art details>div{padding:14px 18px 2px;border-top:1px dashed #4a6a00}
+.fnl{margin:0;padding:14px 0 0;border-top:1px dashed #4a6a00;font-size:15px;line-height:1.7}
+.fnl li{padding-left:34px}.fnl li:before{font-size:20px}
+/* end of post */
+.endt{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 28px;padding:18px 0 0;border-top:3px solid #8dc300}
+.pn{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 0 56px}
+.pn a{display:flex;flex-direction:column;gap:6px;padding:14px 18px;border:3px solid #8dc300;min-height:44px;box-sizing:border-box;transition:background .1s steps(2)}
+.pn a:hover{background:#8dc300;color:#0a1206}
+.pn a:hover .pl2{color:#0a1206}
+.pn .pl2{font-family:VT323,'IBM Plex Mono',monospace;font-size:24px;letter-spacing:1px;color:#6f9a00}
+.pn .ptt{font-family:'Galmuri11',sans-serif;font-size:17px;line-height:1.5;word-break:keep-all;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pn a.nx{text-align:right;align-items:flex-end}
+/* top button, footer, lightbox */
+.topb{position:fixed;right:clamp(16px,3vw,40px);bottom:96px;z-index:30;min-height:48px;padding:0 16px;background:#0a1206;border:3px solid #8dc300;color:#8dc300;font-family:VT323,'IBM Plex Mono',monospace;font-size:26px;letter-spacing:1px;cursor:pointer;line-height:1;opacity:0;pointer-events:none;transform:translateY(12px);transition:.2s steps(3)}
+.topb.on{opacity:1;pointer-events:auto;transform:none}
+.topb:hover{background:#8dc300;color:#0a1206}
+.sb{position:sticky;bottom:0;z-index:30;display:grid;grid-template-columns:auto minmax(0,1fr) auto;border-top:3px solid #8dc300;background:#0a1206;margin:0 calc(-1*clamp(20px,3.5vw,56px));padding:0 clamp(20px,3.5vw,56px);font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:30px;line-height:1}
+.sb>div{padding:14px 18px;display:flex;align-items:center;gap:14px;border-left:3px solid #8dc300}.sb>div:first-child{border-left:0;white-space:nowrap;font-size:26px}
+.sb .pb{flex:1}.sb .pb i{transition:width .25s steps(6)}
+.lb{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;background:rgba(10,18,6,.94)}
+.lb .lbi{width:min(960px,100%)}
+.lb .lbi .ph{border-width:4px}
+.lb .lbc{width:min(960px,100%);display:flex;align-items:center;gap:10px;font-family:VT323,'IBM Plex Mono',monospace;font-size:26px}
+.lb .lbc .cap{flex:1;margin:0;font-size:24px}
+@media(max-width:1100px){.sb{grid-template-columns:1fr;font-size:24px}.sb>div{border-left:0;border-top:3px solid #8dc300;white-space:normal}.sb>div:nth-child(2){order:-1;border-top:0}.sb>div:first-child{font-size:22px;white-space:normal}.sb{position:static}}
+@media(max-width:900px){
+.pbody{grid-template-columns:minmax(0,1fr);gap:20px;padding-top:24px}
+.side{position:static}
+.toc{flex-direction:row;flex-wrap:nowrap;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}.ti2{flex:none;white-space:nowrap}
+.tpb{display:block}
+.ti2{min-height:44px;padding:0 10px;border:2px solid #8dc300;font-size:22px}.ti2.l2{padding-left:10px;border-style:dashed;font-size:20px}.ti2 .tn{display:none}
+.rd{margin:16px 0 12px}
+.spec{grid-template-columns:repeat(2,minmax(0,1fr))}
+.spec>div{margin-right:0;padding:12px 12px 12px 0;border-right:0;border-bottom:1px dashed #4a6a00}
+.spec>div:nth-last-child(-n+2){border-bottom:0}
+.art{font-size:17px}
+.art h1{font-size:32px}.art h2{font-size:27px}.art h3{font-size:23px}.art h4{font-size:20px}
+.imgs{grid-template-columns:repeat(2,minmax(0,1fr))}
+.gal{grid-template-columns:repeat(2,minmax(0,1fr))}.gal .g0{grid-column:span 2}.gal .g1,.gal .g2,.gal .g3{grid-column:span 1}.gal .g1 .ph{aspect-ratio:16/9;height:auto}.gal .g1{display:block;height:auto}.gal .g1 .gi{flex:none;height:auto}
+.hint{display:block}
+.qt{padding:22px 20px 18px}
+.pn{grid-template-columns:minmax(0,1fr)}
+.topb{bottom:20px}}
+@media(max-width:520px){.tabs .sg,.tabs .bt{display:none}.tabs{font-size:27px;flex-wrap:wrap}.tabs a{padding:0 10px}.spec{grid-template-columns:minmax(0,1fr)}.spec>div{border-bottom:1px dashed #4a6a00!important}.spec>div:last-child{border-bottom:0!important}.vid .play{width:60px;height:60px;margin:-30px 0 0 -30px}.vid .play:after{border-width:12px 0 12px 19px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.bk{display:none}}
+</style>
+</helmet>
+<div class="pg">
+<div class="tpb" aria-hidden="true"><i style="width: {{ gauge }}"></i></div>
+<nav class="tabs" aria-label="메인 메뉴"><a href="Main.dc.html">HOME</a><a class="on" aria-current="page" href="Posts.dc.html">POSTS</a><a href="About.dc.html">ABOUT</a><span style="margin-left:auto;display:flex;gap:16px;align-items:center;padding:0 14px 12px"><svg class="sg" width="26" height="22" viewBox="0 0 13 11" fill="currentColor" aria-label="신호 최대" role="img"><rect x="0" y="8" width="2" height="3"/><rect x="3" y="6" width="2" height="5"/><rect x="6" y="3" width="2" height="8"/><rect x="9" y="0" width="2" height="11"/></svg><svg class="bt" width="40" height="24" viewBox="0 0 20 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-label="배터리 충전 중" role="img"><rect x="1" y="1" width="15" height="10"/><rect x="16" y="4" width="2" height="4" fill="currentColor"/><rect class="z" x="3" y="3" width="3" height="6" fill="currentColor" stroke="none"/><rect class="z" x="7" y="3" width="3" height="6" fill="currentColor" stroke="none"/><rect class="z" x="11" y="3" width="3" height="6" fill="currentColor" stroke="none"/></svg></span></nav>
+<header class="hd">
+<nav class="crumb" aria-label="현재 위치"><a href="Posts.dc.html">POSTS</a><span>/</span><a href="Posts.dc.html">개발</a><span>/</span><span class="cur">도구</span><span class="ln2"></span></nav>
+<h1 class="pt">글 요소 스타일 가이드<span class="bk" aria-hidden="true"></span><span class="sub">ELEMENTS</span></h1>
+<dl class="spec" style="margin-bottom:0">
+<div><dt class="ml">DATE</dt><dd class="mv" style="margin:0">2026.11.12</dd></div>
+<div><dt class="ml">READ</dt><dd class="mv" style="margin:0">약 7분</dd></div>
+<div><dt class="ml">CATEGORY</dt><dd class="mv" style="margin:0">개발 / 도구</dd></div>
+<div><dt class="ml">TAGS</dt><dd class="chips" style="margin:4px 0 0"><a class="tg" href="Posts.dc.html"><span class="hs">#</span>svelte</a><a class="tg" href="Posts.dc.html"><span class="hs">#</span>tailwind</a><a class="tg" href="Posts.dc.html"><span class="hs">#</span>design</a></dd></div>
+</dl>
+</header>
+<div class="pbody">
+<aside class="side" aria-label="글 목차">
+<p class="lbl">CONTENTS</p>
+<nav class="toc" aria-label="목차">
+<sc-for list="{{ tocRows }}" as="t" hint-placeholder-count="14">
+<a class="ti2 {{ t.cls }}" href="{{ t.href }}"><span class="tn">{{ t.no }}</span><span>{{ t.label }}</span></a>
+</sc-for>
+</nav>
+<div class="rd"><span>READ</span><span class="pb"><i style="width: {{ gauge }}"></i></span><span>{{ pct }}</span></div>
+<div class="acts"><a class="sk" href="Posts.dc.html">◀ LIST</a><button type="button" class="sk" onClick="{{ copyLink }}">{{ linkText }}</button></div>
+</aside>
+<article class="art">
+
+<section id="s-p">
+<h2 class="sec">Paragraph</h2>
+<p>A paragraph looks like this — dolor amet cray stumptown fingerstache neutra food truck seitan poke cardigan waistcoat VHS snackwave celiac hella. Godard seitan shoreditch flexitarian next level trust fund man braid vegan listicle keytar bitters. Disrupt cray fashion axe unicorn lomo shaman poke glossier keffiyeh snackwave austin tattooed seitan hexagon lo-fi. Lumbersexual irony vaporware, butcher shaman church-key iceland.</p>
+<p>한글 문단은 이렇게 보여요. 이 글은 블로그의 글 상세 화면에서 쓰이는 모든 요소를 한 번에 보여 주는 스타일 가이드예요. 글을 쓸 때 어떤 모양으로 나오는지 여기서 먼저 확인할 수 있어요. <a class="ln" href="Posts.dc.html">링크는 이렇게</a> 보이고, 마우스를 올리면 색이 반전돼요.</p>
+</section>
+
+<section id="s-h">
+<h2 class="sec">Headings by default</h2>
+<div class="hdemo">
+<h1>Default styles for headings</h1>
+<h2>Default styles for headings</h2>
+<h3>Default styles for headings</h3>
+<h4>Default styles for headings</h4>
+<h5>Default styles for headings</h5>
+<h6>Default styles for headings</h6>
+</div>
+</section>
+
+<section id="s-l">
+<h2 class="sec">Lists</h2>
+<h3 id="s-ol" class="sub3" style="margin-top:0">Ordered list example</h3>
+<ol>
+<li>Poutine drinking vinegar bitters.</li>
+<li>Coloring book distillery fanny pack.</li>
+<li>Venmo biodiesel gentrify enamel pin meditation.</li>
+<li>Jean shorts shaman listicle pickled portland.</li>
+<li>Salvia mumblecore brunch iPhone migas.</li>
+</ol>
+<h3 id="s-ul" class="sub3">Unordered list example</h3>
+<ul>
+<li>Bitters semiotics vice thundercats synth.</li>
+<li>Literally cred narwhal bitters wayfarers.</li>
+<li>Kale chips chartreuse paleo tbh street art marfa.</li>
+<li>Mlkshk polaroid sriracha brooklyn.</li>
+<li>Pug you probably haven’t heard of them air plant man bun.</li>
+</ul>
+</section>
+
+<section id="s-t">
+<h2 class="sec">Table</h2>
+<div class="tw" tabindex="0" role="region" aria-label="표 (가로 스크롤)"><table>
+<thead><tr><th>Header 1</th><th>Header 2</th><th>Header 3</th><th>Header 4</th><th>Header 5</th></tr></thead>
+<tbody>
+<tr><td>Row:1 Cell:1</td><td>Row:1 Cell:2</td><td>Row:1 Cell:3</td><td>Row:1 Cell:4</td><td>Row:1 Cell:5</td></tr>
+<tr><td>Row:2 Cell:1</td><td>Row:2 Cell:2</td><td>Row:2 Cell:3</td><td>Row:2 Cell:4</td><td>Row:2 Cell:5</td></tr>
+<tr><td>Row:3 Cell:1</td><td>Row:3 Cell:2</td><td>Row:3 Cell:3</td><td>Row:3 Cell:4</td><td>Row:3 Cell:5</td></tr>
+<tr><td>Row:4 Cell:1</td><td>Row:4 Cell:2</td><td>Row:4 Cell:3</td><td>Row:4 Cell:4</td><td>Row:4 Cell:5</td></tr>
+<tr><td>Row:5 Cell:1</td><td>Row:5 Cell:2</td><td>Row:5 Cell:3</td><td>Row:5 Cell:4</td><td>Row:5 Cell:5</td></tr>
+<tr><td>Row:6 Cell:1</td><td>Row:6 Cell:2</td><td>Row:6 Cell:3</td><td>Row:6 Cell:4</td><td>Row:6 Cell:5</td></tr>
+</tbody></table></div>
+<p class="hint">◀ 좌우로 밀어서 보기 ▶</p>
+</section>
+
+<section id="s-q">
+<h2 class="sec">Quotes</h2>
+<figure class="qt" style="margin-bottom:0"><blockquote><p>The longer I live, the more I realize that I am never wrong about anything, and that all the pains I have so humbly taken to verify my notions have only wasted my time!</p></blockquote><figcaption>George Bernard Shaw</figcaption></figure>
+</section>
+
+<section id="s-c">
+<h2 class="sec">Syntax Highlighter</h2>
+<div class="code"><div class="ch"><span class="fn">style.css</span><span class="lang">CSS</span><button type="button" class="cp" onClick="{{ copy0 }}">{{ copyText0 }}</button></div><pre class="pre" tabindex="0" aria-label="CSS 코드"><span class="l"><span class="f">body</span> <span class="o">{</span></span><span class="l">  <span class="p">margin</span><span class="o">:</span> <span class="n">0</span><span class="o">;</span></span><span class="l">  <span class="p">display</span><span class="o">:</span> flex<span class="o">;</span></span><span class="l">  <span class="p">justify-content</span><span class="o">:</span> center<span class="o">;</span></span><span class="l">  <span class="p">align-items</span><span class="o">:</span> center<span class="o">;</span></span><span class="l">  <span class="p">height</span><span class="o">:</span> <span class="n">100vh</span><span class="o">;</span></span><span class="l">  <span class="p">width</span><span class="o">:</span> <span class="n">100vw</span><span class="o">;</span></span><span class="l">  <span class="p">background-color</span><span class="o">:</span> <span class="n">#1c2021</span><span class="o">;</span></span><span class="l"><span class="o">}</span></span><span class="l"> </span><span class="l"><span class="f">li</span> <span class="o">{</span></span><span class="l">  <span class="p">width</span><span class="o">:</span> <span class="n">200px</span><span class="o">;</span></span><span class="l">  <span class="p">min-height</span><span class="o">:</span> <span class="n">250px</span><span class="o">;</span></span><span class="l">  <span class="p">border</span><span class="o">:</span> <span class="n">1px</span> solid <span class="n">#000</span><span class="o">;</span></span><span class="l">  <span class="p">display</span><span class="o">:</span> inline-block<span class="o">;</span></span><span class="l">  <span class="p">vertical-align</span><span class="o">:</span> top<span class="o">;</span></span><span class="l">  <span class="p">margin</span><span class="o">:</span> <span class="n">5px</span><span class="o">;</span></span><span class="l"><span class="o">}</span></span></pre></div>
+<div class="code" style="margin-bottom:0"><div class="ch"><span class="fn">top-button.js</span><span class="lang">JS</span><button type="button" class="cp" onClick="{{ copy1 }}">{{ copyText1 }}</button></div><pre class="pre" tabindex="0" aria-label="JavaScript 코드"><span class="l"><span class="f">$</span><span class="o">(</span><span class="s">'.top'</span><span class="o">).</span><span class="f">click</span><span class="o">(</span><span class="k">function</span> <span class="o">()</span> <span class="o">{</span></span><span class="l">  <span class="f">$</span><span class="o">(</span><span class="s">'html, body'</span><span class="o">).</span><span class="f">stop</span><span class="o">().</span><span class="f">animate</span><span class="o">({</span> scrollTop<span class="o">:</span> <span class="n">0</span> <span class="o">},</span> <span class="s">'slow'</span><span class="o">,</span> <span class="s">'swing'</span><span class="o">);</span></span><span class="l"><span class="o">});</span></span><span class="l"><span class="f">$</span><span class="o">(</span>window<span class="o">).</span><span class="f">scroll</span><span class="o">(</span><span class="k">function</span> <span class="o">()</span> <span class="o">{</span></span><span class="l">  <span class="k">if</span> <span class="o">(</span><span class="f">$</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="f">scrollTop</span><span class="o">()</span> <span class="o">&gt;</span> <span class="f">$</span><span class="o">(</span>window<span class="o">).</span><span class="f">height</span><span class="o">())</span> <span class="o">{</span></span><span class="l">    <span class="f">$</span><span class="o">(</span><span class="s">'.top'</span><span class="o">).</span><span class="f">addClass</span><span class="o">(</span><span class="s">"top-active"</span><span class="o">);</span></span><span class="l">  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span></span><span class="l">    <span class="f">$</span><span class="o">(</span><span class="s">'.top'</span><span class="o">).</span><span class="f">removeClass</span><span class="o">(</span><span class="s">"top-active"</span><span class="o">);</span></span><span class="l">  <span class="o">};</span></span><span class="l"><span class="o">});</span></span></pre></div>
+</section>
+
+<section id="s-i">
+<h2 class="sec">Images</h2>
+<div class="imgs">
+<sc-for list="{{ imgRows }}" as="m" hint-placeholder-count="6">
+<figure class="fg"><button type="button" class="gi" aria-label="{{ m.aria }}" onClick="{{ m.open }}"><span class="ph {{ m.cls }}"><span class="pl">{{ m.label }}</span></span></button><figcaption>{{ m.cap }}</figcaption></figure>
+</sc-for>
+</div>
+<p class="cap" style="margin-top:0">이미지를 누르면 크게 볼 수 있어요.</p>
+</section>
+
+<section id="s-g">
+<h2 class="sec">Gallery / Unsplash</h2>
+<div class="gal">
+<sc-for list="{{ galRows }}" as="m" hint-placeholder-count="4">
+<figure class="fg {{ m.pos }}"><button type="button" class="gi" aria-label="{{ m.aria }}" onClick="{{ m.open }}"><span class="ph {{ m.cls }}"><span class="pl">{{ m.label }}</span></span></button></figure>
+</sc-for>
+</div>
+<p class="credit">Photo by <a class="ln" href="Post.dc.html" style="border-bottom:2px dashed #6f9a00">Matthew Henry</a> on <a class="ln" href="Post.dc.html" style="border-bottom:2px dashed #6f9a00">Unsplash</a></p>
+</section>
+
+<section id="s-v">
+<h2 class="sec">Video</h2>
+<h3 id="s-yt" class="sub3" style="margin-top:0">Youtube Embed</h3>
+<div class="vid" role="img" aria-label="YouTube 영상이 들어가는 자리"><span class="scn"></span><span class="tagv">YOUTUBE</span><span class="play"></span><span class="vb"><span>▶</span><span class="bar"><i></i></span><span>02:41 / 07:52</span></span></div>
+<h3 id="s-vm" class="sub3">Vimeo Embed</h3>
+<div class="vid" role="img" aria-label="Vimeo 영상이 들어가는 자리"><span class="scn"></span><span class="tagv">VIMEO</span><span class="play"></span><span class="vb"><span>▶</span><span class="bar"><i style="width:12%"></i></span><span>00:48 / 06:30</span></span></div>
+</section>
+
+<section id="s-x">
+<h2 class="sec">Extras</h2>
+<p>본문 안에서 쓰는 작은 요소들이에요. 코드는 <code>npm run dev</code>처럼 문장 안에 넣고, 키보드 입력은 <kbd>Ctrl</kbd> + <kbd>K</kbd>처럼 보여 줘요. 중요한 부분은 <mark>이렇게 강조</mark>하고, 덧붙일 설명은 각주로 달아요.<sup><a class="ln" href="#fn1" style="border:0">[1]</a></sup></p>
+<div class="co"><span class="cl">NOTE</span><p>참고할 내용은 이렇게 점선 상자로 보여 줘요.</p></div>
+<div class="co warn"><span class="cl">WARNING</span><p>주의해야 할 내용은 빨간색으로 보여 줘요.</p></div>
+<ul class="tl2">
+<li class="dn" style="position:relative"><span>글 요소 디자인하기</span></li>
+<li class="dn" style="position:relative"><span>태그 선택란 만들기</span></li>
+<li style="position:relative"><span>상세 페이지 코드로 옮기기</span></li>
+</ul>
+<details><summary>접고 펼 수 있는 상자</summary><div><p>길어지는 설명은 이렇게 접어 둘 수 있어요.</p></div></details>
+<hr>
+<ol class="fnl"><li id="fn1">각주는 글 맨 아래에 이렇게 모아 둬요.</li></ol>
+</section>
+
+<div class="endt"><span class="vt" style="font-size:24px;color:#6f9a00">TAGS</span><a class="tg" href="Posts.dc.html"><span class="hs">#</span>svelte</a><a class="tg" href="Posts.dc.html"><span class="hs">#</span>tailwind</a><a class="tg" href="Posts.dc.html"><span class="hs">#</span>design</a></div>
+<nav class="pn" aria-label="이전 글, 다음 글">
+<a class="pv" href="Post.dc.html"><span class="pl2">◀ PREV</span><span class="ptt">[프론트엔드] 샘플 글 제목 02</span></a>
+<a class="nx" href="Post.dc.html"><span class="pl2">NEXT ▶</span><span class="ptt">[도구] 샘플 글 제목 01 — 제목이 길어지면 두 줄까지만 보여요</span></a>
+</nav>
+</article>
+</div>
+<button type="button" class="topb {{ topCls }}" aria-label="맨 위로" onClick="{{ toTop }}">▲ TOP</button>
+<sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+<div class="lb" role="dialog" aria-label="이미지 크게 보기">
+<div class="lbi"><span class="ph {{ lbCls }}"><span class="pl">{{ lbLabel }}</span></span></div>
+<div class="lbc"><button type="button" class="sk" aria-label="이전 이미지" onClick="{{ lbPrev }}">◀</button><p class="cap">{{ lbCap }}</p><button type="button" class="sk" aria-label="다음 이미지" onClick="{{ lbNext }}">▶</button><button type="button" class="sk" onClick="{{ lbClose }}">✕ CLOSE</button></div>
+</div>
+</sc-if>
+<div class="sb"><div>{{ clock }}</div><div><span>READ</span><span class="pb"><i style="width: {{ gauge }}"></i></span><span>{{ pct }}</span></div><div>© 2026 [YOUR NAME]</div></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { p: 0, act: 0, top: false, copied: -1, link: false, lb: -1, now: Date.now() };
+  }
+  componentDidMount() {
+    this.timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    this.onScroll = () => {
+      const de = document.documentElement, max = Math.max(1, de.scrollHeight - window.innerHeight);
+      const p = Math.max(0, Math.min(100, Math.round(window.scrollY / max * 100)));
+      let act = 0;
+      this.ids().forEach((id, i) => { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top < window.innerHeight * 0.3) act = i; });
+      const top = window.scrollY > 600;
+      if (p !== this.state.p || act !== this.state.act || top !== this.state.top) this.setState({ p, act, top });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onScroll);
+    this.onScroll();
+  }
+  componentWillUnmount() {
+    if (this.timer) clearInterval(this.timer);
+    if (this.onScroll) { window.removeEventListener('scroll', this.onScroll); window.removeEventListener('resize', this.onScroll); }
+    clearTimeout(this.t1); clearTimeout(this.t2);
+  }
+  ids() { return ['s-p', 's-h', 's-l', 's-ol', 's-ul', 's-t', 's-q', 's-c', 's-i', 's-g', 's-v', 's-yt', 's-vm', 's-x']; }
+  copyText(text, done) {
+    const fallback = () => { try { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); document.body.removeChild(ta); if (ok) done(); } catch (e) {} };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  }
+  renderVals() {
+    const st = Object.assign({ p: 0, act: 0, top: false, copied: -1, link: false, lb: -1, now: Date.now() }, this.state || {});
+    const p2 = (x) => String(x).padStart(2, '0');
+    const toc = [["s-p", "Paragraph", 1], ["s-h", "Headings", 1], ["s-l", "Lists", 1], ["s-ol", "Ordered", 2], ["s-ul", "Unordered", 2], ["s-t", "Table", 1], ["s-q", "Quotes", 1], ["s-c", "Syntax Highlighter", 1], ["s-i", "Images", 1], ["s-g", "Gallery", 1], ["s-v", "Video", 1], ["s-yt", "YouTube", 2], ["s-vm", "Vimeo", 2], ["s-x", "Extras", 1]];
+    let n = 0;
+    const tocRows = toc.map((t, i) => { if (t[2] === 1) n += 1; return { href: '#' + t[0], label: t[1], no: t[2] === 1 ? p2(n) : '└', cls: (t[2] === 2 ? 'l2 ' : '') + (st.act === i ? 'on' : '') }; });
+    const imgs = [
+      ['ph1', 'IMG_01', 'Image 01 — 해돋이'], ['ph2', 'IMG_02', 'Image 02 — 산'], ['ph3', 'IMG_03', 'Image 03 — 도시'],
+      ['ph4', 'IMG_04', 'Image 04 — 물결'], ['ph5', 'IMG_05', 'Image 05 — 체크'], ['ph6', 'IMG_06', 'Image 06 — 별'],
+      ['ph7', 'IMG_07', 'Gallery 01'], ['ph8', 'IMG_08', 'Gallery 02'], ['ph9', 'IMG_09', 'Gallery 03'], ['ph10', 'IMG_10', 'Gallery 04']
+    ];
+    const open = (i) => () => this.setState({ lb: i });
+    const mk = (i, pos) => ({ cls: imgs[i][0], label: imgs[i][1], cap: imgs[i][2], pos: pos || '', aria: imgs[i][2] + ' 크게 보기', open: open(i) });
+    const imgRows = [0, 1, 2, 3, 4, 5].map((i) => mk(i));
+    const galRows = [6, 7, 8, 9].map((i, k) => mk(i, 'g' + k));
+    const lbOpen = st.lb >= 0, cur = imgs[Math.max(0, st.lb)];
+    const go = (d) => () => this.setState({ lb: (st.lb + d + imgs.length) % imgs.length });
+    const f = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+    const o = {};
+    f.formatToParts(new Date(st.now)).forEach((x) => { o[x.type] = x.value; });
+    const code = (i) => () => { const el = document.querySelectorAll('.pre')[i]; if (!el) return; this.copyText(el.innerText, () => { this.setState({ copied: i }); clearTimeout(this.t1); this.t1 = setTimeout(() => this.setState({ copied: -1 }), 1600); }); };
+    return {
+      tocRows, imgRows, galRows, lbOpen, lbCls: cur[0], lbLabel: cur[1], lbCap: cur[2], lbPrev: go(-1), lbNext: go(1), lbClose: () => this.setState({ lb: -1 }),
+      gauge: st.p + '%', pct: String(st.p).padStart(3, '0') + '%',
+      topCls: st.top ? 'on' : '', toTop: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+      copy0: code(0), copy1: code(1), copyText0: st.copied === 0 ? 'COPIED' : 'COPY', copyText1: st.copied === 1 ? 'COPIED' : 'COPY',
+      copyLink: () => this.copyText(window.location.href, () => { this.setState({ link: true }); clearTimeout(this.t2); this.t2 = setTimeout(() => this.setState({ link: false }), 1600); }),
+      linkText: st.link ? 'COPIED' : 'COPY LINK',
+      clock: 'Seoul, South Korea ' + o.year + '-' + o.month + '-' + o.day + ' ' + o.hour + ':' + o.minute + ':' + o.second + ' (KST)'
+    };
+  }
+}
+</script>
+</body>
+</html>
