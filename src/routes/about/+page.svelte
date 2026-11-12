@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getStatus } from '#lib/status.svelte.ts';
+	import { claimStatus } from '#lib/status.svelte.ts';
 	import { SITE_NAME } from '#lib/site.ts';
 	import Seo from '#lib/components/Seo.svelte';
 	import AboutScene5 from '#lib/about/AboutScene5.svelte';
 	import { initStory } from '#lib/about/story.ts';
 
-	const status = getStatus();
+	// 상태바 주인이 된다. 떠날 때 release() — 그 사이 다른 페이지가 주인이 됐으면 건드리지 않는다
+	const { status, release } = claimStatus();
 	const pad = (p: number) => String(Math.round(p * 100)).padStart(3, '0') + '%';
 	const setGauge = (p: number) => {
 		status.gauge = { label: 'SCROLL', value: p, text: pad(p) };
@@ -22,7 +23,7 @@
 		const cleanup = initStory(root, { header, onProgress: setGauge });
 		return () => {
 			cleanup();
-			status.gauge = null;
+			release();
 		};
 	});
 </script>

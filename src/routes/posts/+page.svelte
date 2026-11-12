@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { getStatus } from '#lib/status.svelte.ts';
+	import { claimStatus } from '#lib/status.svelte.ts';
 	import { posts, categories } from '#lib/posts.ts';
 	import { SITE_NAME } from '#lib/site.ts';
 	import Seo from '#lib/components/Seo.svelte';
 
-	const status = getStatus();
+	// 상태바 주인이 된다. 떠날 때 release() — 그 사이 다른 페이지가 주인이 됐으면 건드리지 않는다
+	const { status, release } = claimStatus();
 
 	const PER = 8;
 	const p2 = (x: number) => String(x).padStart(2, '0');
@@ -79,9 +80,7 @@
 	};
 	setGauge();
 	$effect.pre(setGauge);
-	$effect(() => () => {
-		status.gauge = null;
-	});
+	$effect(() => release);
 </script>
 
 <Seo title="Posts" description="{SITE_NAME}의 모든 글 목록" />

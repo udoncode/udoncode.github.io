@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getStatus } from '#lib/status.svelte.ts';
+	import { claimStatus } from '#lib/status.svelte.ts';
 	import { SITE_OWNER } from '#lib/site.ts';
 	import { startDandelion } from '#lib/dandelion.ts';
 	import Seo from '#lib/components/Seo.svelte';
 
-	const status = getStatus();
+	// 상태바 주인이 된다. 떠날 때 release() — 그 사이 다른 페이지가 주인이 됐으면 건드리지 않는다
+	const { status, release } = claimStatus();
 
 	// 타이핑 줄: 글자 수(n)만큼 steps(n)으로 늘어나고, 줄마다 0.15초 쉬고 다음 줄이 시작된다.
 	// 목업 값: 1.9s 시작, 글자당 0.045s → (30ch 1.35s) (44ch 1.98s) (31ch 1.4s) (26ch 1.17s), > OPEN DOOR는 8.4s.
@@ -41,7 +42,7 @@
 		replay = d.replay;
 		return () => {
 			d.destroy();
-			status.gauge = null;
+			release();
 		};
 	});
 </script>

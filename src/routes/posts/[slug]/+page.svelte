@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
-	import { getStatus } from '#lib/status.svelte.ts';
+	import { claimStatus } from '#lib/status.svelte.ts';
 	import '#lib/styles/post-body.css';
 	import Seo from '#lib/components/Seo.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const status = getStatus();
+	// 상태바 주인이 된다. 떠날 때 release() — 그 사이 다른 페이지가 주인이 됐으면 건드리지 않는다
+	const { status, release } = claimStatus();
 
 	const p2 = (x: number) => String(x).padStart(2, '0');
 
@@ -27,10 +28,7 @@
 	setGauge();
 	status.sticky = true;
 	$effect.pre(setGauge);
-	$effect(() => () => {
-		status.gauge = null;
-		status.sticky = false;
-	});
+	$effect(() => release);
 
 	// 목차: h2는 01, 02… / h3는 └
 	const tocRows = $derived.by(() => {
