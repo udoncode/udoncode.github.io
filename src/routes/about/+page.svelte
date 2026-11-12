@@ -29,7 +29,7 @@
 
 <Seo title="About" description="{SITE_NAME} 소개" />
 
-<!-- design/About.dc.html 마크업 그대로 (장면 0~6, 장면 5는 AboutScene5). 이번 단계에서는 0~5까지 스크롤로 보이고 6은 숨겨 둔다 -->
+<!-- design/About.dc.html 마크업 그대로 (장면 0~6, 장면 5는 AboutScene5) -->
 <div class="pg" bind:this={root}>
 <h1 style="position:absolute;width:1px;height:1px;overflow:hidden">About</h1>
 <div class="shell"><div class="main"><section class="story" aria-label="My Story"><div class="stage">
@@ -693,22 +693,5 @@
 	/* 프리렌더 HTML에서 스크립트가 돌기 전에 뒤 장면이 비치지 않게 (스크립트가 clip-path를 인라인으로 덮어쓴다) */
 	.pg :global(.sl:not(.s0)) {
 		clip-path: inset(0 0 0 100%);
-	}
-
-	/* ── 이번 단계: 장면 0~5만 공개 (장면 6은 다음 단계) ──
-	   원본 높이는 16.4 (장면 7개). 13.3이면 스크롤이 장면 5가 다 그려진 뒤, 퇴장 효과 직전쯤에서 끝난다
-	   (푸터 높이에 따라 조금 달라서 좁은 화면에서는 장면 5의 퇴장이 살짝 시작될 수 있다).
-	   장면 6은 원본 스크립트가 장면 5 퇴장이 시작되면 .pre 를 붙여 보이게 하므로 visibility로 확실히 숨긴다.
-	   장면 6을 공개할 때 이 블록을 지운다. */
-	.pg :global {
-		.story {
-			height: calc(13.3 * (100vh - var(--hh)));
-		}
-		.s6 {
-			visibility: hidden;
-		}
-		.snk .lb[data-i='6'] {
-			display: none;
-		}
 	}
 </style>
