@@ -275,7 +275,7 @@
 
 <style>
 	/* 목차 링크를 누르면 부드럽게 이동 (이 페이지에 있을 때만) */
-	:global(html:has(.art)) {
+	:global(html:has(article.art)) {
 		scroll-behavior: smooth;
 	}
 
@@ -779,7 +779,7 @@
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
-		:global(html:has(.art)) {
+		:global(html:has(article.art)) {
 			scroll-behavior: auto;
 		}
 		.bk {
