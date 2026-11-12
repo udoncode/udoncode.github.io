@@ -80,7 +80,8 @@
 	.sb.sticky {
 		position: sticky;
 		bottom: 0;
-		z-index: 30;
+		/* 본문 이미지·영상(z 41)보다 위 */
+		z-index: 42;
 		background: var(--color-bg);
 		margin: 0 calc(-1 * var(--spacing-gutter));
 		padding: 0 var(--spacing-gutter);

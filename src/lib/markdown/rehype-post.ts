@@ -111,7 +111,6 @@ function videoEmbed(p: El): El | null {
 		'button',
 		{ type: 'button', className: ['vid'], dataEmbed: embed, dataKind: name, ariaLabel: `${name} 영상 재생` },
 		[
-			el('span', { className: ['scn'] }),
 			el('span', { className: ['tagv'] }, [text(kind)]),
 			el('span', { className: ['play'] })
 		]

@@ -339,20 +339,14 @@
 	border: 3px solid var(--color-lcd);
 	overflow: hidden;
 	background-color: var(--color-bg);
+	/* 전체 화면 스캔라인·비네트(.lcd::after, z 40) 위에 올려 원본 색 그대로 보이게 */
+	z-index: 41;
 }
 .md .ph img {
 	display: block;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-}
-/* LCD 도트 필터 */
-.md .ph::after {
-	content: '';
-	position: absolute;
-	inset: 0;
-	background: radial-gradient(circle, rgb(10 18 6 / 0.6) 1px, transparent 1.3px) 0 0 / 4px 4px;
-	pointer-events: none;
 }
 .md .pl {
 	position: absolute;
@@ -464,6 +458,8 @@
 	font: inherit;
 	overflow: hidden;
 	cursor: pointer;
+	/* 전체 화면 스캔라인·비네트(.lcd::after, z 40) 위에 올린다 */
+	z-index: 41;
 }
 .md .vid iframe {
 	position: absolute;
@@ -471,14 +467,6 @@
 	width: 100%;
 	height: 100%;
 	border: 0;
-}
-.md .vid .scn {
-	position: absolute;
-	inset: 0;
-	background:
-		repeating-linear-gradient(0deg, rgb(141 195 0 / 0.1) 0 2px, transparent 2px 5px),
-		radial-gradient(circle at 50% 50%, rgb(141 195 0 / 0.18), transparent 62%);
-	animation: vid-sc 1.2s steps(6) infinite;
 }
 .md .vid .play {
 	position: absolute;
@@ -518,12 +506,6 @@
 	font-size: 22px;
 	line-height: 1.4;
 }
-@keyframes vid-sc {
-	50% {
-		background-position: 8px 0;
-	}
-}
-
 /* ── 작은 요소 ── */
 .md code {
 	padding: 1px 7px;

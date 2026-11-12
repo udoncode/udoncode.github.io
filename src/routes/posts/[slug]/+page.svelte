@@ -614,7 +614,8 @@
 		position: fixed;
 		right: clamp(16px, 3vw, 40px);
 		bottom: 96px;
-		z-index: 30;
+		/* 본문 이미지·영상(z 41)보다 위 */
+		z-index: 42;
 		min-height: var(--spacing-tab);
 		padding: 0 16px;
 		background: var(--color-bg);
