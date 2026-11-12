@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 스택: SvelteKit + Svelte 5 + Tailwind v4 + mdsvex + adapter-static
 - 배포: GitHub Pages (저장소: udoncode/udoncode.github.io, 주소: https://udoncode.github.io)
 - 사용자 페이지라서 하위 경로가 없다. paths.base는 설정하지 않는다.
-- 정적 사이트다. +server.ts, DB, 서버 전용 기능은 쓰지 않는다.
+- 정적 사이트다. DB와 서버 전용 기능은 쓰지 않는다. `+server.ts`는 빌드 때 프리렌더되어 파일이 되는 것(`sitemap.xml`, `rss.xml`)에만 쓴다(`export const prerender = true`).
 
 ## 디자인
 - 디자인 원본은 design/ 폴더의 Main(홈), Posts(글 목록), About(소개) 3개 파일이 기준이다.
@@ -29,6 +29,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 푸터 가운데 칸(게이지)은 페이지마다 다르다(Home `BLOOMING...`, Posts `PAGE`, About `SCROLL`). 각 페이지를 만들 때 그 페이지에서 `const status = getStatus()`(`#lib/status.svelte.ts`)로 받아 `status.gauge`(`{ label, value: 0~1, text, transition? }`)를 채우고, `onMount` 정리 함수에서 `null`로 되돌린다. 값이 없으면 빈칸으로 보인다.
   - 상태는 루트 레이아웃이 `provideStatus()`로 렌더마다 새로 만들어 context로 내려준다. 모듈 전역 `$state`로 페이지 간 값을 공유하면 프리렌더 때 다른 페이지 HTML에 값이 새므로 쓰지 않는다.
 - 헤더 오른쪽 `[MSG 1]` 라벨은 페이지의 `+page.ts`가 `load`에서 `{ msg: '[MSG 1]' }`을 돌려줄 때만 보인다(현재 홈만). 라벨은 홈 페이지의 숨은 체크박스 `#msg-toggle`을 켜서 메시지 대화상자를 연다.
+- 페이지마다 `<title>`을 직접 쓰지 말고 `#lib/components/Seo.svelte`를 한 번 넣는다(title, description, image, type, publishedTime). 사이트 주소·이름·기본 설명·기본 공유 이미지는 `src/lib/site.ts`에서만 바꾼다.
 - 한 번에 한 가지씩 작업하고, 끝나면 npm run build로 빌드가 되는지 확인한다.
 
 ## Project state
@@ -52,7 +53,7 @@ No test runner, linter, or formatter is configured. `.npmrc` sets `engine-strict
 - **Runes mode is forced** for all project files (`compilerOptions.runes`), so use `$props()`, `$state()`, `$derived()`, `{@render children()}` — not legacy `export let` / `<slot>`.
 - **`#lib` alias, not `$lib`.** `package.json` `imports` maps `#lib` → `src/lib/index.js` and `#lib/*` → `src/lib/*`.
 - **Markdown as pages:** mdsvex preprocesses `.svx` and `.md`, and both are registered as Svelte component extensions, so markdown files can be routes (`+page.md`) or imported as components.
-- **Posts data:** posts are `src/posts/**/*.md` with frontmatter `title`, `date` (YYYY-MM-DD), `category`, `sub`, and optional `tags` (array) and `subtitle` (small label under the title). A post's slug is its **file name** without `.md`; folders are only for grouping. Slugs must be unique across folders, and `posts.ts` throws on duplicates. How it fits together:
+- **Posts data:** posts are `src/posts/**/*.md` with frontmatter `title`, `date` (YYYY-MM-DD), `category`, `sub`, and optional `tags` (array), `subtitle` (small label under the title), `description` (meta/OG/RSS description; defaults to `excerpt`, the first 120 chars of body text from `src/lib/markdown/excerpt.ts`), and `image` (OG image path or URL; defaults to `/og-default.png`). A post's slug is its **file name** without `.md`; folders are only for grouping. Slugs must be unique across folders, and `posts.ts` throws on duplicates. How it fits together:
   - **mdsvex config** lives in one place, `src/lib/markdown/options.ts`. It is used by `vite.config.ts` and by the `postMeta` Vite plugin, and everything in it runs at build time only.
   - **Reading time:** the remark plugin `src/lib/markdown/reading-time.ts` runs at build time. It adds `readMin` to each post's frontmatter: non-whitespace chars of text + inline code ÷ 500 chars/min, rounded, min 1.
   - **Post list:** `src/lib/posts.ts` globs `/src/posts/**/*.md` with `query: '?meta'`. `src/lib/markdown/post-meta-plugin.ts` turns each `x.md?meta` into a tiny module that exports only `metadata`. Keep it that way: importing the `.md` itself (or `?raw`) would pull every post's component or body into the Posts page JS, because the detail page lazy-imports the same files. The virtual id ends in `.meta.js` so vite-plugin-svelte doesn't recompile it. `posts.ts` throws if a frontmatter key is missing.
@@ -71,6 +72,7 @@ No test runner, linter, or formatter is configured. `.npmrc` sets `engine-strict
   - **Categories:** derived from the posts, never hard-coded. Top-level order comes from `src/lib/category-order.ts`; unlisted categories are appended by name. Subcategories are sorted by post count, then name.
   - **Samples:** `src/posts/_sample/` holds throwaway `[샘플]` posts; delete the folder when real posts exist.
 - **Static output / deploy:** `src/routes/+layout.ts` sets `prerender = true` for every route; adapter-static writes `build/` with `fallback: '404.html'`. Every internal link must point to an existing route or the prerender step fails the build. `static/.nojekyll` is copied into the output. `.github/workflows/deploy.yml` builds on push to `main` (Node 24) and deploys via `actions/deploy-pages` (repo Pages source must be "GitHub Actions").
+- **SEO / feeds:** `Seo.svelte` renders title (`Page | UDONCODE`, home = name only), description, canonical, og:*, and twitter:card. URLs are made absolute from `SITE_URL`. `src/routes/sitemap.xml/+server.ts` and `rss.xml/+server.ts` reuse `posts` (already date-desc) and are prerendered to `build/*.xml`. `static/robots.txt` points to the sitemap, and the root layout adds the RSS `<link rel="alternate">`.
 - **Footer status:** a page can also set `status.sticky = true` to pin the footer to the viewport bottom (the post page does this). Reset it in cleanup like `gauge`.
 - **Styling:**
   - `src/routes/layout.css` is the global stylesheet (imported by the root `+layout.svelte`). Its `@theme` defines the design tokens. Tailwind 4 has no `tailwind.config.js`.

@@ -3,6 +3,7 @@
 	import { getStatus } from '#lib/status.svelte.ts';
 	import { SITE_OWNER } from '#lib/site.ts';
 	import { startDandelion } from '#lib/dandelion.ts';
+	import Seo from '#lib/components/Seo.svelte';
 
 	const status = getStatus();
 
@@ -45,9 +46,8 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Home</title>
-</svelte:head>
+<!-- 홈: 제목은 사이트 이름만, 설명은 기본 설명 -->
+<Seo />
 
 <input class="hid" type="checkbox" id="msg-toggle" aria-label="메시지 열기" />
 

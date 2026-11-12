@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { getStatus } from '#lib/status.svelte.ts';
 	import { posts, categories } from '#lib/posts.ts';
+	import { SITE_NAME } from '#lib/site.ts';
+	import Seo from '#lib/components/Seo.svelte';
 
 	const status = getStatus();
 
@@ -82,9 +84,7 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Posts</title>
-</svelte:head>
+<Seo title="Posts" description="{SITE_NAME}의 모든 글 목록" />
 
 <header class="ph">
 	<h1 class="pt font-px">

@@ -1,6 +1,8 @@
 // src/posts/**/*.md 의 머리말(metadata)만 빌드 때 정적으로 읽어 글 목록과 카테고리를 만든다.
-// 머리말: title, date(YYYY-MM-DD), category, sub, tags(문자열 배열, 생략 가능), subtitle(제목 아래 작은 영문 글자, 생략 가능)
-// readMin(읽는 시간)은 빌드 때 remark 플러그인(src/lib/markdown/reading-time.ts)이 넣는다.
+// 머리말: title, date(YYYY-MM-DD), category, sub
+//   생략 가능: tags(문자열 배열), subtitle(제목 아래 작은 영문 글자),
+//             description(공유·검색 설명. 없으면 본문 앞 120자 요약), image(공유 이미지. 없으면 기본 이미지)
+// readMin(읽는 시간)·excerpt(본문 요약)는 빌드 때 remark 플러그인(src/lib/markdown/)이 넣는다.
 // ?meta(src/lib/markdown/post-meta-plugin.ts)로 머리말만 가져오므로 본문·컴포넌트는 페이지 JS에 포함되지 않는다.
 import { CATEGORY_ORDER } from '#lib/category-order.ts';
 
@@ -9,10 +11,13 @@ export type Post = {
 	title: string;
 	subtitle: string;
 	date: string; // 'YYYY.MM.DD' (목업 표기)
+	isoDate: string; // 'YYYY-MM-DD' (메타·sitemap·RSS용)
 	category: string;
 	sub: string;
 	tags: string[];
 	readMin: number;
+	description: string; // 머리말 description, 없으면 본문 요약
+	image: string | null; // 머리말 image (사이트 내부 경로나 절대 URL)
 };
 
 export type Category = {
@@ -22,7 +27,19 @@ export type Category = {
 };
 
 type Meta = Partial<
-	Record<'title' | 'subtitle' | 'date' | 'category' | 'sub' | 'tags' | 'readMin', unknown>
+	Record<
+		| 'title'
+		| 'subtitle'
+		| 'date'
+		| 'category'
+		| 'sub'
+		| 'tags'
+		| 'readMin'
+		| 'description'
+		| 'image'
+		| 'excerpt',
+		unknown
+	>
 >;
 
 const files = import.meta.glob('/src/posts/**/*.md', {
@@ -32,7 +49,7 @@ const files = import.meta.glob('/src/posts/**/*.md', {
 }) as Record<string, Meta | undefined>;
 
 // YAML의 날짜는 Date → JSON 문자열('2026-11-08T00:00:00.000Z')로 넘어온다. 앞 10자만 쓴다.
-const toDate = (v: unknown) => String(v).slice(0, 10).replaceAll('-', '.');
+const toIsoDate = (v: unknown) => String(v).slice(0, 10);
 
 function toPost(path: string, meta: Meta | undefined): Post {
 	const file = path.replace(/^\/src\//, 'src/').replace(/\?meta$/, '');
@@ -46,11 +63,14 @@ function toPost(path: string, meta: Meta | undefined): Post {
 		slug,
 		title: String(meta!.title),
 		subtitle: meta!.subtitle ? String(meta!.subtitle) : '',
-		date: toDate(meta!.date),
+		date: toIsoDate(meta!.date).replaceAll('-', '.'),
+		isoDate: toIsoDate(meta!.date),
 		category: String(meta!.category),
 		sub: String(meta!.sub),
 		tags: tags.map(String),
-		readMin: Number(meta!.readMin ?? 1)
+		readMin: Number(meta!.readMin ?? 1),
+		description: String(meta!.description ?? meta!.excerpt ?? ''),
+		image: meta!.image ? String(meta!.image) : null
 	};
 }
 

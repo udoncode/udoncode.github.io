@@ -2,6 +2,7 @@
 	import { onMount, tick } from 'svelte';
 	import { getStatus } from '#lib/status.svelte.ts';
 	import '#lib/styles/post-body.css';
+	import Seo from '#lib/components/Seo.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -151,9 +152,13 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{data.post.title}</title>
-</svelte:head>
+<Seo
+	title={data.post.title}
+	description={data.post.description}
+	image={data.post.image ?? undefined}
+	type="article"
+	publishedTime={data.post.isoDate}
+/>
 
 <!-- 상단 진행 바 (모바일) -->
 <div class="tpb" aria-hidden="true"><i style:width="{pct}%"></i></div>
