@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc><!-- merged with saved copy: only serialization differed -->
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=VT323&amp;family=Orbitron:wght@900&amp;family=Noto+Sans+KR:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
+@font-face{font-family:'Galmuri11';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2506-1@1.0/Galmuri11-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Mulmaru';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-4@1.1/Mulmaru.woff2') format('woff2');font-weight:normal;font-display:swap}
+body{margin:0;background:#0a1206}
+a{color:inherit;text-decoration:none}
+@property --s{syntax:'<integer>';inherits:false;initial-value:0}
+@property --m{syntax:'<integer>';inherits:false;initial-value:0}
+.pg{position:relative;min-height:100%;overflow:hidden;box-sizing:border-box;padding:0 clamp(20px,3.5vw,56px) 1px;color:#8dc300;font-family:'Galmuri11','Noto Sans KR',sans-serif;background-color:#0a1206;background-image:radial-gradient(circle,rgba(141,195,0,.2) 1px,transparent 1.5px);background-size:20px 20px}
+.pg:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:20;background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.6));animation:fk 6s steps(1) infinite}
+.vt{font-family:VT323,'IBM Plex Mono','Galmuri11',monospace}.px{font-family:'Press Start 2P','Mulmaru','Galmuri11',monospace}
+.hid{position:absolute;opacity:0;width:1px;height:1px}
+.an{font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:21px;line-height:1.3;color:#6f9a00;letter-spacing:.5px}
+.tabs{position:relative;display:flex;align-items:flex-end;gap:clamp(8px,2.5vw,36px);padding-top:28px;border-bottom:3px solid #8dc300;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:36px;line-height:1}
+.tabs:before,.tabs:after{content:"";position:absolute;bottom:0;width:3px;height:20px;background:#8dc300}
+.tabs:before{left:0}.tabs:after{right:0}
+.tabs a{display:flex;align-items:center;min-height:48px;box-sizing:border-box;padding:0 16px;opacity:.65;transition:.1s steps(2)}
+.tabs a:hover{opacity:1;background:#8dc300;color:#0a1206}
+.tabs a.on{opacity:1;border:3px solid #8dc300;border-bottom-color:#0a1206;margin-bottom:-3px;background:#0a1206}
+a:focus-visible,label:focus-visible{outline:3px dashed #d6ff5c;outline-offset:3px}
+.sg rect,.bt .z{animation:tw 1.6s steps(2) infinite}
+.sg rect:nth-child(2){animation-delay:.2s}.sg rect:nth-child(3){animation-delay:.4s}.sg rect:nth-child(4){animation-delay:.6s}
+.bt .z{animation:fi 2.4s steps(1) infinite}.bt .z:nth-child(2){animation-delay:.4s}.bt .z:nth-child(3){animation-delay:.8s}
+.ty{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:0;border-right:.5em solid currentColor;animation:ty 2.2s .8s forwards,cu .7s steps(1) infinite}
+.fl{animation:fl 2.8s steps(7) infinite}
+.kw{background:#8dc300;color:#0a1206;padding:0 6px;cursor:pointer}.kw:hover{animation:cu .5s steps(1) infinite}
+.kk rect,.kk text{transition:.1s steps(2)}.kk:hover rect{fill:#8dc300}.kk:hover text{fill:#0a1206}
+.bk,.ey{animation:cu 1s steps(1) infinite}
+.rw{display:flex;align-items:baseline;gap:14px;padding:12px 10px;border-bottom:1px dashed #4a6a00;transition:.1s steps(2)}
+.rw:hover{background:#8dc300;color:#0a1206}
+.rw .dots{flex:1;border-bottom:2px dotted currentColor;opacity:.5;transform:translateY(-6px)}
+.rw .ar{opacity:0;transition:.15s steps(3);transform:translateX(-10px)}.rw:hover .ar{opacity:1;transform:none}
+.dg{font-family:Orbitron,monospace;font-weight:900;font-size:clamp(46px,7vw,104px);line-height:1;letter-spacing:4px}
+.up{animation:us 60s steps(60) infinite,um 3600s steps(60) infinite;counter-reset:s var(--s) m var(--m)}
+.up:after{content:counter(m,decimal-leading-zero) ":" counter(s,decimal-leading-zero)}
+.sb{display:grid;grid-template-columns:1fr 2fr 1fr;border-top:3px solid #8dc300;margin-top:56px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:30px;line-height:1}
+.sb>div{padding:14px 18px;display:flex;align-items:center;gap:14px;border-left:3px solid #8dc300}.sb>div:first-child{border-left:0}
+.pb{flex:1;height:14px;border:2px solid #8dc300;padding:2px}.pb i{display:block;height:100%;width:var(--w);background:#8dc300;animation:bf 1.6s steps(12) .6s both}
+.mi{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:4px 14px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:36px;line-height:1.25;cursor:pointer;transition:.1s steps(2)}
+.mi:hover{background:rgba(141,195,0,.25)}
+.dlg{display:none;position:absolute;inset:0;z-index:8;background:rgba(10,18,6,.88);align-items:center;justify-content:center;padding:20px}
+#m:checked~.dlg{display:flex}
+.dp{background:#0a1206;border:3px solid #8dc300;max-width:520px;padding:26px;display:flex;flex-direction:column;gap:16px;animation:pop .3s steps(3) both}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:3px solid #8dc300;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:26px;cursor:pointer}.btn:hover{background:#8dc300;color:#0a1206}
+.pic{width:100%;max-width:460px;aspect-ratio:1.2;animation:sc 1.2s steps(6) infinite}
+@keyframes fk{92%{opacity:.8}}
+@keyframes cu{50%{border-color:transparent;opacity:.1}}
+@keyframes tw{50%{opacity:.2}}
+@keyframes fi{0%{opacity:0}25%,100%{opacity:1}}
+@keyframes fl{50%{transform:translateY(-14px)}}
+@keyframes ty{to{width:var(--n)}}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+@keyframes rs{0%{transform:translateY(0);opacity:0}25%{opacity:1}100%{transform:translateY(-80px);opacity:0}}
+@keyframes bf{from{width:0}}
+@keyframes us{to{--s:60}}@keyframes um{to{--m:60}}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes sc{50%{background-position:8px 0}}
+@media(max-width:900px){.cols{grid-template-columns:1fr!important}.hero-v{display:none}.sb{grid-template-columns:1fr}.sb>div{border-left:0;border-top:3px solid #8dc300}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ty{width:auto!important;border-right:0}}
+.pg{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+.hero2{position:relative;flex:1;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;padding:20px 0 28px}
+.cv{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:pointer}
+.scrim{position:absolute;left:calc(-1*clamp(20px,3.5vw,56px));right:calc(-1*clamp(20px,3.5vw,56px));bottom:0;height:56%;z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(10,18,6,.95) 6%,rgba(10,18,6,.6) 55%,transparent)}
+.wel{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;text-shadow:0 0 14px #0a1206,0 0 4px #0a1206}
+.wl{margin:0;font-family:'Press Start 2P','Mulmaru','Galmuri11',monospace;font-weight:400;font-size:clamp(34px,9.6vw,150px);line-height:1.1;letter-spacing:0}
+.tl{display:block;overflow:hidden;white-space:nowrap;width:0;border-right:.5em solid transparent;animation:ty var(--d) var(--t) forwards,cs var(--d) var(--t) forwards}
+.tx{font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:clamp(20px,2.6vw,34px);line-height:1.25}
+.tx .kw{padding:0;box-shadow:3px 0 0 #8dc300,-3px 0 0 #8dc300;text-shadow:none}
+.nav2{position:absolute;right:0;bottom:28px;z-index:2;display:flex;gap:28px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:30px}
+.sk{display:inline-flex;align-items:center;min-height:44px;padding:0 6px;background:none;border:0;color:#8dc300;font:inherit;cursor:pointer}
+.sk:hover{background:#8dc300;color:#0a1206}
+.sb{margin-top:0}
+.bi{display:block;height:100%;width:0;background:#8dc300}
+@keyframes cs{0%,99%{border-right-color:currentColor}100%{border-right-color:transparent}}
+@media(max-width:760px){.hero2{min-height:660px;justify-content:flex-start;padding:40px 0 16px}.tx{font-size:min(20px,calc((100vw - 2*clamp(20px,3.5vw,56px))/20))}.scrim{display:none}.nav2{position:absolute;left:0;right:0;bottom:12px;justify-content:space-between}.tabs{flex-wrap:nowrap;font-size:30px}.tabs a{padding:0 10px}.tabs>span{padding:0 6px 12px!important;gap:10px!important;flex-shrink:0}.tabs label{font-size:22px!important}}
+@media(max-width:520px){.tabs .sg,.tabs .bt{display:none}.tabs{font-size:25px;gap:6px}.tabs a{padding:0 8px}.tabs label{font-size:18px!important}}
+@media(max-width:360px){.tabs{font-size:23px}.tabs label{font-size:16px!important}}
+@media(max-width:340px){.tabs{font-size:21px}.tabs a{padding:0 6px}.tabs label{font-size:15px!important}}
+@media (prefers-reduced-motion:reduce){.tl{width:auto!important;border:0}}
+
+.sb{grid-template-columns:auto minmax(0,1fr) auto}
+.sb>div:first-child{white-space:nowrap;font-size:26px}
+@media(max-width:1100px){.sb{grid-template-columns:1fr;font-size:24px}.sb>div{border-left:0;border-top:3px solid #8dc300;white-space:normal}.sb>div:nth-child(2){order:-1;border-top:0}.sb>div:first-child{font-size:22px;white-space:normal}}
+</style>
+</helmet>
+<div class="pg">
+<input class="hid" type="checkbox" id="m" aria-label="메시지 열기">
+<nav class="tabs" aria-label="메인 메뉴"><a class="on" aria-current="page" href="Main.dc.html">HOME</a><a href="Posts.dc.html">POSTS</a><a href="About.dc.html">ABOUT</a><span style="margin-left:auto;display:flex;gap:16px;align-items:center;padding:0 14px 12px"><label class="vt" for="m" style="font-size:26px;cursor:pointer;animation:cu 1.4s steps(1) infinite">[MSG 1]</label><svg class="sg" width="26" height="22" viewBox="0 0 13 11" fill="currentColor" aria-label="신호 최대" role="img"><rect x="0" y="8" width="2" height="3"></rect><rect x="3" y="6" width="2" height="5"></rect><rect x="6" y="3" width="2" height="8"></rect><rect x="9" y="0" width="2" height="11"></rect></svg><svg class="bt" width="40" height="24" viewBox="0 0 20 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-label="배터리 충전 중" role="img"><rect x="1" y="1" width="15" height="10"></rect><rect x="16" y="4" width="2" height="4" fill="currentColor"></rect><rect class="z" x="3" y="3" width="3" height="6" fill="currentColor" stroke="none"></rect><rect class="z" x="7" y="3" width="3" height="6" fill="currentColor" stroke="none"></rect><rect class="z" x="11" y="3" width="3" height="6" fill="currentColor" stroke="none"></rect></svg></span></nav>
+<section class="hero2" aria-label="인트로">
+<canvas class="cv" ref="{{ cvRef }}" role="img" aria-label="도트로 그려진 민들레가 왼쪽 아래에서 피어나고 씨앗이 날려가는 애니메이션. 누르면 다시 재생돼요" title="CLICK TO REPLAY"></canvas>
+<div class="scrim"></div>
+<div class="wel">
+<h1 class="wl"><span class="tl" style="--n:7ch;--d:.9s;--t:.5s;animation-timing-function:steps(7),steps(1)">WELCOME</span></h1>
+<div class="tx"><span class="tl" style="--n:30ch;--d:1.35s;--t:1.9s;animation-timing-function:steps(30),steps(1)">You are in [YOUR NAME]'s blog.</span><span class="tl" style="--n:44ch;--d:1.98s;--t:3.4s;animation-timing-function:steps(44),steps(1)">Outside the <label class="kw" for="m">WINDOW</label> a cool breeze is blowing.</span><span class="tl" style="--n:31ch;--d:1.4s;--t:5.53s;animation-timing-function:steps(31),steps(1)">A <a class="kw" href="Posts.dc.html">DOOR</a> leads to the posts room.</span><span class="tl" style="--n:26ch;--d:1.17s;--t:7.08s;animation-timing-function:steps(26),steps(1)">A <a class="kw" href="About.dc.html">LETTER</a> lies on the desk.</span><span class="vt" style="display:block;margin-top:6px">&gt; <span class="ty" style="--n:9ch;animation-delay:8.4s,0s;animation-timing-function:steps(9),steps(1)">OPEN DOOR</span></span></div>
+</div>
+<div class="nav2"><button type="button" class="sk" onClick="{{ replay }}">↻ REPLAY</button><a class="sk" href="Posts.dc.html">POSTS ▶</a></div>
+</section>
+<div class="sb"><div><span class="vt" ref="{{ clockRef }}" >Seoul, South Korea 0000-00-00 00:00:00 (KST)</span></div><div><span ref="{{ stRef }}">BLOOMING...</span><span class="pb"><i class="bi" ref="{{ barRef }}"></i></span><span ref="{{ pctRef }}">000%</span></div><div>© 2026 [YOUR NAME]</div></div>
+<div class="dlg"><div class="dp"><p class="px" style="margin:0;font-size:14px">Hey there!</p><p style="margin:0;font-weight:500;font-size:17px;line-height:1.8">방문해줘서 고마워요. 일상의 바쁨은 잠시 내려놓고, 어린 시절의 추억을 즐기다 가세요 :)</p><p class="px" style="margin:0;font-size:12px;display:flex;gap:10px;align-items:center">Take care, bye <svg width="20" height="17" viewBox="0 0 7 6" fill="#8dc300" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 0H3V1H4V0H6V1H7V3H6V4H5V5H4V6H3V5H2V4H1V3H0V1H1Z"></path></svg></p><label class="btn" for="m" style="align-self:flex-start">close</label></div></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    if (!this._r) {
+      this._r = {
+        cvRef: (el) => { if (el) this.initCanvas(el); },
+        clockRef: (el) => { if (el) this.initClock(el); },
+        pctRef: (el) => { this.pctEl = el; },
+        barRef: (el) => { this.barEl = el; },
+        stRef: (el) => { this.stEl = el; },
+        replay: () => { this.t0 = performance.now(); }
+      };
+    }
+    return this._r;
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.timer) clearInterval(this.timer);
+    if (this.ro) this.ro.disconnect();
+  }
+  initClock(el) {
+    if (this.clockEl === el) return;
+    this.clockEl = el;
+    const f = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+    const tick = () => {
+      const o = {};
+      f.formatToParts(new Date()).forEach((x) => { o[x.type] = x.value; });
+      el.textContent = 'Seoul, South Korea ' + o.year + '-' + o.month + '-' + o.day + ' ' + o.hour + ':' + o.minute + ':' + o.second + ' (KST)';
+    };
+    tick();
+    if (this.timer) clearInterval(this.timer);
+    this.timer = setInterval(tick, 500);
+  }
+  initCanvas(cv) {
+    if (this.cv === cv) return;
+    this.cv = cv;
+    const ctx = cv.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.t0 = performance.now() - (reduce ? 9300 : 0);
+    const cl = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
+    const ease = (x) => { x = cl(x); return x * x * (3 - 2 * x); };
+    const hs = (x) => { const v = Math.sin(x * 12.9898) * 43758.5453; return v - Math.floor(v); };
+    let seed = 7;
+    const rnd = () => { seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    const NF = 190, fil = [];
+    for (let i = 0; i < NF; i++) {
+      fil.push({ psi: Math.acos(1 - 2 * rnd()), om: rnd() * 6.2832, len: 0.72 + 0.28 * rnd(), curl: (rnd() - 0.5) * 0.7, n1: 0.3 + 0.2 * rnd(), n2: 0.55 + 0.2 * rnd(), n3: 0.8 + 0.12 * rnd(), z1: 0.55 + 0.45 * rnd(), z2: 0.6 + 0.4 * rnd(), z3: 0.6 + 0.4 * rnd(), tip: 0.7 + 0.3 * rnd(), dl: rnd(), dl2: rnd() });
+    }
+    const GT0 = 9.6, GP = 8.5;
+    let W = 0, Hh = 0, dpr = 1, cell = 7, cols = 0, rows = 0, R = 100, sz, touched = [];
+    let P0, P1, P2, P3, AX = 0, AY = -1;
+    const bez = (s) => { const m = 1 - s, a = m * m * m, b = 3 * m * m * s, c = 3 * m * s * s, d = s * s * s; return [a * P0[0] + b * P1[0] + c * P2[0] + d * P3[0], a * P0[1] + b * P1[1] + c * P2[1] + d * P3[1]]; };
+    const layout = () => {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; Hh = cv.clientHeight;
+      if (!W || !Hh) return;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(Hh * dpr);
+      const por = W < 760;
+      R = por ? Math.min(Hh * 0.27, W * 0.34) : Math.min(Hh * 0.44, W * 0.3);
+      const hx = por ? 0.62 * W : 0.5 * W, hy = por ? 0.64 * Hh : 0.43 * Hh;
+      const bx = por ? 0.02 * W : 0.18 * W, by = 1.04 * Hh;
+      const dx = hx - bx, dy = hy - by, L = Math.hypot(dx, dy), px = dy / L, py = -dx / L;
+      P0 = [bx, by]; P3 = [hx, hy];
+      P1 = [bx + dx * 0.3 + px * 0.05 * L, by + dy * 0.3 + py * 0.05 * L];
+      P2 = [bx + dx * 0.7 + px * 0.05 * L, by + dy * 0.72 + py * 0.05 * L];
+      const t = [P3[0] - P2[0], P3[1] - P2[1]], tl = Math.hypot(t[0], t[1]);
+      AX = t[0] / tl; AY = t[1] / tl;
+      cell = Math.max(5, Math.min(10, Math.round(R / 34)));
+      cols = Math.ceil(W / cell) + 2; rows = Math.ceil(Hh / cell) + 2;
+      sz = new Float32Array(cols * rows); touched = [];
+    };
+    layout();
+    this.ro = new ResizeObserver(() => { layout(); if (reduce) frame(performance.now()); });
+    this.ro.observe(cv);
+    cv.addEventListener('click', () => { this.t0 = performance.now(); });
+    const put = (x, y, size) => {
+      if (size < cell * 0.12) return;
+      const gx = Math.floor(x / cell), gy = Math.floor(y / cell);
+      if (gx < 0 || gy < 0 || gx >= cols || gy >= rows) return;
+      const id = gy * cols + gx;
+      if (sz[id] === 0) touched.push(id);
+      if (size > sz[id]) sz[id] = size;
+    };
+    const dotLine = (x0, y0, x1, y1, size) => {
+      const len = Math.hypot(x1 - x0, y1 - y0), n = Math.max(1, Math.ceil(len / (cell * 0.5)));
+      for (let k = 0; k <= n; k++) put(x0 + (x1 - x0) * k / n, y0 + (y1 - y0) * k / n, size);
+    };
+    const ring = (x, y, size) => { for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) if (a || b) put(x + a * cell, y + b * cell, size); };
+    const drawSeed = (px, py, dx, dy, al) => {
+      const ang = Math.atan2(dy, dx);
+      for (let m = 0; m < 9; m++) {
+        const a = ang + (m / 8 - 0.5) * 2.5, l = cell * (3 + 1.2 * hs(m + 3));
+        dotLine(px, py, px + Math.cos(a) * l, py + Math.sin(a) * l, cell * 0.28 * al);
+        put(px + Math.cos(a) * (l + cell * 0.6), py + Math.sin(a) * (l + cell * 0.6), cell * 0.55 * al);
+      }
+      const ex = px - dx * cell * 11, ey = py - dy * cell * 11;
+      dotLine(px, py, ex, ey, cell * 0.3 * al);
+      ring(ex, ey, cell * 0.42 * al);
+    };
+    let lastPct = -1;
+    const frame = (now) => {
+      if (!W || !Hh) { layout(); return; }
+      const el = (now - this.t0) / 1000;
+      const g = ease(el / 3.2), tip = bez(g), hw0 = ease((el - 1.6) / 5);
+      const sway = 0.05 * Math.sin(el * 0.8) * ease((el - 5) / 3);
+      const cs = Math.cos(sway), sn = Math.sin(sway);
+      const CX = tip[0], CY = tip[1], PX = -AY, PY = AX;
+      // stem
+      const total = Math.hypot(P3[0] - P0[0], P3[1] - P0[1]) * 1.06, step = cell * 0.8, ns = Math.ceil(total * g / step);
+      for (let k = 0; k <= ns; k++) {
+        const s = g * k / Math.max(1, ns), b = bez(s), rr = (2.6 * Math.pow(1 - s, 1.2) + 0.9), kk = Math.ceil(rr);
+        for (let a = -kk; a <= kk; a++) for (let c = -kk; c <= kk; c++) if (a * a + c * c <= rr * rr) put(b[0] + a * cell, b[1] + c * cell, cell);
+      }
+      // dissolving dust near the stem base
+      const tw2 = Math.floor(el * 2);
+      for (let i = 0; i < 70; i++) {
+        const s = hs(i * 3.1) * 0.38;
+        if (s > g || hs(i * 5.7 + tw2) > 0.55) continue;
+        const b = bez(s), off = (hs(i * 1.7) < 0.5 ? -1 : 1) * (3 + hs(i * 2.3) * 9) * cell;
+        put(b[0] + PX * off, b[1] + PY * off, cell * (0.35 + 0.5 * hs(i * 9.1)));
+      }
+      // core
+      const rc = R * 0.2 * hw0;
+      if (rc > cell) {
+        const kc = Math.ceil(rc / cell);
+        for (let a = -kc; a <= kc; a++) for (let c = -kc; c <= kc; c++) {
+          const rho = Math.hypot(a, c) * cell / rc;
+          if (rho > 1 || (rho > 0.7 && hs(a * 31 + c * 17) < 0.2)) continue;
+          put(CX + a * cell, CY + c * cell, cell * (0.95 - 0.5 * rho * rho));
+        }
+      }
+      // filaments
+      const nc = Math.floor((el - GT0) / GP);
+      for (let i = 0; i < NF; i++) {
+        const f = fil[i];
+        const lf = ease((el - 2.0 - 1.4 * f.dl) / 5.5), op = ease((el - 2.4 - 1.2 * f.dl2) / 5);
+        let vis = 1;
+        for (let n = nc - 1; n <= nc; n++) {
+          if (n < 0) continue;
+          if (hs(i * 7.13 + n * 131.7) < 0.14) { const rel = GT0 + GP * n + hs(i * 3.3 + n * 17.1) * 1.8; if (rel <= el) vis = ease((el - rel - 3.2) / 3); }
+        }
+        const k = lf * vis;
+        if (k < 0.03) continue;
+        const psi = f.psi * op, cp = Math.cos(psi), sp = Math.sin(psi);
+        const d3x = cp * AX + sp * Math.cos(f.om) * PX, d3y = cp * AY + sp * Math.cos(f.om) * PY, dz = sp * Math.sin(f.om);
+        const back = dz < 0 ? 0.72 : 1;
+        const ext = R * f.len * k, dl = Math.hypot(d3x, d3y), npt = Math.min(120, Math.ceil(ext * Math.max(dl, 0.05) / (cell * 0.45)) + 2);
+        const pt = (s) => {
+          const r = ext * s, ox = d3x + (-d3y) * f.curl * s * 0.7, oy = d3y + d3x * f.curl * s * 0.7;
+          const rx = r * ox, ry = r * oy;
+          return [CX + rx * cs - ry * sn, CY + rx * sn + ry * cs];
+        };
+        for (let j = 1; j <= npt; j++) { const q = pt(j / npt); put(q[0], q[1], cell * 0.36 * back); }
+        if (k > 0.35) {
+          let q = pt(f.n1); put(q[0], q[1], cell * f.z1 * back * ease(k * 1.4));
+          q = pt(f.n2); put(q[0], q[1], cell * f.z2 * back * ease(k * 1.4));
+          q = pt(f.n3); put(q[0], q[1], cell * f.z3 * back * ease(k * 1.4));
+          q = pt(1); put(q[0], q[1], cell * f.tip * back * ease(k * 1.4));
+          const tx = (-d3y) * cell * 0.9, ty = d3x * cell * 0.9;
+          if (f.tip > 0.85) { put(q[0] + tx, q[1] + ty, cell * 0.5 * back); put(q[0] - tx, q[1] - ty, cell * 0.5 * back); }
+        }
+      }
+      // seeds blowing away
+      if (nc >= 0) {
+        const wd = [0.82, -0.57], pw = [0.57, 0.82];
+        for (let n = Math.max(0, nc - 1); n <= nc; n++) for (let i = 0; i < NF; i++) {
+          if (hs(i * 7.13 + n * 131.7) >= 0.14) continue;
+          const f = fil[i], rel = GT0 + GP * n + hs(i * 3.3 + n * 17.1) * 1.8, life = 3.2 + hs(i * 1.9 + n) * 1.6, s = el - rel;
+          if (s < 0 || s > life) continue;
+          const psi = f.psi, cp = Math.cos(psi), sp = Math.sin(psi);
+          const tx0 = R * f.len * (cp * AX + sp * Math.cos(f.om) * PX), ty0 = R * f.len * (cp * AY + sp * Math.cos(f.om) * PY);
+          const sp2 = R * 0.75, mv = sp2 * (s + 0.25 * s * s), wob = R * 0.09 * (0.5 + hs(i * 4.1)) * Math.sin(s * 2.6 + i);
+          const pos = (ss) => { const m = sp2 * (ss + 0.25 * ss * ss), w2 = R * 0.09 * (0.5 + hs(i * 4.1)) * Math.sin(ss * 2.6 + i); return [CX + tx0 + wd[0] * m + pw[0] * w2, CY + ty0 + wd[1] * m + pw[1] * w2 - R * 0.1 * ss]; };
+          const p = pos(s), p2 = pos(s + 0.05), vx = p2[0] - p[0], vy = p2[1] - p[1], vl = Math.hypot(vx, vy) || 1;
+          const al = 1 - ease((s - (life - 1)) / 1);
+          drawSeed(p[0], p[1], vx / vl, vy / vl, al);
+          const d1 = pos(Math.max(0, s - 0.14)), d2 = pos(Math.max(0, s - 0.3));
+          put(d1[0], d1[1], cell * 0.55 * al); put(d2[0], d2[1], cell * 0.4 * al);
+        }
+      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, Hh);
+      ctx.fillStyle = '#8dc300';
+      for (let q = 0; q < touched.length; q++) {
+        const id = touched[q], x = id % cols, y = (id / cols) | 0, d = Math.min(cell - 1, sz[id]);
+        ctx.fillRect(x * cell + (cell - d) / 2, y * cell + (cell - d) / 2, d, d);
+        sz[id] = 0;
+      }
+      touched.length = 0;
+      const p = Math.round(Math.min(1, el / 9) * 100);
+      if (p !== lastPct) {
+        lastPct = p;
+        if (this.pctEl) this.pctEl.textContent = String(p).padStart(3, '0') + '%';
+        if (this.barEl) this.barEl.style.width = p + '%';
+        if (this.stEl) this.stEl.textContent = p < 100 ? 'BLOOMING...' : 'ONLINE ●';
+      }
+    };
+    if (reduce) { frame(performance.now()); return; }
+    let last = 0;
+    const loop = (now) => {
+      this.raf = requestAnimationFrame(loop);
+      if (now - last < 41) return;
+      last = now; frame(now);
+    };
+    this.raf = requestAnimationFrame(loop);
+  }
+}
+</script>
+</body>
+</html>

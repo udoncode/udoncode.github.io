@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Posts</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=VT323&amp;family=Orbitron:wght@900&amp;family=Noto+Sans+KR:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
+@font-face{font-family:'Galmuri11';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2506-1@1.0/Galmuri11-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Mulmaru';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-4@1.1/Mulmaru.woff2') format('woff2');font-weight:normal;font-display:swap}
+body{margin:0;background:#0a1206}
+a{color:inherit;text-decoration:none}
+@property --s{syntax:'<integer>';inherits:false;initial-value:0}
+@property --m{syntax:'<integer>';inherits:false;initial-value:0}
+.pg{position:relative;min-height:100%;overflow:hidden;box-sizing:border-box;padding:0 clamp(20px,3.5vw,56px) 1px;color:#8dc300;font-family:'Galmuri11','Noto Sans KR',sans-serif;background-color:#0a1206;background-image:radial-gradient(circle,rgba(141,195,0,.2) 1px,transparent 1.5px);background-size:20px 20px}
+.pg:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:20;background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.6));animation:fk 6s steps(1) infinite}
+.vt{font-family:VT323,'IBM Plex Mono','Galmuri11',monospace}.px{font-family:'Press Start 2P','Mulmaru','Galmuri11',monospace}
+.hid{position:absolute;opacity:0;width:1px;height:1px}
+.an{font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:21px;line-height:1.3;color:#6f9a00;letter-spacing:.5px}
+.tabs{position:relative;display:flex;align-items:flex-end;gap:clamp(8px,2.5vw,36px);padding-top:28px;border-bottom:3px solid #8dc300;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:36px;line-height:1}
+.tabs:before,.tabs:after{content:"";position:absolute;bottom:0;width:3px;height:20px;background:#8dc300}
+.tabs:before{left:0}.tabs:after{right:0}
+.tabs a{display:flex;align-items:center;min-height:48px;box-sizing:border-box;padding:0 16px;opacity:.65;transition:.1s steps(2)}
+.tabs a:hover{opacity:1;background:#8dc300;color:#0a1206}
+.tabs a.on{opacity:1;border:3px solid #8dc300;border-bottom-color:#0a1206;margin-bottom:-3px;background:#0a1206}
+a:focus-visible,label:focus-visible{outline:3px dashed #d6ff5c;outline-offset:3px}
+.sg rect,.bt .z{animation:tw 1.6s steps(2) infinite}
+.sg rect:nth-child(2){animation-delay:.2s}.sg rect:nth-child(3){animation-delay:.4s}.sg rect:nth-child(4){animation-delay:.6s}
+.bt .z{animation:fi 2.4s steps(1) infinite}.bt .z:nth-child(2){animation-delay:.4s}.bt .z:nth-child(3){animation-delay:.8s}
+.ty{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:0;border-right:.5em solid currentColor;animation:ty 2.2s .8s forwards,cu .7s steps(1) infinite}
+.fl{animation:fl 2.8s steps(7) infinite}
+.kw{background:#8dc300;color:#0a1206;padding:0 6px;cursor:pointer}.kw:hover{animation:cu .5s steps(1) infinite}
+.kk rect,.kk text{transition:.1s steps(2)}.kk:hover rect{fill:#8dc300}.kk:hover text{fill:#0a1206}
+.bk,.ey{animation:cu 1s steps(1) infinite}
+.rw{display:flex;align-items:baseline;gap:14px;padding:12px 10px;border-bottom:1px dashed #4a6a00;transition:.1s steps(2)}
+.rw:hover{background:#8dc300;color:#0a1206}
+.rw .dots{flex:1;border-bottom:2px dotted currentColor;opacity:.5;transform:translateY(-6px)}
+.rw .ar{opacity:0;transition:.15s steps(3);transform:translateX(-10px)}.rw:hover .ar{opacity:1;transform:none}
+.dg{font-family:Orbitron,monospace;font-weight:900;font-size:clamp(46px,7vw,104px);line-height:1;letter-spacing:4px}
+.up{animation:us 60s steps(60) infinite,um 3600s steps(60) infinite;counter-reset:s var(--s) m var(--m)}
+.up:after{content:counter(m,decimal-leading-zero) ":" counter(s,decimal-leading-zero)}
+.sb{display:grid;grid-template-columns:1fr 2fr 1fr;border-top:3px solid #8dc300;margin-top:56px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:30px;line-height:1}
+.sb>div{padding:14px 18px;display:flex;align-items:center;gap:14px;border-left:3px solid #8dc300}.sb>div:first-child{border-left:0}
+.pb{flex:1;height:14px;border:2px solid #8dc300;padding:2px}.pb i{display:block;height:100%;width:var(--w);background:#8dc300;animation:bf 1.6s steps(12) .6s both}
+.mi{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:4px 14px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:36px;line-height:1.25;cursor:pointer;transition:.1s steps(2)}
+.mi:hover{background:rgba(141,195,0,.25)}
+.dlg{display:none;position:absolute;inset:0;z-index:8;background:rgba(10,18,6,.88);align-items:center;justify-content:center;padding:20px}
+#m:checked~.dlg{display:flex}
+.dp{background:#0a1206;border:3px solid #8dc300;max-width:520px;padding:26px;display:flex;flex-direction:column;gap:16px;animation:pop .3s steps(3) both}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:3px solid #8dc300;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:26px;cursor:pointer}.btn:hover{background:#8dc300;color:#0a1206}
+.pic{width:100%;max-width:460px;aspect-ratio:1.2;animation:sc 1.2s steps(6) infinite}
+@keyframes fk{92%{opacity:.8}}
+@keyframes cu{50%{border-color:transparent;opacity:.1}}
+@keyframes tw{50%{opacity:.2}}
+@keyframes fi{0%{opacity:0}25%,100%{opacity:1}}
+@keyframes fl{50%{transform:translateY(-14px)}}
+@keyframes ty{to{width:var(--n)}}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+@keyframes rs{0%{transform:translateY(0);opacity:0}25%{opacity:1}100%{transform:translateY(-80px);opacity:0}}
+@keyframes bf{from{width:0}}
+@keyframes us{to{--s:60}}@keyframes um{to{--m:60}}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes sc{50%{background-position:8px 0}}
+@media(max-width:900px){.cols{grid-template-columns:1fr!important}.hero-v{display:none}.sb{grid-template-columns:1fr}.sb>div{border-left:0;border-top:3px solid #8dc300}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ty{width:auto!important;border-right:0}}
+.pg{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+.hero2{position:relative;flex:1;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;padding:20px 0 28px}
+.cv{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:pointer}
+.scrim{position:absolute;left:calc(-1*clamp(20px,3.5vw,56px));right:calc(-1*clamp(20px,3.5vw,56px));bottom:0;height:56%;z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(10,18,6,.95) 6%,rgba(10,18,6,.6) 55%,transparent)}
+.wel{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;text-shadow:0 0 14px #0a1206,0 0 4px #0a1206}
+.wl{margin:0;font-family:'Press Start 2P','Mulmaru','Galmuri11',monospace;font-weight:400;font-size:clamp(34px,9.6vw,150px);line-height:1.1;letter-spacing:0}
+.tl{display:block;overflow:hidden;white-space:nowrap;width:0;border-right:.5em solid transparent;animation:ty var(--d) var(--t) forwards,cs var(--d) var(--t) forwards}
+.tx{font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:clamp(20px,2.6vw,34px);line-height:1.25}
+.tx .kw{padding:0;box-shadow:3px 0 0 #8dc300,-3px 0 0 #8dc300;text-shadow:none}
+.nav2{position:absolute;right:0;bottom:28px;z-index:2;display:flex;gap:28px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:30px}
+.sk{display:inline-flex;align-items:center;min-height:44px;padding:0 6px;background:none;border:0;color:#8dc300;font:inherit;cursor:pointer}
+.sk:hover{background:#8dc300;color:#0a1206}
+.sb{margin-top:0}
+.bi{display:block;height:100%;width:0;background:#8dc300}
+@keyframes cs{0%,99%{border-right-color:currentColor}100%{border-right-color:transparent}}
+@media(max-width:760px){.hero2{min-height:660px;justify-content:flex-start;padding:40px 0 16px}.tx{font-size:min(20px,calc((100vw - 2*clamp(20px,3.5vw,56px))/20))}.scrim{display:none}.nav2{position:absolute;left:0;right:0;bottom:12px;justify-content:space-between}.tabs{flex-wrap:wrap;font-size:30px}.tabs a{padding:0 10px}}
+@media(max-width:520px){.tabs .sg,.tabs .bt{display:none}.tabs{font-size:27px}}
+@media (prefers-reduced-motion:reduce){.tl{width:auto!important;border:0}}
+
+.sb{grid-template-columns:auto minmax(0,1fr) auto}
+.sb>div:first-child{white-space:nowrap;font-size:26px}
+@media(max-width:1100px){.sb{grid-template-columns:1fr;font-size:24px}.sb>div{border-left:0;border-top:3px solid #8dc300;white-space:normal}.sb>div:nth-child(2){order:-1;border-top:0}.sb>div:first-child{font-size:22px;white-space:normal}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.tt{animation:ty .7s .2s forwards,cs3 2.45s .2s forwards}
+@keyframes cs3{0%{border-right-color:currentColor}28.6%{border-right-color:transparent}38.8%{border-right-color:currentColor}49%{border-right-color:transparent}59.2%{border-right-color:currentColor}69.4%{border-right-color:transparent}79.6%{border-right-color:currentColor}89.8%,100%{border-right-color:transparent}}
+.ph{padding:24px 0 0}
+.pt{margin:0;font-family:'Press Start 2P','Mulmaru','Galmuri11',monospace;font-weight:400;font-size:clamp(30px,4.6vw,64px);line-height:1.1}
+.pgrid{display:grid;flex:1;grid-template-columns:minmax(0,4fr) minmax(0,7fr);grid-template-areas:"cats list" "info list";grid-template-rows:auto 1fr;gap:28px 56px;padding:20px 0 36px}
+.cats{grid-area:cats;min-width:0}.list{grid-area:list;min-width:0;display:flex;flex-direction:column}.info{grid-area:info;align-self:end;min-width:0}
+.rows{display:flex;flex-direction:column;flex:1}
+.lbl{display:flex;align-items:center;gap:10px;margin:0 0 8px;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:22px;letter-spacing:1px;color:#6f9a00}
+.lbl:after{content:"";flex:1;border-top:1px dashed #4a6a00}
+.opt{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;box-sizing:border-box;padding:4px 12px;background:none;border:0;color:inherit;text-align:left;cursor:pointer;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:30px;line-height:1.2;transition:background .1s steps(2)}
+.opt:hover{background:rgba(141,195,0,.2)}
+.opt.on{background:#8dc300;color:#0a1206}
+.cb{flex:none;position:relative;width:18px;height:18px;box-sizing:border-box;border:3px solid currentColor}
+.opt.on .cb:after{content:"";position:absolute;inset:2px;background:currentColor}
+.nm{flex:1;min-width:0}
+.ct{font-size:22px;opacity:.7}
+.subs{margin:2px 0 10px 16px;animation:up .35s steps(4) both}
+.sub{font-size:26px}
+.sub.on{background:rgba(141,195,0,.25);color:#8dc300;box-shadow:inset 3px 0 0 #8dc300}
+.tr{flex:none;width:1.7em;opacity:.55}
+.row{flex:1 1 0;min-height:52px;max-height:72px;display:flex;align-items:center;gap:16px;width:100%;box-sizing:border-box;padding:8px 14px;background:none;border:0;border-bottom:1px dashed #4a6a00;color:inherit;text-align:left;cursor:pointer;font-family:'Galmuri11','Noto Sans KR',sans-serif;font-size:20px;line-height:1.3;transition:background .1s steps(2)}
+.row:hover{background:rgba(141,195,0,.2)}
+.row.on{background:#8dc300;color:#0a1206}
+.no,.dt{flex:none;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;opacity:.6}
+.no{font-size:22px;width:2ch}.dt{font-size:20px}
+.row.on .no,.row.on .dt{opacity:1}
+.ti{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;container-type:inline-size}
+.row.on .tx2{display:inline-block;animation:mq2 7s linear infinite alternate}
+@keyframes mq2{0%,16%{transform:translateX(0)}84%,100%{transform:translateX(min(0px,calc(100cqw - 100%)))}}
+.pager{display:flex;gap:8px;margin-top:20px}
+.pgb{flex:1 1 0;min-width:0;height:48px;padding:0;background:none;border:3px solid #8dc300;color:#8dc300;cursor:pointer;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:30px;line-height:1}
+.pgb.ar{flex:0 0 72px}
+.pgb:hover:not(:disabled),.pgb.on{background:#8dc300;color:#0a1206}
+.pgb:disabled{opacity:.3;cursor:default}
+button:focus-visible{outline:3px dashed #d6ff5c;outline-offset:3px}
+.info{border-top:3px solid #8dc300;padding-top:16px}
+.ttl{margin:8px 0 14px;font-family:'Mulmaru','Galmuri11',sans-serif;font-weight:400;font-size:clamp(20px,2vw,28px);line-height:1.4;word-break:keep-all;overflow-wrap:anywhere}
+.mr{display:flex;gap:14px;align-items:baseline;font-family:VT323,'IBM Plex Mono','Galmuri11',monospace;font-size:26px;line-height:1.35}
+.ml{flex:none;min-width:3.4em;color:#6f9a00}
+.sb>div:nth-child(2) .bi{transition:width .4s steps(8)}
+@media(max-width:900px){
+.ph{padding:24px 0 4px}
+.pgrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"cats" "list" "info";gap:20px;padding:16px 0 28px}
+.catlist{display:flex;flex-wrap:wrap;gap:8px}
+.catlist>div{display:contents}
+.catlist .opt{width:auto;min-height:44px;padding:0 12px;gap:8px;border:2px solid #8dc300;font-size:24px}
+.catlist .opt:not(.sub){order:1}
+.subs{order:2;flex-basis:100%;display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.subs .opt{font-size:22px;border-style:dashed}.sub.on{background:rgba(141,195,0,.3);border-color:#d6ff5c;box-shadow:none;color:#8dc300}
+.tr{display:none}.ct{font-size:18px}
+.rows{flex:none}.row{flex:none;font-size:18px;min-height:58px}
+.pgb.ar{flex-basis:56px}}
+@media(max-width:600px){.dt{display:none}}
+</style>
+</helmet>
+<div class="pg">
+<nav class="tabs" aria-label="메인 메뉴"><a href="Main.dc.html">HOME</a><a class="on" aria-current="page" href="Posts.dc.html">POSTS</a><a href="About.dc.html">ABOUT</a><span style="margin-left:auto;display:flex;gap:16px;align-items:center;padding:0 14px 12px"><svg class="sg" width="26" height="22" viewBox="0 0 13 11" fill="currentColor" aria-label="신호 최대" role="img"><rect x="0" y="8" width="2" height="3"/><rect x="3" y="6" width="2" height="5"/><rect x="6" y="3" width="2" height="8"/><rect x="9" y="0" width="2" height="11"/></svg><svg class="bt" width="40" height="24" viewBox="0 0 20 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-label="배터리 충전 중" role="img"><rect x="1" y="1" width="15" height="10"/><rect x="16" y="4" width="2" height="4" fill="currentColor"/><rect class="z" x="3" y="3" width="3" height="6" fill="currentColor" stroke="none"/><rect class="z" x="7" y="3" width="3" height="6" fill="currentColor" stroke="none"/><rect class="z" x="11" y="3" width="3" height="6" fill="currentColor" stroke="none"/></svg></span></nav>
+<header class="ph"><h1 class="pt"><span class="tl tt" style="display:inline-block;vertical-align:bottom;--n:5ch;--d:.7s;--t:.2s;animation-timing-function:steps(5),steps(1)">POSTS</span></h1></header>
+<main class="pgrid">
+<section class="cats" aria-label="카테고리">
+<p class="lbl">CATEGORY</p>
+<div class="catlist">
+<sc-for list="{{ catRows }}" as="c" hint-placeholder-count="4">
+<div>
+<button type="button" class="opt {{ c.on }}" onClick="{{ c.pick }}"><span class="cb"></span><span class="nm">{{ c.name }}</span><span class="ct">{{ c.count }}</span></button>
+<sc-if value="{{ c.open }}" hint-placeholder-val="{{ false }}">
+<div class="subs">
+<sc-for list="{{ c.subs }}" as="s" hint-placeholder-count="3">
+<button type="button" class="opt sub {{ s.on }}" onClick="{{ s.pick }}"><span class="tr">{{ s.tree }}</span><span class="cb"></span><span class="nm">{{ s.name }}</span><span class="ct">{{ s.count }}</span></button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+<section class="list" aria-label="글 목록">
+<div class="rows">
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+<button type="button" class="row {{ r.on }}" onClick="{{ r.pick }}"><span class="no">{{ r.no }}</span><span class="ti"><span class="tx2">{{ r.title }}</span></span><span class="dt">{{ r.date }}</span></button>
+</sc-for>
+</div>
+<nav class="pager" aria-label="페이지 이동">
+<button type="button" class="pgb ar" aria-label="이전 페이지" disabled="{{ prevDis }}" onClick="{{ prev }}">◀</button>
+<sc-for list="{{ nums }}" as="n" hint-placeholder-count="5">
+<button type="button" class="pgb {{ n.on }}" disabled="{{ n.dis }}" onClick="{{ n.pick }}">{{ n.label }}</button>
+</sc-for>
+<button type="button" class="pgb ar" aria-label="다음 페이지" disabled="{{ nextDis }}" onClick="{{ next }}">▶</button>
+</nav>
+</section>
+<section class="info" aria-live="polite">
+<div class="lbl">{{ selPath }}</div>
+<h2 class="ttl">{{ selTitle }}</h2>
+<div class="mr"><span class="ml">DATE</span><span>{{ selDate }}</span></div>
+<div class="mr"><span class="ml">READ</span><span>{{ selRead }}</span></div>
+</section>
+</main>
+<div class="sb"><div>{{ clock }}</div><div><span>PAGE</span><span class="pb"><i class="bi" style="width: {{ gauge }}"></i></span><span>{{ pageText }}</span></div><div>© 2026 [YOUR NAME]</div></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { cat: 'all', subs: [], page: 1, sel: null, now: Date.now() };
+  }
+  componentDidMount() {
+    this.timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+  }
+  componentWillUnmount() {
+    if (this.timer) clearInterval(this.timer);
+  }
+  data() {
+    if (this._d) return this._d;
+    const cats = [
+      { id: 'dev', name: '개발', subs: [['fe', '프론트엔드', 9], ['be', '백엔드', 8], ['tool', '도구', 5]] },
+      { id: 'hobby', name: '취미', subs: [['food', '음식', 7], ['movie', '영화', 6], ['game', '게임', 6]] },
+      { id: 'life', name: '일상', subs: [['trip', '여행', 5], ['note', '기록', 4]] }
+    ];
+    const flat = [];
+    cats.forEach((c) => c.subs.forEach((s) => flat.push({ cat: c.id, catName: c.name, sub: s[0], subName: s[1], n: s[2], i: 0 })));
+    const posts = [];
+    let left = true;
+    while (left) {
+      left = false;
+      flat.forEach((f) => {
+        if (f.i < f.n) {
+          left = true; f.i += 1;
+          const id = posts.length, d = new Date(2026, 10, 8 - (id * 2 + (id % 3)));
+          const p2 = (x) => String(x).padStart(2, '0');
+          posts.push({
+            id, cat: f.cat, sub: f.sub, catName: f.catName, subName: f.subName,
+            title: '[' + f.subName + '] 샘플 글 제목 ' + p2(f.i) + (id % 3 === 0 ? ' — 제목이 길어지면 선택했을 때 이렇게 흘러가며 끝까지 보여줘요' : ''),
+            date: d.getFullYear() + '.' + p2(d.getMonth() + 1) + '.' + p2(d.getDate()),
+            read: 3 + ((id * 7) % 10)
+          });
+        }
+      });
+    }
+    this._d = { cats, posts };
+    return this._d;
+  }
+  renderVals() {
+    const PER = 8, p2 = (x) => String(x).padStart(2, '0');
+    const st = Object.assign({ cat: 'all', subs: [], page: 1, sel: null, now: Date.now() }, this.state || {});
+    const { cats, posts } = this.data();
+    const filtered = posts.filter((p) => st.cat === 'all' || (p.cat === st.cat && (st.subs.length === 0 || st.subs.indexOf(p.sub) >= 0)));
+    const total = Math.max(1, Math.ceil(filtered.length / PER)), page = Math.min(st.page, total);
+    const items = filtered.slice((page - 1) * PER, page * PER);
+    const selId = items.some((p) => p.id === st.sel) ? st.sel : (items[0] ? items[0].id : -1);
+    const cur = posts.filter((p) => p.id === selId)[0];
+    const rows = items.map((p, i) => ({ no: p2((page - 1) * PER + i + 1), title: p.title, date: p.date, on: p.id === selId ? 'on' : '', pick: () => this.setState({ sel: p.id }) }));
+    const catList = [{ id: 'all', name: '전체', count: p2(posts.length), subs: [] }].concat(cats.map((c) => ({ id: c.id, name: c.name, subs: c.subs, count: p2(posts.filter((p) => p.cat === c.id).length) })));
+    const catRows = catList.map((c) => {
+      const open = st.cat === c.id && c.id !== 'all';
+      const subRows = open ? [{ id: 'all', name: '전체', count: c.count, on: st.subs.length === 0 ? 'on' : '', tree: '├─', pick: () => this.setState({ subs: [], page: 1, sel: null }) }].concat(c.subs.map((s, i) => ({
+        id: s[0], name: s[1], tree: i === c.subs.length - 1 ? '└─' : '├─',
+        count: p2(posts.filter((p) => p.sub === s[0]).length),
+        on: st.subs.indexOf(s[0]) >= 0 ? 'on' : '',
+        pick: () => { const has = st.subs.indexOf(s[0]) >= 0; this.setState({ subs: has ? st.subs.filter((x) => x !== s[0]) : st.subs.concat(s[0]), page: 1, sel: null }); }
+      }))) : [];
+      return { id: c.id, name: c.name, count: c.count, on: st.cat === c.id ? 'on' : '', open, subs: subRows, pick: () => this.setState({ cat: c.id, subs: [], page: 1, sel: null }) };
+    });
+    const start = Math.max(1, Math.min(page - 2, total - 4));
+    const nums = [0, 1, 2, 3, 4].map((k) => { const n = start + k; return { label: n, on: n === page ? 'on' : '', dis: n > total, pick: () => this.setState({ page: n, sel: null }) }; });
+    const go = (n) => this.setState({ page: Math.max(1, Math.min(total, n)), sel: null });
+    const f = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
+    const o = {};
+    f.formatToParts(new Date(st.now)).forEach((x) => { o[x.type] = x.value; });
+    return {
+      catRows, rows, nums,
+      prev: () => go(page - 1), next: () => go(page + 1), prevDis: page <= 1, nextDis: page >= total,
+      selTitle: cur ? cur.title : '', selDate: cur ? cur.date : '', selRead: cur ? '약 ' + cur.read + '분' : '',
+      selPath: cur ? cur.catName + ' / ' + cur.subName : '',
+      pageText: page + '/' + total, gauge: Math.round(page / total * 100) + '%',
+      clock: 'Seoul, South Korea ' + o.year + '-' + o.month + '-' + o.day + ' ' + o.hour + ':' + o.minute + ':' + o.second + ' (KST)'
+    };
+  }
+}
+</script>
+</body>
+</html>
