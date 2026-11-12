@@ -26,12 +26,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Svelte 5 문법(runes: $state, $props 등)을 쓴다.
 - 브라우저 전용 코드(window, document, canvas)는 onMount 안에서만 실행한다.
 - `#lib` import에는 확장자를 붙인다: `'#lib/site.ts'`, `'#lib/status.svelte.ts'`, `'#lib/components/TabHeader.svelte'`. 확장자가 없으면 `npm run check`가 모듈을 찾지 못한다.
-- 푸터 가운데 칸(게이지)은 페이지마다 다르다(Home `BLOOMING...`, Posts `PAGE`, About `SCROLL`). 각 페이지를 만들 때 그 페이지에서 `#lib/status.svelte.ts`의 `status.gauge`(`{ label, value: 0~1, text }`)를 채운다. 값이 없으면 빈칸으로 보인다.
+- 푸터 가운데 칸(게이지)은 페이지마다 다르다(Home `BLOOMING...`, Posts `PAGE`, About `SCROLL`). 각 페이지를 만들 때 그 페이지에서 `const status = getStatus()`(`#lib/status.svelte.ts`)로 받아 `status.gauge`(`{ label, value: 0~1, text, smooth? }`)를 채우고, `onMount` 정리 함수에서 `null`로 되돌린다. 값이 없으면 빈칸으로 보인다.
+  - 상태는 루트 레이아웃이 `provideStatus()`로 렌더마다 새로 만들어 context로 내려준다. 모듈 전역 `$state`로 페이지 간 값을 공유하면 프리렌더 때 다른 페이지 HTML에 값이 새므로 쓰지 않는다.
+- 헤더 오른쪽 `[MSG 1]` 라벨은 페이지의 `+page.ts`가 `load`에서 `{ msg: '[MSG 1]' }`을 돌려줄 때만 보인다(현재 홈만). 라벨은 홈 페이지의 숨은 체크박스 `#msg-toggle`을 켜서 메시지 대화상자를 연다.
 - 한 번에 한 가지씩 작업하고, 끝나면 npm run build로 빌드가 되는지 확인한다.
 
 ## Project state
 
-SvelteKit 3 + Svelte 5, TypeScript, Tailwind CSS 4 (typography plugin), mdsvex, adapter-static. The shared layout (tab header + status footer + LCD background) is done. `src/routes/+page.svelte`, `posts/+page.svelte`, and `about/+page.svelte` are TODO placeholders — they exist so prerendering doesn't fail on the header links. Site owner name/copyright year live in `src/lib/site.ts` (`SITE_OWNER` is still the mockup's `[YOUR NAME]`).
+SvelteKit 3 + Svelte 5, TypeScript, Tailwind CSS 4 (typography plugin), mdsvex, adapter-static. The shared layout (tab header + status footer + LCD background) is done. The home page (`src/routes/+page.svelte`, ported from `design/Main.dc.html`) is done. Its dot-dandelion canvas animation lives in `src/lib/dandelion.ts`. `posts/+page.svelte` and `about/+page.svelte` are TODO placeholders — they exist so prerendering doesn't fail on the header links. Site owner name/copyright year live in `src/lib/site.ts`.
 
 ## Commands
 

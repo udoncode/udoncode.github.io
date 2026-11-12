@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { status } from '#lib/status.svelte.ts';
+	import { getStatus } from '#lib/status.svelte.ts';
+
+	const status = getStatus();
 	import { SITE_OWNER, COPYRIGHT_YEAR } from '#lib/site.ts';
 
 	let clock = $state('Seoul, South Korea 0000-00-00 00:00:00 (KST)');
@@ -34,7 +36,7 @@
 	<div>
 		{#if status.gauge}
 			<span>{status.gauge.label}</span>
-			<span class="pb"><i style:width="{pct}%"></i></span>
+			<span class="pb"><i class:smooth={status.gauge.smooth} style:width="{pct}%"></i></span>
 			<span>{status.gauge.text}</span>
 		{/if}
 	</div>
@@ -73,6 +75,8 @@
 		display: block;
 		height: 100%;
 		background: var(--color-lcd);
+	}
+	.pb i.smooth {
 		transition: width 0.4s steps(8);
 	}
 

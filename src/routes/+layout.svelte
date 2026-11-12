@@ -3,9 +3,12 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import TabHeader from '#lib/components/TabHeader.svelte';
 	import StatusFooter from '#lib/components/StatusFooter.svelte';
+	import { provideStatus } from '#lib/status.svelte.ts';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
+
+	provideStatus();
 </script>
 
 <svelte:head>

@@ -21,6 +21,10 @@
 	{/each}
 
 	<span class="ind">
+		{#if page.data.msg}
+			<!-- 홈 페이지의 숨은 체크박스(#msg-toggle)를 켜서 메시지 대화상자를 연다 -->
+			<label class="msg" for="msg-toggle">{page.data.msg}</label>
+		{/if}
 		<svg class="sg" width="26" height="22" viewBox="0 0 13 11" fill="currentColor" role="img" aria-label="신호 최대">
 			<rect x="0" y="8" width="2" height="3" />
 			<rect x="3" y="6" width="2" height="5" />
@@ -107,6 +111,18 @@
 		padding: 0 14px 12px;
 	}
 
+	.msg {
+		font-size: 26px;
+		cursor: pointer;
+		animation: msg-blink 1.4s steps(1) infinite;
+	}
+	@keyframes msg-blink {
+		50% {
+			border-color: transparent;
+			opacity: 0.1;
+		}
+	}
+
 	/* 신호 막대가 차례로 깜빡임 */
 	.sg rect {
 		animation: tw 1.6s steps(2) infinite;
@@ -154,6 +170,9 @@
 			gap: 10px;
 			flex-shrink: 0;
 		}
+		.msg {
+			font-size: 22px;
+		}
 	}
 	@media (max-width: 520px) {
 		.sg,
@@ -167,10 +186,16 @@
 		a {
 			padding: 0 8px;
 		}
+		.msg {
+			font-size: 18px;
+		}
 	}
 	@media (max-width: 360px) {
 		.tabs {
 			font-size: 23px;
+		}
+		.msg {
+			font-size: 16px;
 		}
 	}
 	@media (max-width: 340px) {
@@ -179,6 +204,9 @@
 		}
 		a {
 			padding: 0 6px;
+		}
+		.msg {
+			font-size: 15px;
 		}
 	}
 </style>
