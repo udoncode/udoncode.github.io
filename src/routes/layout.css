@@ -31,8 +31,9 @@
 	font-display: swap;
 }
 
-/* ── 디자인 토큰 (design/*.dc.html 공통값) ── */
-@theme {
+/* ── 디자인 토큰 (design/*.dc.html 공통값) ──
+   static: 클래스로 쓰지 않고 var()로만 쓰는 토큰도 항상 CSS에 내보낸다 (글 본문 스타일 등) */
+@theme static {
 	/* 색 */
 	--color-bg: #0a1206; /* 배경 */
 	--color-lcd: #8dc300; /* 기본 LCD 초록 */
@@ -100,11 +101,12 @@
 		background-image: radial-gradient(circle, rgb(141 195 0 / 0.2) 1px, transparent 1.5px);
 		background-size: 20px 20px;
 	}
+	/* fixed: 긴 글에서도 비네트가 화면 기준으로 보이게 (Post 목업) */
 	.lcd::after {
 		content: '';
-		position: absolute;
+		position: fixed;
 		inset: 0;
-		z-index: 20;
+		z-index: 40;
 		pointer-events: none;
 		background:
 			repeating-linear-gradient(0deg, rgb(0 0 0 / 0.3) 0 1px, transparent 1px 3px),

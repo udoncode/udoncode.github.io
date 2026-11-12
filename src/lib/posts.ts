@@ -1,12 +1,13 @@
 // src/posts/**/*.md 의 머리말(metadata)만 빌드 때 정적으로 읽어 글 목록과 카테고리를 만든다.
-// 머리말: title, date(YYYY-MM-DD), category, sub, tags(문자열 배열, 생략 가능)
+// 머리말: title, date(YYYY-MM-DD), category, sub, tags(문자열 배열, 생략 가능), subtitle(제목 아래 작은 영문 글자, 생략 가능)
 // readMin(읽는 시간)은 빌드 때 remark 플러그인(src/lib/markdown/reading-time.ts)이 넣는다.
-// 본문은 가져오지 않으므로 페이지 JS에 포함되지 않는다.
+// ?meta(src/lib/markdown/post-meta-plugin.ts)로 머리말만 가져오므로 본문·컴포넌트는 페이지 JS에 포함되지 않는다.
 import { CATEGORY_ORDER } from '#lib/category-order.ts';
 
 export type Post = {
 	slug: string; // 파일 이름에서 .md를 뗀 것 (예: 'sample-01'). 폴더는 묶음용일 뿐 주소에 들어가지 않는다.
 	title: string;
+	subtitle: string;
 	date: string; // 'YYYY.MM.DD' (목업 표기)
 	category: string;
 	sub: string;
@@ -20,9 +21,12 @@ export type Category = {
 	subs: { name: string; count: number }[];
 };
 
-type Meta = Partial<Record<'title' | 'date' | 'category' | 'sub' | 'tags' | 'readMin', unknown>>;
+type Meta = Partial<
+	Record<'title' | 'subtitle' | 'date' | 'category' | 'sub' | 'tags' | 'readMin', unknown>
+>;
 
 const files = import.meta.glob('/src/posts/**/*.md', {
+	query: '?meta',
 	import: 'metadata',
 	eager: true
 }) as Record<string, Meta | undefined>;
@@ -31,8 +35,8 @@ const files = import.meta.glob('/src/posts/**/*.md', {
 const toDate = (v: unknown) => String(v).slice(0, 10).replaceAll('-', '.');
 
 function toPost(path: string, meta: Meta | undefined): Post {
-	const file = path.replace(/^\/src\//, 'src/');
-	const slug = path.split('/').pop()!.replace(/\.md$/, '');
+	const file = path.replace(/^\/src\//, 'src/').replace(/\?meta$/, '');
+	const slug = path.split('/').pop()!.replace(/\?meta$/, '').replace(/\.md$/, '');
 	for (const key of ['title', 'date', 'category', 'sub'] as const) {
 		if (!meta?.[key]) throw new Error(`${file}: 머리말에 ${key}가 없습니다.`);
 	}
@@ -41,6 +45,7 @@ function toPost(path: string, meta: Meta | undefined): Post {
 	return {
 		slug,
 		title: String(meta!.title),
+		subtitle: meta!.subtitle ? String(meta!.subtitle) : '',
 		date: toDate(meta!.date),
 		category: String(meta!.category),
 		sub: String(meta!.sub),

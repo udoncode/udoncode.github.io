@@ -26,14 +26,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Svelte 5 문법(runes: $state, $props 등)을 쓴다.
 - 브라우저 전용 코드(window, document, canvas)는 onMount 안에서만 실행한다.
 - `#lib` import에는 확장자를 붙인다: `'#lib/site.ts'`, `'#lib/status.svelte.ts'`, `'#lib/components/TabHeader.svelte'`. 확장자가 없으면 `npm run check`가 모듈을 찾지 못한다.
-- 푸터 가운데 칸(게이지)은 페이지마다 다르다(Home `BLOOMING...`, Posts `PAGE`, About `SCROLL`). 각 페이지를 만들 때 그 페이지에서 `const status = getStatus()`(`#lib/status.svelte.ts`)로 받아 `status.gauge`(`{ label, value: 0~1, text, smooth? }`)를 채우고, `onMount` 정리 함수에서 `null`로 되돌린다. 값이 없으면 빈칸으로 보인다.
+- 푸터 가운데 칸(게이지)은 페이지마다 다르다(Home `BLOOMING...`, Posts `PAGE`, About `SCROLL`). 각 페이지를 만들 때 그 페이지에서 `const status = getStatus()`(`#lib/status.svelte.ts`)로 받아 `status.gauge`(`{ label, value: 0~1, text, transition? }`)를 채우고, `onMount` 정리 함수에서 `null`로 되돌린다. 값이 없으면 빈칸으로 보인다.
   - 상태는 루트 레이아웃이 `provideStatus()`로 렌더마다 새로 만들어 context로 내려준다. 모듈 전역 `$state`로 페이지 간 값을 공유하면 프리렌더 때 다른 페이지 HTML에 값이 새므로 쓰지 않는다.
 - 헤더 오른쪽 `[MSG 1]` 라벨은 페이지의 `+page.ts`가 `load`에서 `{ msg: '[MSG 1]' }`을 돌려줄 때만 보인다(현재 홈만). 라벨은 홈 페이지의 숨은 체크박스 `#msg-toggle`을 켜서 메시지 대화상자를 연다.
 - 한 번에 한 가지씩 작업하고, 끝나면 npm run build로 빌드가 되는지 확인한다.
 
 ## Project state
 
-SvelteKit 3 + Svelte 5, TypeScript, Tailwind CSS 4 (typography plugin), mdsvex, adapter-static. The shared layout (tab header + status footer + LCD background) is done. The home page (`src/routes/+page.svelte`, ported from `design/Main.dc.html`) is done. Its dot-dandelion canvas animation lives in `src/lib/dandelion.ts`. The posts list (`src/routes/posts/+page.svelte`, from `design/Posts.dc.html`) is done. Filtering is category AND (any selected tag). The tag pool comes from posts in the current category. Each row links to `/posts/[slug]`. `src/routes/posts/[slug]/+page.ts` prerenders every slug via `entries()`. `about/+page.svelte` is a TODO placeholder — they exist so prerendering doesn't fail on the header links. Site owner name/copyright year live in `src/lib/site.ts`.
+SvelteKit 3 + Svelte 5, TypeScript, Tailwind CSS 4 (typography plugin), mdsvex, adapter-static. The shared layout (tab header + status footer + LCD background) is done. The home page (`src/routes/+page.svelte`, ported from `design/Main.dc.html`) is done. Its dot-dandelion canvas animation lives in `src/lib/dandelion.ts`. The posts list (`src/routes/posts/+page.svelte`, from `design/Posts.dc.html`) is done. Filtering is category AND (any selected tag). The tag pool comes from posts in the current category. Each row links to `/posts/[slug]`. The post detail page (`src/routes/posts/[slug]/`, from `design/Post.dc.html`) is done. Its `+page.ts` prerenders every slug via `entries()` and lazy-loads only that post's compiled component. `about/+page.svelte` is a TODO placeholder — it exists so prerendering doesn't fail on the header link. Site owner name/copyright year live in `src/lib/site.ts`.
 
 ## Commands
 
@@ -52,12 +52,26 @@ No test runner, linter, or formatter is configured. `.npmrc` sets `engine-strict
 - **Runes mode is forced** for all project files (`compilerOptions.runes`), so use `$props()`, `$state()`, `$derived()`, `{@render children()}` — not legacy `export let` / `<slot>`.
 - **`#lib` alias, not `$lib`.** `package.json` `imports` maps `#lib` → `src/lib/index.js` and `#lib/*` → `src/lib/*`.
 - **Markdown as pages:** mdsvex preprocesses `.svx` and `.md`, and both are registered as Svelte component extensions, so markdown files can be routes (`+page.md`) or imported as components.
-- **Posts data:** posts are `src/posts/**/*.md` with frontmatter `title`, `date` (YYYY-MM-DD), `category`, `sub`, and optional `tags` (array). A post's slug is its **file name** without `.md`; folders are only for grouping. Slugs must be unique across folders, and `posts.ts` throws on duplicates. How it fits together:
-  - **Reading time:** the mdsvex remark plugin `src/lib/markdown/reading-time.ts` (registered in `vite.config.ts`) runs at build time. It adds `readMin` to each post's frontmatter: non-whitespace chars of text + inline code ÷ 500 chars/min, rounded, min 1.
-  - **Post list:** `src/lib/posts.ts` imports only each file's `metadata` via `import.meta.glob(..., { import: 'metadata', eager: true })`, so post bodies stay out of the Posts page JS. Keep it that way: don't glob `?raw`. It throws if a frontmatter key is missing.
+- **Posts data:** posts are `src/posts/**/*.md` with frontmatter `title`, `date` (YYYY-MM-DD), `category`, `sub`, and optional `tags` (array) and `subtitle` (small label under the title). A post's slug is its **file name** without `.md`; folders are only for grouping. Slugs must be unique across folders, and `posts.ts` throws on duplicates. How it fits together:
+  - **mdsvex config** lives in one place, `src/lib/markdown/options.ts`. It is used by `vite.config.ts` and by the `postMeta` Vite plugin, and everything in it runs at build time only.
+  - **Reading time:** the remark plugin `src/lib/markdown/reading-time.ts` runs at build time. It adds `readMin` to each post's frontmatter: non-whitespace chars of text + inline code ÷ 500 chars/min, rounded, min 1.
+  - **Post list:** `src/lib/posts.ts` globs `/src/posts/**/*.md` with `query: '?meta'`. `src/lib/markdown/post-meta-plugin.ts` turns each `x.md?meta` into a tiny module that exports only `metadata`. Keep it that way: importing the `.md` itself (or `?raw`) would pull every post's component or body into the Posts page JS, because the detail page lazy-imports the same files. The virtual id ends in `.meta.js` so vite-plugin-svelte doesn't recompile it. `posts.ts` throws if a frontmatter key is missing.
+  - **Post body markup:** `src/lib/markdown/rehype-post.ts` rewrites mdsvex output into the mockup's markup and adds `metadata.toc` (h2/h3 ids). The authoring rules, all applied at top level only:
+    - **Table:** wrapped in a scroll box with a mobile hint.
+    - **Quote:** a blockquote becomes a bordered box. A last paragraph `— Name` becomes its source line.
+    - **Images:** a paragraph of images only becomes 1 image (single, natural ratio), several images that all have a title/caption (`.imgs` grid), or several images where any lacks a caption (`.gal` mosaic). Captions go in the title slot: `![alt](src "caption")`.
+    - **Credit:** a paragraph that is only `*emphasis*` right after an image group becomes the credit line.
+    - **Video:** a paragraph that is only a YouTube/Vimeo URL becomes a click-to-load player.
+    - **Checklist:** `- [x]` items become the checklist style.
+    - **Footnotes:** `[^1]` uses `remark-footnotes@2`, which matches the remark-parse 8 inside mdsvex; newer versions don't work with it. It renders a `[1]` link plus a `.fnl` list at the end. The back-links are dropped, as in the mockup.
+  - **Element check:** `src/posts/_sample/kitchen-sink.md` uses every element; open `/posts/kitchen-sink` to check them.
+  - **Code blocks:** `src/lib/markdown/highlight.ts` uses Prism at build time to produce the file tab, language badge, COPY button, and per-line spans. Line numbers are a CSS counter. Write fences as ```css title="style.css"`.
+  - **Post styles:** body styles are global CSS in `src/lib/styles/post-body.css`, scoped under `.md`, because mdsvex output can't be reached by Svelte-scoped styles.
+  - **Runtime JS:** the detail page adds only these: one delegated click handler on `.md` (COPY, lightbox, video), plus a scroll handler for READ %, scrollspy, and the TOP button.
   - **Categories:** derived from the posts, never hard-coded. Top-level order comes from `src/lib/category-order.ts`; unlisted categories are appended by name. Subcategories are sorted by post count, then name.
-  - **Samples:** `src/posts/_sample/` holds 20 throwaway `[샘플]` posts; delete the folder when real posts exist.
+  - **Samples:** `src/posts/_sample/` holds throwaway `[샘플]` posts; delete the folder when real posts exist.
 - **Static output / deploy:** `src/routes/+layout.ts` sets `prerender = true` for every route; adapter-static writes `build/` with `fallback: '404.html'`. Every internal link must point to an existing route or the prerender step fails the build. `static/.nojekyll` is copied into the output. `.github/workflows/deploy.yml` builds on push to `main` (Node 24) and deploys via `actions/deploy-pages` (repo Pages source must be "GitHub Actions").
+- **Footer status:** a page can also set `status.sticky = true` to pin the footer to the viewport bottom (the post page does this). Reset it in cleanup like `gauge`.
 - **Styling:**
   - `src/routes/layout.css` is the global stylesheet (imported by the root `+layout.svelte`). Its `@theme` defines the design tokens. Tailwind 4 has no `tailwind.config.js`.
     - Colors: `bg`, `lcd`, `lcd-bright`, `lcd-mid`, `lcd-dim`, `lcd-line`, `alert`.

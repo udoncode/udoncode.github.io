@@ -31,12 +31,12 @@
 	const pct = $derived(Math.min(1, Math.max(0, status.gauge?.value ?? 0)) * 100);
 </script>
 
-<footer class="sb">
+<footer class="sb" class:sticky={status.sticky}>
 	<div>{clock}</div>
 	<div>
 		{#if status.gauge}
 			<span>{status.gauge.label}</span>
-			<span class="pb"><i class:smooth={status.gauge.smooth} style:width="{pct}%"></i></span>
+			<span class="pb"><i style:width="{pct}%" style:transition={status.gauge.transition}></i></span>
 			<span>{status.gauge.text}</span>
 		{/if}
 	</div>
@@ -76,8 +76,14 @@
 		height: 100%;
 		background: var(--color-lcd);
 	}
-	.pb i.smooth {
-		transition: width 0.4s steps(8);
+	/* Post 페이지: 화면 아래에 붙는 상태바 (좌우 여백까지 배경을 채운다) */
+	.sb.sticky {
+		position: sticky;
+		bottom: 0;
+		z-index: 30;
+		background: var(--color-bg);
+		margin: 0 calc(-1 * var(--spacing-gutter));
+		padding: 0 var(--spacing-gutter);
 	}
 
 	@media (max-width: 1100px) {
@@ -97,6 +103,9 @@
 		.sb > div:first-child {
 			font-size: 22px;
 			white-space: normal;
+		}
+		.sb.sticky {
+			position: static;
 		}
 	}
 </style>

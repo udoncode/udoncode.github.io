@@ -73,7 +73,7 @@
 	// 푸터 가운데 칸: PAGE  [■■■□□]  1/3
 	// 프리렌더(SSR)에서는 effect가 돌지 않으므로 처음 값은 바로 넣고, 이후 변화는 effect로 반영한다.
 	const setGauge = () => {
-		status.gauge = { label: 'PAGE', value: cur / total, text: `${cur}/${total}`, smooth: true };
+		status.gauge = { label: 'PAGE', value: cur / total, text: `${cur}/${total}`, transition: 'width 0.4s steps(8)' };
 	};
 	setGauge();
 	$effect.pre(setGauge);

@@ -9,16 +9,19 @@ export type Gauge = {
 	label: string; // 왼쪽 글자 (예: 'PAGE')
 	value: number; // 0 ~ 1
 	text: string; // 오른쪽 글자 (예: '1/3', '042%')
-	smooth?: boolean; // true면 막대 너비가 단계적으로 움직인다 (Posts 목업의 transition)
+	transition?: string; // 막대 너비 변화 (예: 'width 0.4s steps(8)'). 없으면 바로 바뀐다
 };
 
-export type Status = { gauge: Gauge | null };
+export type Status = {
+	gauge: Gauge | null;
+	sticky: boolean; // true면 상태바가 화면 아래에 붙어 있다 (Post 목업, 1100px 이하에서는 풀림)
+};
 
 const KEY = Symbol('status');
 
 /** 루트 +layout.svelte에서 한 번만 호출한다. */
 export function provideStatus(): Status {
-	const status = $state<Status>({ gauge: null });
+	const status = $state<Status>({ gauge: null, sticky: false });
 	return setContext(KEY, status);
 }
 
