@@ -189,7 +189,13 @@
 		line-height: 1.25;
 	}
 
-	/* 한 줄씩 타이핑: 폭이 0 → --n 으로 늘고, 끝나면 커서가 사라진다 */
+	/* 한 줄씩 타이핑: 폭이 0 → --n 으로 늘고, 끝나면 커서가 사라진다.
+	   .tl/.ty는 content-box여야 한다: Tailwind preflight의 border-box를 그대로 두면
+	   width(--n ch)에 커서 테두리(.5em)가 포함되어 마지막 글자가 잘린다. 목업은 content-box 기준. */
+	.tl,
+	.ty {
+		box-sizing: content-box;
+	}
 	.tl {
 		display: block;
 		overflow: hidden;
