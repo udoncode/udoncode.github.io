@@ -33,7 +33,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project state
 
-SvelteKit 3 + Svelte 5, TypeScript, Tailwind CSS 4 (typography plugin), mdsvex, adapter-static. The shared layout (tab header + status footer + LCD background) is done. The home page (`src/routes/+page.svelte`, ported from `design/Main.dc.html`) is done. Its dot-dandelion canvas animation lives in `src/lib/dandelion.ts`. `posts/+page.svelte` and `about/+page.svelte` are TODO placeholders — they exist so prerendering doesn't fail on the header links. Site owner name/copyright year live in `src/lib/site.ts`.
+SvelteKit 3 + Svelte 5, TypeScript, Tailwind CSS 4 (typography plugin), mdsvex, adapter-static. The shared layout (tab header + status footer + LCD background) is done. The home page (`src/routes/+page.svelte`, ported from `design/Main.dc.html`) is done. Its dot-dandelion canvas animation lives in `src/lib/dandelion.ts`. The posts list (`src/routes/posts/+page.svelte`, from `design/Posts.dc.html`) is done; there is no post detail page yet (no design), so rows are select-only. `about/+page.svelte` is a TODO placeholder — they exist so prerendering doesn't fail on the header links. Site owner name/copyright year live in `src/lib/site.ts`.
 
 ## Commands
 
@@ -51,7 +51,12 @@ No test runner, linter, or formatter is configured. `.npmrc` sets `engine-strict
 - **No `svelte.config.js`.** With SvelteKit 3, all Kit config (adapter, preprocessors, extensions, compiler options) is passed to `sveltekit({...})` in `vite.config.ts`. Change config there.
 - **Runes mode is forced** for all project files (`compilerOptions.runes`), so use `$props()`, `$state()`, `$derived()`, `{@render children()}` — not legacy `export let` / `<slot>`.
 - **`#lib` alias, not `$lib`.** `package.json` `imports` maps `#lib` → `src/lib/index.js` and `#lib/*` → `src/lib/*`.
-- **Markdown as pages:** mdsvex preprocesses `.svx` and `.md`, and both are registered as Svelte component extensions, so markdown files can be routes (`+page.md`) or imported as components. Blog posts are expected to be written this way.
+- **Markdown as pages:** mdsvex preprocesses `.svx` and `.md`, and both are registered as Svelte component extensions, so markdown files can be routes (`+page.md`) or imported as components.
+- **Posts data:** posts are `src/posts/**/*.md` with frontmatter `title`, `date` (YYYY-MM-DD), `category`, `sub`. How it fits together:
+  - **Reading time:** the mdsvex remark plugin `src/lib/markdown/reading-time.ts` (registered in `vite.config.ts`) runs at build time. It adds `readMin` to each post's frontmatter: non-whitespace chars of text + inline code ÷ 500 chars/min, rounded, min 1.
+  - **Post list:** `src/lib/posts.ts` imports only each file's `metadata` via `import.meta.glob(..., { import: 'metadata', eager: true })`, so post bodies stay out of the Posts page JS. Keep it that way: don't glob `?raw`. It throws if a frontmatter key is missing.
+  - **Categories:** derived from the posts, never hard-coded. Top-level order comes from `src/lib/category-order.ts`; unlisted categories are appended by name. Subcategories are sorted by post count, then name.
+  - **Samples:** `src/posts/_sample/` holds 20 throwaway `[샘플]` posts; delete the folder when real posts exist.
 - **Static output / deploy:** `src/routes/+layout.ts` sets `prerender = true` for every route; adapter-static writes `build/` with `fallback: '404.html'`. Every internal link must point to an existing route or the prerender step fails the build. `static/.nojekyll` is copied into the output. `.github/workflows/deploy.yml` builds on push to `main` (Node 24) and deploys via `actions/deploy-pages` (repo Pages source must be "GitHub Actions").
 - **Styling:**
   - `src/routes/layout.css` is the global stylesheet (imported by the root `+layout.svelte`). Its `@theme` defines the design tokens. Tailwind 4 has no `tailwind.config.js`.
