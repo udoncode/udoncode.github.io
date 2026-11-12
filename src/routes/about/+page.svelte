@@ -3,6 +3,7 @@
 	import { getStatus } from '#lib/status.svelte.ts';
 	import { SITE_NAME } from '#lib/site.ts';
 	import Seo from '#lib/components/Seo.svelte';
+	import AboutScene5 from '#lib/about/AboutScene5.svelte';
 	import { initStory } from '#lib/about/story.ts';
 
 	const status = getStatus();
@@ -28,7 +29,7 @@
 
 <Seo title="About" description="{SITE_NAME} 소개" />
 
-<!-- design/About.dc.html 마크업 그대로 (장면 0~6). 이번 단계에서는 0~2만 스크롤로 보이고 3~6은 숨겨 둔다 -->
+<!-- design/About.dc.html 마크업 그대로 (장면 0~6, 장면 5는 AboutScene5). 이번 단계에서는 0~5까지 스크롤로 보이고 6은 숨겨 둔다 -->
 <div class="pg" bind:this={root}>
 <h1 style="position:absolute;width:1px;height:1px;overflow:hidden">About</h1>
 <div class="shell"><div class="main"><section class="story" aria-label="My Story"><div class="stage">
@@ -41,13 +42,7 @@
 <section class="sl s3" style="--i:3" aria-label="03 · Challenge"><div class="art"><div class="ewr"><p class="cnt px">ERRORS <b class="errn">000</b></p><div class="ew" style="--k:0;--l:10%;top:12%"><div class="et"><span>ERROR 404</span><span>×</span></div><div class="eb"><p>Page not found</p><span class="ok">OK</span></div></div><div class="ew" style="--k:1;--l:36%;top:6%"><div class="et"><span>NullPointerException</span><span>×</span></div><div class="eb"><p>at Main.java:42</p><span class="ok">OK</span></div></div><div class="ew" style="--k:2;--l:58%;top:16%"><div class="et"><span>Segmentation fault</span><span>×</span></div><div class="eb"><p>core dumped</p><span class="ok">OK</span></div></div><div class="ew" style="--k:3;--l:14%;top:30%"><div class="et"><span>TypeError</span><span>×</span></div><div class="eb"><p>undefined is not a function</p><span class="ok">OK</span></div></div><div class="ew" style="--k:4;--l:42%;top:34%"><div class="et"><span>CORS policy</span><span>×</span></div><div class="eb"><p>blocked by browser</p><span class="ok">OK</span></div></div><div class="ew" style="--k:5;--l:62%;top:42%"><div class="et"><span>500 Server Error</span><span>×</span></div><div class="eb"><p>Internal error</p><span class="ok">OK</span></div></div><div class="ew" style="--k:6;--l:10%;top:54%"><div class="et"><span>SyntaxError</span><span>×</span></div><div class="eb"><p>Unexpected token &#125;</p><span class="ok">OK</span></div></div><div class="ew" style="--k:7;--l:36%;top:60%"><div class="et"><span>Build failed</span><span>×</span></div><div class="eb"><p>exit code 1</p><span class="ok">OK</span></div></div><div class="ew" style="--k:8;--l:58%;top:66%"><div class="et"><span>Cannot read props</span><span>×</span></div><div class="eb"><p>of undefined</p><span class="ok">OK</span></div></div></div></div><div class="txt"><h2 class="h ln glt" style="--a:.1">하지만 생각처럼 쉽지만은 않았어요.</h2><p class="ln pp" style="--a:0.28">예기치 못한 수많은 오류가 제 호기심을 짓눌렀어요.</p><p class="ln pp" style="--a:0.42">그럼에도 다른 사람들의 멋진 결과물을 보며, 시간이 걸리더라도 이해할 수 있는 만큼 조금씩 부딪혀 나갔죠.</p></div></section>
 <section class="sl s4" style="--i:4" aria-label="04 · Discovery"><!-- svelte-ignore a11y_no_interactive_element_to_noninteractive_role -->
 <canvas class="cv cv4" role="img" aria-label="화면을 가로지르며 엉켜 있던 실이 스크롤에 따라 일자로 펴지는 장면"></canvas><p class="cnt px">KNOTS <b class="knots">12</b></p><div class="txt"><h2 class="h ln glt" style="--a:.1">어느새 저는 그 실타래를 푸는 일이 좋아졌어요.</h2><p class="ln pp" style="--a:0.28">복잡하게 얽힌 코드의 실타래를 하나씩 풀어가는 일.</p><p class="ln pp" style="--a:0.42">물론 풀기 전까지는 여전히 고통스럽지만요.</p></div></section>
-<section class="sl s5" style="--i:5" aria-label="05 · My Perspective"><div class="art"><svg class="svg5" viewBox="0 0 340 300" aria-hidden="true" shape-rendering="crispEdges">
-<g class="pill"><g transform="translate(54 128) scale(4)"><path d="M56 6h1v1h-1zM57 7h1v1h-1zM57 8h1v1h-1zM58 9h1v1h-1zM58 10h1v1h-1zM58 11h2v1h-2zM58 12h2v1h-2zM58 13h2v1h-2zM58 14h2v1h-2zM58 15h2v1h-2zM58 16h2v1h-2zM57 17h3v1h-3zM57 18h3v1h-3zM56 19h3v1h-3zM56 20h3v1h-3zM55 21h3v1h-3zM54 22h4v1h-4zM53 23h4v1h-4zM6 24h1v1h-1zM51 24h5v1h-5zM7 25h2v1h-2zM49 25h6v1h-6zM9 26h44v1h-44zM11 27h40v1h-40z" fill="currentColor" opacity="0"/>
-<g class="lo"><path d="M9 1h40v1h-40zM7 2h44v1h-44zM5 3h48v1h-48zM4 4h50v1h-50zM3 5h52v1h-52zM3 6h52v1h-52zM2 7h54v1h-54zM2 8h54v1h-54zM1 9h56v1h-56zM1 10h56v1h-56zM1 11h56v1h-56zM1 12h56v1h-56zM1 13h56v1h-56zM1 14h56v1h-56zM1 15h56v1h-56zM1 16h56v1h-56zM2 17h54v1h-54zM2 18h54v1h-54zM3 19h52v1h-52zM3 20h52v1h-52zM4 21h50v1h-50zM5 22h48v1h-48zM7 23h44v1h-44zM9 24h40v1h-40z" fill="#4f7000"/><path d="M9 0h40v1h-40zM7 1h2v1h-2zM49 1h2v1h-2zM5 2h2v1h-2zM51 2h2v1h-2zM4 3h1v1h-1zM53 3h1v1h-1zM3 4h1v1h-1zM54 4h1v1h-1zM2 5h1v1h-1zM55 5h1v1h-1zM2 6h1v1h-1zM55 6h1v1h-1zM1 7h1v1h-1zM56 7h1v1h-1zM1 8h1v1h-1zM56 8h1v1h-1zM0 9h1v1h-1zM57 9h1v1h-1zM0 10h1v1h-1zM57 10h1v1h-1zM0 11h1v1h-1zM57 11h1v1h-1zM0 12h1v1h-1zM57 12h1v1h-1zM0 13h1v1h-1zM57 13h1v1h-1zM0 14h1v1h-1zM57 14h1v1h-1zM0 15h1v1h-1zM57 15h1v1h-1zM0 16h1v1h-1zM57 16h1v1h-1zM1 17h1v1h-1zM56 17h1v1h-1zM1 18h1v1h-1zM56 18h1v1h-1zM2 19h1v1h-1zM55 19h1v1h-1zM2 20h1v1h-1zM55 20h1v1h-1zM3 21h1v1h-1zM54 21h1v1h-1zM4 22h1v1h-1zM53 22h1v1h-1zM5 23h2v1h-2zM51 23h2v1h-2zM7 24h2v1h-2zM49 24h2v1h-2zM9 25h40v1h-40z" fill="#2f4200"/><path d="M30 8h4v1h-4zM38 8h6v1h-6zM46 8h6v1h-6zM30 9h4v1h-4zM38 9h6v1h-6zM46 9h6v1h-6zM28 10h2v1h-2zM34 10h2v1h-2zM38 10h2v1h-2zM46 10h2v1h-2zM28 11h2v1h-2zM34 11h2v1h-2zM38 11h2v1h-2zM46 11h2v1h-2zM28 12h2v1h-2zM34 12h2v1h-2zM38 12h4v1h-4zM46 12h4v1h-4zM28 13h2v1h-2zM34 13h2v1h-2zM38 13h4v1h-4zM46 13h4v1h-4zM28 14h2v1h-2zM34 14h2v1h-2zM38 14h2v1h-2zM46 14h2v1h-2zM28 15h2v1h-2zM34 15h2v1h-2zM38 15h2v1h-2zM46 15h2v1h-2zM30 16h4v1h-4zM38 16h2v1h-2zM46 16h2v1h-2zM30 17h4v1h-4zM38 17h2v1h-2zM46 17h2v1h-2z" fill="#d6ff5c" class="tx5"/></g>
-<g class="hi"><path d="M9 1h40v1h-40zM7 2h44v1h-44zM5 3h48v1h-48zM4 4h50v1h-50zM3 5h52v1h-52zM3 6h52v1h-52zM2 7h54v1h-54zM2 8h54v1h-54zM1 9h56v1h-56zM1 10h56v1h-56zM1 11h56v1h-56zM1 12h56v1h-56zM1 13h56v1h-56zM1 14h56v1h-56zM1 15h56v1h-56zM1 16h56v1h-56zM2 17h54v1h-54zM2 18h54v1h-54zM3 19h52v1h-52zM3 20h52v1h-52zM4 21h50v1h-50zM5 22h48v1h-48zM7 23h44v1h-44zM9 24h40v1h-40z" fill="#0a1206"/><path d="M9 0h40v1h-40zM7 1h2v1h-2zM49 1h2v1h-2zM5 2h2v1h-2zM51 2h2v1h-2zM4 3h1v1h-1zM53 3h1v1h-1zM3 4h1v1h-1zM54 4h1v1h-1zM2 5h1v1h-1zM55 5h1v1h-1zM2 6h1v1h-1zM55 6h1v1h-1zM1 7h1v1h-1zM56 7h1v1h-1zM1 8h1v1h-1zM56 8h1v1h-1zM0 9h1v1h-1zM57 9h1v1h-1zM0 10h1v1h-1zM57 10h1v1h-1zM0 11h1v1h-1zM57 11h1v1h-1zM0 12h1v1h-1zM57 12h1v1h-1zM0 13h1v1h-1zM57 13h1v1h-1zM0 14h1v1h-1zM57 14h1v1h-1zM0 15h1v1h-1zM57 15h1v1h-1zM0 16h1v1h-1zM57 16h1v1h-1zM1 17h1v1h-1zM56 17h1v1h-1zM1 18h1v1h-1zM56 18h1v1h-1zM2 19h1v1h-1zM55 19h1v1h-1zM2 20h1v1h-1zM55 20h1v1h-1zM3 21h1v1h-1zM54 21h1v1h-1zM4 22h1v1h-1zM53 22h1v1h-1zM5 23h2v1h-2zM51 23h2v1h-2zM7 24h2v1h-2zM49 24h2v1h-2zM9 25h40v1h-40z" fill="#4f7000"/><path d="M12 8h4v1h-4zM20 8h2v1h-2zM26 8h2v1h-2zM12 9h4v1h-4zM20 9h2v1h-2zM26 9h2v1h-2zM10 10h2v1h-2zM16 10h2v1h-2zM20 10h4v1h-4zM26 10h2v1h-2zM10 11h2v1h-2zM16 11h2v1h-2zM20 11h4v1h-4zM26 11h2v1h-2zM10 12h2v1h-2zM16 12h2v1h-2zM20 12h2v1h-2zM24 12h4v1h-4zM10 13h2v1h-2zM16 13h2v1h-2zM20 13h2v1h-2zM24 13h4v1h-4zM10 14h2v1h-2zM16 14h2v1h-2zM20 14h2v1h-2zM26 14h2v1h-2zM10 15h2v1h-2zM16 15h2v1h-2zM20 15h2v1h-2zM26 15h2v1h-2zM12 16h4v1h-4zM20 16h2v1h-2zM26 16h2v1h-2zM12 17h4v1h-4zM20 17h2v1h-2zM26 17h2v1h-2z" fill="#d6ff5c" class="tx5"/></g></g></g>
-<g class="kc"><g transform="translate(66 140) scale(4)"><path d="M7 1h6v1h-6zM5 2h10v1h-10zM3 3h14v1h-14zM3 4h14v1h-14zM2 5h16v1h-16zM2 6h16v1h-16zM1 7h18v1h-18zM1 8h18v1h-18zM1 9h18v1h-18zM1 10h18v1h-18zM1 11h18v1h-18zM1 12h18v1h-18zM2 13h16v1h-16zM2 14h16v1h-16zM3 15h14v1h-14zM3 16h14v1h-14zM5 17h10v1h-10zM7 18h6v1h-6z" fill="#d6ff5c"/><path d="M7 0h6v1h-6zM5 1h2v1h-2zM13 1h2v1h-2zM3 2h2v1h-2zM15 2h2v1h-2zM2 3h1v1h-1zM17 3h1v1h-1zM2 4h1v1h-1zM17 4h1v1h-1zM1 5h1v1h-1zM18 5h1v1h-1zM1 6h1v1h-1zM18 6h1v1h-1zM0 7h1v1h-1zM19 7h1v1h-1zM0 8h1v1h-1zM19 8h1v1h-1zM0 9h1v1h-1zM19 9h1v1h-1zM0 10h1v1h-1zM19 10h1v1h-1zM0 11h1v1h-1zM19 11h1v1h-1zM0 12h1v1h-1zM19 12h1v1h-1zM1 13h1v1h-1zM18 13h1v1h-1zM1 14h1v1h-1zM18 14h1v1h-1zM2 15h1v1h-1zM17 15h1v1h-1zM2 16h1v1h-1zM17 16h1v1h-1zM3 17h2v1h-2zM15 17h2v1h-2zM5 18h2v1h-2zM13 18h2v1h-2zM7 19h6v1h-6z" fill="#8dc300"/></g></g>
-<g class="cur"><circle class="rg1" cx="3" cy="3" r="0" fill="none" stroke="#d6ff5c" stroke-width="3" stroke-dasharray="4 5" opacity="0"/><circle class="rg2" cx="3" cy="3" r="0" fill="none" stroke="#d6ff5c" stroke-width="2" opacity="0"/><circle class="rgd" cx="3" cy="3" r="9" fill="#d6ff5c" opacity="0"/><g transform="scale(2)" shape-rendering="crispEdges"><path d="M0 0h1v1h-1zM0 1h2v1h-2zM0 2h1v1h-1zM2 2h1v1h-1zM0 3h1v1h-1zM3 3h1v1h-1zM0 4h1v1h-1zM4 4h1v1h-1zM0 5h1v1h-1zM5 5h1v1h-1zM0 6h1v1h-1zM6 6h1v1h-1zM0 7h1v1h-1zM7 7h1v1h-1zM0 8h1v1h-1zM8 8h1v1h-1zM0 9h1v1h-1zM9 9h1v1h-1zM0 10h1v1h-1zM10 10h1v1h-1zM0 11h1v1h-1zM7 11h5v1h-5zM0 12h1v1h-1zM4 12h1v1h-1zM7 12h1v1h-1zM0 13h1v1h-1zM3 13h1v1h-1zM5 13h1v1h-1zM8 13h1v1h-1zM0 14h1v1h-1zM2 14h1v1h-1zM5 14h1v1h-1zM8 14h1v1h-1zM0 15h2v1h-2zM6 15h1v1h-1zM9 15h1v1h-1zM0 16h1v1h-1zM6 16h1v1h-1zM9 16h1v1h-1zM7 17h2v1h-2z" fill="#3a5200"/><path d="M1 3h1v1h-1zM1 4h2v1h-2zM1 5h3v1h-3zM1 6h4v1h-4zM1 7h5v1h-5zM1 8h6v1h-6zM1 9h7v1h-7zM1 10h8v1h-8zM1 11h5v1h-5zM1 12h2v1h-2zM5 12h1v1h-1zM1 13h1v1h-1zM6 13h1v1h-1zM6 14h1v1h-1zM7 15h1v1h-1zM7 16h1v1h-1z" fill="#d6ff5c"/><path d="M1 2h1v1h-1zM2 3h1v1h-1zM3 4h1v1h-1zM4 5h1v1h-1zM5 6h1v1h-1zM6 7h1v1h-1zM7 8h1v1h-1zM8 9h1v1h-1zM9 10h1v1h-1zM6 11h1v1h-1zM3 12h1v1h-1zM6 12h1v1h-1zM2 13h1v1h-1zM7 13h1v1h-1zM1 14h1v1h-1zM7 14h1v1h-1zM8 15h1v1h-1zM8 16h1v1h-1z" fill="#8dc300"/></g></g>
-</svg></div><i class="ln5"></i><div class="txt"><h2 class="h ln glt" style="--a:.1">제가 만들고 싶은 건 조금 달라요.</h2><p class="ln pp" style="--a:0.28">개발자의 핵심 역량으로 '문제 해결 능력'을 꼽지만, 가끔은 그 말이 부담스럽게 느껴져요. 세상에는 제 능력을 넘어서는 복잡한 문제들이 너무나 많으니까요.</p><p class="ln pp" style="--a:0.46">저는 기발한 해결책보다는 누군가의 사소한 불편과 귀찮음을 덜어주는 직관적인 서비스를 만들고 싶어요.</p></div></section>
+<AboutScene5 />
 <section class="sl s6" style="--i:6" aria-label="06 · My Direction"><!-- svelte-ignore a11y_no_interactive_element_to_noninteractive_role -->
 <canvas class="cv cv6" role="img" aria-label="토글이 지렁이처럼 움직이다 흙더미로 쌓이고 싹이 터 꽃봉오리가 피는 장면"></canvas><div class="txt"><h2 class="h ln glt" style="--a:.1">작은 불편을 발견하고, 작게나마 바꿔가는 사람.</h2><p class="ln pp" style="--a:0.28">누군가에게는 별것 아닌 불편일지라도, 누군가에게는 꽤 유용한 무언가가 될 수 있으니까요.</p><p class="ln pp" style="--a:0.42">저는 그런 것들을 웹이라는 공간에 하나씩 만들어 가고 싶어요.</p></div></section>
 <canvas class="trc" aria-hidden="true"></canvas><div class="snk" role="navigation" aria-label="챕터"><i class="rail" aria-hidden="true"></i><button type="button" class="lb on" style="--j:0" data-i="0"><span class="n">00</span><span class="t">Opening</span></button><button type="button" class="lb" style="--j:1" data-i="1"><span class="n">01</span><span class="t">Introduction</span></button><button type="button" class="lb" style="--j:2" data-i="2"><span class="n">02</span><span class="t">Curiosity</span></button><button type="button" class="lb" style="--j:3" data-i="3"><span class="n">03</span><span class="t">Challenge</span></button><button type="button" class="lb" style="--j:4" data-i="4"><span class="n">04</span><span class="t">Discovery</span></button><button type="button" class="lb" style="--j:5" data-i="5"><span class="n">05</span><span class="t">My Perspective</span></button><button type="button" class="lb" style="--j:6" data-i="6"><span class="n">06</span><span class="t">My Direction</span></button><i class="tail"></i><i class="fd" style="--j:0"></i><i class="fd" style="--j:1"></i><i class="fd" style="--j:2"></i><i class="fd" style="--j:3"></i><i class="fd" style="--j:4"></i><i class="fd" style="--j:5"></i><i class="fd" style="--j:6"></i><i class="head"></i></div></div></section>
@@ -103,17 +98,6 @@
 		.s0 {
 			border-left: 0;
 			box-shadow: none;
-		}
-		.sl:before {
-			content: "";
-			position: absolute;
-			left: 0;
-			bottom: 0;
-			width: 72%;
-			height: 62%;
-			background: linear-gradient(35deg,rgba(10,18,6,.96) 20%,rgba(10,18,6,.6) 55%,transparent);
-			pointer-events: none;
-			z-index: 1;
 		}
 		.sl:after {
 			content: "";
@@ -358,12 +342,6 @@
 			background-color: var(--color-lcd);
 			color: var(--color-bg);
 		}
-		.s5:before {
-			display: none;
-		}
-		.s5.lit:before {
-			opacity: 0;
-		}
 		.s5.lit .lb {
 			color: #27330f;
 		}
@@ -602,11 +580,6 @@
 				height: 48%;
 				top: 14px;
 			}
-			.sl:before {
-				width: 100%;
-				height: 56%;
-				background: linear-gradient(0deg,rgba(10,18,6,.96) 28%,rgba(10,18,6,.6) 60%,transparent);
-			}
 			.h {
 				font-size: clamp(24px,6.4vw,34px);
 			}
@@ -648,12 +621,6 @@
 			.s6 .txt {
 				top: calc(var(--pd) + 28px);
 				bottom: auto;
-			}
-			.sl.s1:before,
-			.sl.s6:before {
-				top: 0;
-				bottom: auto;
-				background: linear-gradient(145deg,rgba(10,18,6,.96) 20%,rgba(10,18,6,.6) 55%,transparent);
 			}
 		}
 	}
@@ -699,20 +666,48 @@
 	@keyframes -global-gl {0%,92%,100%{transform:none; text-shadow:none}93%{transform:translateX(-4px); text-shadow:3px 0 rgba(214,255,92,.8),-3px 0 rgba(141,195,0,.5)}95%{transform:translateX(4px); text-shadow:-3px 0 rgba(214,255,92,.8)}97%{transform:none}}
 	@keyframes -global-jit {0%{transform:translate(2px,-2px)}50%{transform:translate(-3px,2px)}100%{transform:translate(1px,3px)}}
 
+	/* 글자 가독성: 목업의 .sl:before 그라데이션 스크림을 없애고 글자에만 그림자를 준다.
+	   h2는 .glt 글리치 애니메이션 키프레임이 text-shadow를 none으로 덮어쓰므로,
+	   애니메이션을 건드리지 않도록 같은 그림자를 filter: drop-shadow로 준다. */
+	.pg :global {
+		/* :where — 장면 0의 원래 그림자 규칙(.s0 .h, .s0 .scr)이 이기도록 우선순위를 낮춘다 */
+		:where(.txt) p {
+			text-shadow:
+				0 0 6px #0a1206,
+				0 0 14px rgba(10, 18, 6, 0.9),
+				1px 1px 0 #0a1206;
+		}
+		:where(.txt) h2 {
+			filter: drop-shadow(0 0 6px #0a1206) drop-shadow(0 0 14px rgba(10, 18, 6, 0.9))
+				drop-shadow(1px 1px 0 #0a1206);
+		}
+		/* 장면 5가 켜지면(배경 초록·글자 어두움) 어두운 그림자는 번져 보이므로 원래대로 없앤다 */
+		.s5.lit .txt p {
+			text-shadow: none;
+		}
+		.s5.lit .txt h2 {
+			filter: none;
+		}
+	}
+
 	/* 프리렌더 HTML에서 스크립트가 돌기 전에 뒤 장면이 비치지 않게 (스크립트가 clip-path를 인라인으로 덮어쓴다) */
 	.pg :global(.sl:not(.s0)) {
 		clip-path: inset(0 0 0 100%);
 	}
 
-	/* ── 이번 단계: 장면 0~2만 공개 ──
-	   원본 높이는 16.4 (장면 7개). 6.7이면 스크롤이 장면 2가 다 그려진 뒤, 퇴장 효과 직전쯤에서 끝난다
-	   (푸터 높이에 따라 조금 달라서 좁은 화면에서는 퇴장이 살짝 시작될 수 있다).
-	   장면 3~6을 공개할 때 이 블록을 지운다. */
+	/* ── 이번 단계: 장면 0~5만 공개 (장면 6은 다음 단계) ──
+	   원본 높이는 16.4 (장면 7개). 13.3이면 스크롤이 장면 5가 다 그려진 뒤, 퇴장 효과 직전쯤에서 끝난다
+	   (푸터 높이에 따라 조금 달라서 좁은 화면에서는 장면 5의 퇴장이 살짝 시작될 수 있다).
+	   장면 6은 원본 스크립트가 장면 5 퇴장이 시작되면 .pre 를 붙여 보이게 하므로 visibility로 확실히 숨긴다.
+	   장면 6을 공개할 때 이 블록을 지운다. */
 	.pg :global {
 		.story {
-			height: calc(6.7 * (100vh - var(--hh)));
+			height: calc(13.3 * (100vh - var(--hh)));
 		}
-		.snk .lb:is([data-i='3'], [data-i='4'], [data-i='5'], [data-i='6']) {
+		.s6 {
+			visibility: hidden;
+		}
+		.snk .lb[data-i='6'] {
 			display: none;
 		}
 	}
