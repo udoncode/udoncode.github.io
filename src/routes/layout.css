@@ -123,3 +123,24 @@
 		transition: none !important;
 	}
 }
+
+/* ── 텍스트 선택 영역: LCD 반전 (초록 바탕 + 어두운 글자) ──
+   모든 요소에 걸리므로 코드블록 토큰 색도 어두운 글자로 덮인다.
+   Firefox용 ::-moz-selection은 따로 쓴다 (모르는 선택자가 섞이면 규칙 전체가 무시됨). */
+@layer base {
+	::selection {
+		background-color: var(--color-lcd);
+		color: var(--color-bg);
+	}
+	::-moz-selection {
+		background-color: var(--color-lcd);
+		color: var(--color-bg);
+	}
+	/* About 장면 글자의 어두운 그림자가 선택 영역 위에서 번지지 않게 */
+	.txt :is(.h, .pp, .scr)::selection {
+		text-shadow: none;
+	}
+	.txt :is(.h, .pp, .scr)::-moz-selection {
+		text-shadow: none;
+	}
+}
