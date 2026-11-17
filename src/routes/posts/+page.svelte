@@ -99,7 +99,7 @@
 		<div class="catlist">
 			<div>
 				<button type="button" class="opt font-vt" class:on={cat === 'all'} onclick={() => pickCat('all')}
-					><span class="cb"></span><span class="nm">전체</span><span class="ct">{p2(posts.length)}</span
+					><span class="cb"></span><span class="nm font-body">전체</span><span class="ct">{p2(posts.length)}</span
 					></button
 				>
 			</div>
@@ -110,7 +110,7 @@
 						class="opt font-vt"
 						class:on={cat === c.name}
 						onclick={() => pickCat(c.name)}
-						><span class="cb"></span><span class="nm">{c.name}</span><span class="ct"
+						><span class="cb"></span><span class="nm font-body">{c.name}</span><span class="ct"
 							>{p2(c.count)}</span
 						></button
 					>
@@ -121,7 +121,7 @@
 								class="opt sub font-vt"
 								class:on={subs.length === 0}
 								onclick={pickAllSubs}
-								><span class="tr">├─</span><span class="cb"></span><span class="nm">전체</span><span
+								><span class="tr">├─</span><span class="cb"></span><span class="nm font-body">전체</span><span
 									class="ct">{p2(c.count)}</span
 								></button
 							>
@@ -132,7 +132,7 @@
 									class:on={subs.includes(s.name)}
 									onclick={() => toggleSub(s.name)}
 									><span class="tr">{i === c.subs.length - 1 ? '└─' : '├─'}</span><span class="cb"
-									></span><span class="nm">{s.name}</span><span class="ct">{p2(s.count)}</span></button
+									></span><span class="nm font-body">{s.name}</span><span class="ct">{p2(s.count)}</span></button
 								>
 							{/each}
 						</div>
@@ -152,7 +152,7 @@
 				>
 			{/each}
 			{#if filtered.length === 0}
-				<p class="emp font-vt">&gt; 조건에 맞는 글이 없어요.</p>
+				<p class="emp font-body">&gt; 조건에 맞는 글이 없어요.</p>
 			{/if}
 		</div>
 		<nav class="pager" aria-label="페이지 이동">
@@ -198,7 +198,7 @@
 					class:on={tags.includes(t.name)}
 					aria-pressed={tags.includes(t.name)}
 					onclick={() => toggleTag(t.name)}
-					><span class="hs">#</span><span>{t.name}</span><span class="tc">{p2(t.count)}</span></button
+					><span class="hs">#</span><span class="font-body">{t.name}</span><span class="tc">{p2(t.count)}</span></button
 				>
 			{/each}
 		</div>
