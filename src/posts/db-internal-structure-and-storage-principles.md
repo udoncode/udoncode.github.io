@@ -4,7 +4,7 @@ subtitle: DB가 데이터를 읽는 과정
 date: 2026-11-14
 category: 개발
 sub: 데이터베이스
-tags: [RDB, SQL, TUNING]
+tags: [DB, SQL, TUNING]
 ---
 
 ## 1. DB의 SQL 실행 과정
