@@ -164,26 +164,26 @@
 {#key data.post.slug}
 	<header class="hd">
 		<nav class="crumb font-vt" aria-label="현재 위치">
-			<a href="/posts">POSTS</a><span>/</span><a href="/posts">{data.post.category}</a><span>/</span
-			><span class="cur">{data.post.sub}</span><span class="ln2"></span>
+			<a href="/posts">POSTS</a><span>/</span><a class="font-body" href="/posts">{data.post.category}</a><span>/</span
+			><span class="cur font-body">{data.post.sub}</span><span class="ln2"></span>
 		</nav>
-		<h1 class="pt font-mulmaru">
+		<h1 class="pt font-body">
 			{data.post.title}<span class="bk" aria-hidden="true"></span>
-			{#if data.post.subtitle}<span class="sub font-px">{data.post.subtitle}</span>{/if}
+			{#if data.post.subtitle}<span class="sub">{data.post.subtitle}</span>{/if}
 		</h1>
 		<dl class="spec">
 			<div><dt class="ml">DATE</dt><dd class="mv">{data.post.date}</dd></div>
-			<div><dt class="ml">READ</dt><dd class="mv">약 {data.post.readMin}분</dd></div>
+			<div><dt class="ml">READ</dt><dd class="mv tx">약 {data.post.readMin}분</dd></div>
 			<div>
 				<dt class="ml">CATEGORY</dt>
-				<dd class="mv">{data.post.category} / {data.post.sub}</dd>
+				<dd class="mv tx">{data.post.category} / {data.post.sub}</dd>
 			</div>
 			{#if data.post.tags.length}
 				<div>
 					<dt class="ml">TAGS</dt>
 					<dd class="chips">
 						{#each data.post.tags as t (t)}
-							<a class="tg" href="/posts"><span class="hs">#</span>{t}</a>
+							<a class="tg" href="/posts"><span class="hs">#</span><span class="font-body">{t}</span></a>
 						{/each}
 					</dd>
 				</div>
@@ -199,7 +199,7 @@
 			<nav class="toc" aria-label="목차">
 				{#each tocRows as t, i (t.id)}
 					<a class="ti2 font-vt" class:l2={t.level === 3} class:on={act === i} href="#{t.id}"
-						><span class="tn">{t.no}</span><span>{t.text}</span></a
+						><span class="tn">{t.no}</span><span class="font-body">{t.text}</span></a
 					>
 				{/each}
 			</nav>
@@ -227,7 +227,7 @@
 			<div class="endt">
 				<span class="font-vt">TAGS</span>
 				{#each data.post.tags as t (t)}
-					<a class="tg" href="/posts"><span class="hs">#</span>{t}</a>
+					<a class="tg" href="/posts"><span class="hs">#</span><span class="font-body">{t}</span></a>
 				{/each}
 			</div>
 		{/if}
@@ -264,7 +264,7 @@
 		</div>
 		<div class="lbc font-vt">
 			<button type="button" class="sk" aria-label="이전 이미지" onclick={() => lbGo(-1)}>◀</button>
-			<p class="cap">{cur.cap || cur.alt}</p>
+			<p class="cap font-body">{cur.cap || cur.alt}</p>
 			<button type="button" class="sk" aria-label="다음 이미지" onclick={() => lbGo(1)}>▶</button>
 			<button type="button" class="sk" onclick={() => (lb = -1)}>✕ CLOSE</button>
 		</div>
@@ -320,7 +320,7 @@
 	}
 	.pt {
 		margin: 0;
-		font-weight: 400;
+		font-weight: 700;
 		font-size: clamp(28px, 3.6vw, 52px);
 		line-height: 1.3;
 		color: var(--color-lcd-bright);
@@ -330,7 +330,8 @@
 	.pt .sub {
 		display: block;
 		margin-top: 6px;
-		font-size: clamp(12px, 1.1vw, 16px);
+		font-weight: 400;
+		font-size: clamp(15px, 1.3vw, 19px);
 		letter-spacing: 1px;
 		color: var(--color-lcd-mid);
 	}
@@ -397,6 +398,10 @@
 		font-family: var(--font-vt);
 		font-size: 30px;
 		line-height: 1.2;
+	}
+	/* 한글이 들어가는 값(READ, CATEGORY)은 Galmuri11. 숫자만 있는 DATE는 VT323 그대로 */
+	.mv.tx {
+		font-family: var(--font-body);
 	}
 	.chips {
 		display: flex;
@@ -470,10 +475,14 @@
 		gap: 12px;
 		min-height: 34px;
 		box-sizing: border-box;
-		padding: 4px 12px;
-		font-size: 24px;
-		line-height: 1.2;
+		padding: 6px 12px;
+		font-size: 18px;
+		line-height: 1.5;
 		transition: background 0.1s steps(2);
+	}
+	/* 가장 큰 제목(h2)이 새로 시작될 때는 앞에 여백을 조금 더 둔다 */
+	.ti2:not(.l2):not(:first-child) {
+		margin-top: 8px;
 	}
 	.ti2:hover {
 		background: rgb(141 195 0 / 0.2);
@@ -484,7 +493,7 @@
 	}
 	.ti2 .tn {
 		flex: none;
-		font-size: 20px;
+		font-size: 18px;
 		opacity: 0.65;
 		width: 2ch;
 	}
@@ -493,7 +502,7 @@
 	}
 	.ti2.l2 {
 		padding-left: 30px;
-		font-size: 21px;
+		font-size: 16px;
 		min-height: 30px;
 	}
 	.ti2.l2 .tn {
@@ -693,8 +702,8 @@
 		flex: 1;
 		min-width: 0;
 		margin: 0;
-		font-size: 24px;
-		line-height: 1.3;
+		font-size: 17px;
+		line-height: 1.5;
 		color: var(--color-lcd-mid);
 	}
 
@@ -726,13 +735,17 @@
 			min-height: var(--spacing-tap);
 			padding: 0 10px;
 			border: 2px solid var(--color-lcd);
-			font-size: 22px;
+			font-size: 17px;
 			align-items: center;
+		}
+		/* 가로 칩 줄에서는 h2 앞 여백 대신 gap만 쓴다 */
+		.ti2:not(.l2):not(:first-child) {
+			margin-top: 0;
 		}
 		.ti2.l2 {
 			padding-left: 10px;
 			border-style: dashed;
-			font-size: 20px;
+			font-size: 15px;
 		}
 		.ti2 .tn {
 			display: none;
