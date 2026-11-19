@@ -172,7 +172,7 @@
 			{#if data.post.subtitle}<span class="sub">{data.post.subtitle}</span>{/if}
 		</h1>
 		<dl class="spec">
-			<div><dt class="ml">DATE</dt><dd class="mv">{data.post.date}</dd></div>
+			<div><dt class="ml">DATE</dt><dd class="mv tx">{data.post.date}</dd></div>
 			<div><dt class="ml">READ</dt><dd class="mv tx">약 {data.post.readMin}분</dd></div>
 			<div>
 				<dt class="ml">CATEGORY</dt>
@@ -399,7 +399,7 @@
 		font-size: 30px;
 		line-height: 1.2;
 	}
-	/* 한글이 들어가는 값(READ, CATEGORY)은 Galmuri11. 숫자만 있는 DATE는 VT323 그대로 */
+	/* 값(DATE, READ, CATEGORY)은 Galmuri11 */
 	.mv.tx {
 		font-family: var(--font-body);
 	}
