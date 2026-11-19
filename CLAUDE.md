@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 폰트: Galmuri11(본문), Mulmaru, VT323, Press Start 2P, Orbitron(900), IBM Plex Mono(400·500). CDN은 쓰지 않는다.
   - Galmuri11·Galmuri11-Bold·Mulmaru는 `static/fonts/`의 woff2를 `layout.css`의 `@font-face`로 연결한다.
   - VT323·Press Start 2P·Orbitron·IBM Plex Mono는 `@fontsource/*` 패키지에서 쓰는 굵기 파일만 `@import`한다.
-  - 한글이 들어갈 수 있는 글자(제목, 카테고리·태그 이름, 안내 문구 등)는 영문까지 Galmuri11(`font-body`)로 쓴다. VT323·Press Start 2P 같은 영문 폰트는 영문·숫자만 쓰는 라벨에만 쓴다.
+  - 한글이 들어갈 수 있는 글자(제목, 카테고리·태그 이름, 안내 문구 등)는 영문까지 Galmuri11(`font-body`)로 쓴다. VT323·Press Start 2P 같은 영문 폰트는 영문·숫자만 쓰는 라벨에만 쓴다. 예외: 글 상세의 글 제목과 본문 h1~h4는 Mulmaru(`font-mulmaru`, 굵기 400).
   - 모든 폰트는 `font-display: swap`.
 - 디자인에 없는 것은 마음대로 만들지 말고 먼저 물어본다.
 

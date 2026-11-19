@@ -167,7 +167,7 @@
 			<a href="/posts">POSTS</a><span>/</span><a class="font-body" href="/posts">{data.post.category}</a><span>/</span
 			><span class="cur font-body">{data.post.sub}</span><span class="ln2"></span>
 		</nav>
-		<h1 class="pt font-body">
+		<h1 class="pt font-mulmaru">
 			{data.post.title}<span class="bk" aria-hidden="true"></span>
 			{#if data.post.subtitle}<span class="sub">{data.post.subtitle}</span>{/if}
 		</h1>
@@ -320,7 +320,7 @@
 	}
 	.pt {
 		margin: 0;
-		font-weight: 700;
+		font-weight: 400;
 		font-size: clamp(28px, 3.6vw, 52px);
 		line-height: 1.3;
 		color: var(--color-lcd-bright);
@@ -330,7 +330,7 @@
 	.pt .sub {
 		display: block;
 		margin-top: 6px;
-		font-weight: 400;
+		font-family: var(--font-body);
 		font-size: clamp(15px, 1.3vw, 19px);
 		letter-spacing: 1px;
 		color: var(--color-lcd-mid);
