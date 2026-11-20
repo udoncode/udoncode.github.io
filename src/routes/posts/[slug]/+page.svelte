@@ -3,6 +3,7 @@
 	import { claimStatus } from '#lib/status.svelte.ts';
 	import '#lib/styles/post-body.css';
 	import Seo from '#lib/components/Seo.svelte';
+	import PxIcon from '#lib/components/PxIcon.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -210,7 +211,7 @@
 			>
 		</div>
 		<div class="acts">
-			<a class="sk font-vt" href="/posts">◀ LIST</a>
+			<a class="sk font-vt" href="/posts"><PxIcon name="left" />LIST</a>
 			<button type="button" class="sk font-vt" onclick={copyLink}
 				>{linkCopied ? 'COPIED' : 'COPY LINK'}</button
 			>
@@ -235,14 +236,14 @@
 		<nav class="pn" aria-label="이전 글, 다음 글">
 			{#if data.prev}
 				<a class="pv" href="/posts/{data.prev.slug}"
-					><span class="pl2">◀ PREV</span><span class="ptt">{data.prev.title}</span></a
+					><span class="pl2"><PxIcon name="left" />PREV</span><span class="ptt">{data.prev.title}</span></a
 				>
 			{:else}
 				<span></span>
 			{/if}
 			{#if data.next}
 				<a class="nx" href="/posts/{data.next.slug}"
-					><span class="pl2">NEXT ▶</span><span class="ptt">{data.next.title}</span></a
+					><span class="pl2">NEXT<PxIcon name="right" /></span><span class="ptt">{data.next.title}</span></a
 				>
 			{/if}
 		</nav>
@@ -254,7 +255,7 @@
 	class="topb font-vt"
 	class:on={showTop}
 	aria-label="맨 위로"
-	onclick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>▲ TOP</button
+	onclick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><PxIcon name="up" />TOP</button
 >
 
 {#if cur}
@@ -263,9 +264,9 @@
 			<span class="ph"><img src={cur.src} alt={cur.alt} /><span class="pl">{cur.label}</span></span>
 		</div>
 		<div class="lbc font-vt">
-			<button type="button" class="sk" aria-label="이전 이미지" onclick={() => lbGo(-1)}>◀</button>
+			<button type="button" class="sk" aria-label="이전 이미지" onclick={() => lbGo(-1)}><PxIcon name="left" /></button>
 			<p class="cap font-body">{cur.cap || cur.alt}</p>
-			<button type="button" class="sk" aria-label="다음 이미지" onclick={() => lbGo(1)}>▶</button>
+			<button type="button" class="sk" aria-label="다음 이미지" onclick={() => lbGo(1)}><PxIcon name="right" /></button>
 			<button type="button" class="sk" onclick={() => (lb = -1)}>✕ CLOSE</button>
 		</div>
 	</div>
@@ -546,6 +547,7 @@
 		letter-spacing: 1px;
 		cursor: pointer;
 		line-height: 1;
+		gap: 0.3em;
 	}
 	.sk:hover {
 		background: var(--color-lcd);
@@ -596,6 +598,9 @@
 		color: var(--color-bg);
 	}
 	.pn .pl2 {
+		display: flex;
+		align-items: center;
+		gap: 0.3em;
 		font-family: var(--font-vt);
 		font-size: 24px;
 		letter-spacing: 1px;
@@ -620,6 +625,9 @@
 
 	/* ── 맨 위로 ── */
 	.topb {
+		display: flex;
+		align-items: center;
+		gap: 0.3em;
 		position: fixed;
 		right: clamp(16px, 3vw, 40px);
 		bottom: 96px;

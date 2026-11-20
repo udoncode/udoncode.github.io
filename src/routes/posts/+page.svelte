@@ -3,6 +3,7 @@
 	import { posts, categories } from '#lib/posts.ts';
 	import { SITE_NAME } from '#lib/site.ts';
 	import Seo from '#lib/components/Seo.svelte';
+	import PxIcon from '#lib/components/PxIcon.svelte';
 
 	// 상태바 주인이 된다. 떠날 때 release() — 그 사이 다른 페이지가 주인이 됐으면 건드리지 않는다
 	const { status, release } = claimStatus();
@@ -161,7 +162,7 @@
 				class="pgb ar font-vt"
 				aria-label="이전 페이지"
 				disabled={cur <= 1}
-				onclick={() => go(cur - 1)}>◀</button
+				onclick={() => go(cur - 1)}><PxIcon name="left" size={3} /></button
 			>
 			{#each nums as n (n)}
 				<button
@@ -177,7 +178,7 @@
 				class="pgb ar font-vt"
 				aria-label="다음 페이지"
 				disabled={cur >= total}
-				onclick={() => go(cur + 1)}>▶</button
+				onclick={() => go(cur + 1)}><PxIcon name="right" size={3} /></button
 			>
 		</nav>
 	</section>
@@ -427,6 +428,9 @@
 	}
 	.pgb.ar {
 		flex: 0 0 72px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.pgb:hover:not(:disabled),
 	.pgb.on {

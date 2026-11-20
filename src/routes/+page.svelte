@@ -4,6 +4,7 @@
 	import { SITE_OWNER } from '#lib/site.ts';
 	import { startDandelion } from '#lib/dandelion.ts';
 	import Seo from '#lib/components/Seo.svelte';
+	import PxIcon from '#lib/components/PxIcon.svelte';
 
 	// 상태바 주인이 된다. 떠날 때 release() — 그 사이 다른 페이지가 주인이 됐으면 건드리지 않는다
 	const { status, release } = claimStatus();
@@ -37,10 +38,27 @@
 	let canvas: HTMLCanvasElement;
 	let replay = () => {};
 
+	// 타이핑 너비는 ch 단위라 폰트에 따라 달라진다. 처음 방문하면 웹폰트가 아직 없어서
+	// 대체 폰트의 ch로 애니메이션이 시작되고, 브라우저는 폰트가 나중에 와도 그 값을 다시 계산하지 않는다
+	// (WELCOME이 잘리고 커서가 글자와 떨어짐). 그래서 두 폰트를 받은 뒤에 애니메이션을 붙인다.
+	// 폰트가 늦거나 실패해도 1.5초 뒤에는 시작한다.
+	let fontsReady = $state(false);
+
 	onMount(() => {
 		const d = startDandelion(canvas, setGauge);
 		replay = d.replay;
+		let alive = true;
+		const go = () => {
+			if (alive) fontsReady = true;
+		};
+		const timer = setTimeout(go, 1500);
+		Promise.all([
+			document.fonts.load('400 1em "Press Start 2P"', 'WELCOME'),
+			document.fonts.load('400 1em VT323', 'A')
+		]).then(go, go);
 		return () => {
+			alive = false;
+			clearTimeout(timer);
 			d.destroy();
 			release();
 		};
@@ -63,7 +81,7 @@
 	></canvas>
 	<div class="scrim"></div>
 
-	<div class="wel">
+	<div class="wel" class:go={fontsReady}>
 		<h1 class="wl font-px">
 			<span
 				class="tl"
@@ -100,8 +118,8 @@
 	</div>
 
 	<div class="nav font-vt">
-		<button type="button" class="sk" onclick={() => replay()}>↻ REPLAY</button>
-		<a class="sk" href="/posts">POSTS ▶</a>
+		<button type="button" class="sk" onclick={() => replay()}><PxIcon name="replay" />REPLAY</button>
+		<a class="sk" href="/posts">POSTS<PxIcon name="right" /></a>
 	</div>
 </section>
 
@@ -203,6 +221,8 @@
 		white-space: nowrap;
 		width: 0;
 		border-right: 0.5em solid transparent;
+	}
+	.go .tl {
 		animation:
 			ty var(--d) var(--t) forwards,
 			cs var(--d) var(--t) forwards;
@@ -219,6 +239,8 @@
 		vertical-align: bottom;
 		width: 0;
 		border-right: 0.5em solid currentColor;
+	}
+	.go .ty {
 		animation:
 			ty 2.2s 0.8s forwards,
 			cu 0.7s steps(1) infinite;
@@ -250,6 +272,7 @@
 	.sk {
 		display: inline-flex;
 		align-items: center;
+		gap: 0.3em;
 		min-height: var(--spacing-tap);
 		padding: 0 6px;
 		background: none;
